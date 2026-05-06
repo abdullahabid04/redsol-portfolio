@@ -40,4 +40,19 @@ class PageController extends Controller
     {
         return view('pages.products.cms');
     }
+
+    public function servicesCustomDev()
+    {
+        return view('pages.services.custom-dev');
+    }
+
+    public function blogIndex()
+    {
+        return view('pages.blog.index');
+    }
+
+    public function blogShow($slug)
+    {
+        return view('pages.blog.show', compact('slug'));
+    }
 }

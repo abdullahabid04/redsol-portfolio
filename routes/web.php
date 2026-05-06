@@ -13,3 +13,10 @@ Route::prefix('products')->name('products.')->group(function () {
     Route::get('/his', [PageController::class, 'productsHis'])->name('his');
     Route::get('/campus-management-system', [PageController::class, 'productsCms'])->name('cms');
 });
+
+Route::get('/services/custom-software-development', [PageController::class, 'servicesCustomDev'])->name('services.custom-dev');
+
+Route::prefix('blog')->name('blog.')->group(function () {
+    Route::get('/', [PageController::class, 'blogIndex'])->name('index');
+    Route::get('/{slug}', [PageController::class, 'blogShow'])->name('show');
+});
