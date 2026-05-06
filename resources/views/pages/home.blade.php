@@ -1,4 +1,6 @@
 <x-app-layout>
+    @section('title', 'Home')
+    @section('meta_description', 'Transform healthcare with REDSOL Intelligent HIS. Enterprise-grade digital solutions for hospitals and medical colleges.')
     <!-- Hero Section -->
     <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
         <!-- tsParticles Container -->
@@ -225,6 +227,94 @@
                     <div class="w-12 h-1 bg-primary mx-auto mb-4"></div>
                     <div class="text-text-dark/80 font-sans font-medium uppercase tracking-wider text-sm">Years Exp.</div>
                 </div>
+            </div>
+        </div>
+    </section>
+    <!-- Testimonials Section -->
+    <section class="py-24 bg-navy relative z-10 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="font-display font-bold text-4xl sm:text-5xl text-white mb-6">Voices of Success</h2>
+                <p class="text-text-dark/80 text-lg max-w-2xl mx-auto">Hear from the medical directors and IT heads who have transformed their institutions with REDSOL.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <x-ui.glass-card class="flex flex-col h-full" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mr-4 border border-primary/30 text-primary font-bold">JD</div>
+                        <div>
+                            <h4 class="text-white font-bold">Dr. John Doe</h4>
+                            <p class="text-text-dark/50 text-xs uppercase tracking-widest">Medical Director, City Hospital</p>
+                        </div>
+                    </div>
+                    <p class="text-text-dark/70 italic leading-relaxed flex-grow">
+                        "REDSOL HIS has completely revolutionized our patient workflow. The integrated voice reporting alone has saved our radiologists hours every day."
+                    </p>
+                    <div class="mt-6 flex text-gold">
+                        @for ($i = 0; $i < 5; $i++)
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        @endfor
+                    </div>
+                </x-ui.glass-card>
+
+                <!-- Testimonial 2 -->
+                <x-ui.glass-card class="flex flex-col h-full" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 rounded-full bg-cyan/20 flex items-center justify-center mr-4 border border-cyan/30 text-cyan font-bold">AS</div>
+                        <div>
+                            <h4 class="text-white font-bold">Ayesha Siddiqua</h4>
+                            <p class="text-text-dark/50 text-xs uppercase tracking-widest">Head of IT, Medical College</p>
+                        </div>
+                    </div>
+                    <p class="text-text-dark/70 italic leading-relaxed flex-grow">
+                        "The Campus Management System integrated seamlessly with our existing HIS. Our faculty and students find the portal extremely intuitive and fast."
+                    </p>
+                    <div class="mt-6 flex text-gold">
+                        @for ($i = 0; $i < 5; $i++)
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        @endfor
+                    </div>
+                </x-ui.glass-card>
+
+                <!-- Testimonial 3 -->
+                <x-ui.glass-card class="flex flex-col h-full" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 rounded-full bg-gold/20 flex items-center justify-center mr-4 border border-gold/30 text-gold font-bold">MK</div>
+                        <div>
+                            <h4 class="text-white font-bold">Majid Khan</h4>
+                            <p class="text-text-dark/50 text-xs uppercase tracking-widest">Administrator, Allied Health Sciences</p>
+                        </div>
+                    </div>
+                    <p class="text-text-dark/70 italic leading-relaxed flex-grow">
+                        "Customer support from REDSOL is unparalleled. They were with us every step of the way during the deployment phase."
+                    </p>
+                    <div class="mt-6 flex text-gold">
+                        @for ($i = 0; $i < 5; $i++)
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        @endfor
+                    </div>
+                </x-ui.glass-card>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners / Clients Logo Section -->
+    <section class="py-24 bg-midnight border-t border-white/5 relative z-10 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h3 class="text-xs text-text-dark/50 uppercase tracking-widest font-mono mb-4">Strategic Partners & Clients</h3>
+                <h2 class="font-display font-bold text-3xl text-white">Empowering Healthcare Globally</h2>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center opacity-60">
+                @for ($i = 1; $i <= 6; $i++)
+                    <div class="flex justify-center grayscale hover:grayscale-0 transition-all duration-300" data-aos="zoom-in" data-aos-delay="{{ $i * 100 }}">
+                        <div class="w-32 h-12 bg-white/5 rounded flex items-center justify-center border border-white/10 text-white/20 font-bold tracking-tighter">
+                            CLIENT_{{ $i }}
+                        </div>
+                    </div>
+                @endfor
             </div>
         </div>
     </section>

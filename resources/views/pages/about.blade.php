@@ -1,4 +1,6 @@
 <x-app-layout>
+    @section('title', 'About Us')
+    @section('meta_description', 'Learn about REDSOL - our mission to digitize healthcare and our journey as a leading HIS provider.')
     <!-- Page Hero -->
     <section class="pt-32 pb-20 bg-navy relative overflow-hidden">
         <div class="absolute inset-0 z-0">

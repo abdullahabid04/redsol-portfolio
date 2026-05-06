@@ -1,4 +1,6 @@
 <x-app-layout>
+    @section('title', 'Custom Software Development')
+    @section('meta_description', 'REDSOL provides specialized software engineering for healthcare, including mobile apps and legacy system modernization.')
     <!-- Page Hero -->
     <section class="pt-32 pb-20 bg-navy relative overflow-hidden">
         <div class="absolute inset-0 z-0">

@@ -1,4 +1,6 @@
 <x-app-layout>
+    @section('title', 'Campus Management System')
+    @section('meta_description', 'The unified digital ecosystem for medical colleges and nursing schools to manage academics and administration.')
     <!-- Page Hero -->
     <section class="pt-32 pb-20 bg-navy relative overflow-hidden">
         <div class="absolute inset-0 z-0">

@@ -1,4 +1,6 @@
 <x-app-layout>
+    @section('title', 'HIS Modules')
+    @section('meta_description', 'Explore the 15+ integrated clinical and administrative modules of REDSOL Health Information System.')
     <!-- Page Hero -->
     <section class="pt-32 pb-20 bg-navy relative overflow-hidden">
         <div class="absolute inset-0 z-0">

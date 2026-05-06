@@ -27,9 +27,25 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->brandName('REDSOL HIS')
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => [
+                    50 => '#fdf2f2',
+                    100 => '#fbe4e4',
+                    200 => '#f8cece',
+                    300 => '#f2abab',
+                    400 => '#e97b7b',
+                    500 => '#da5353',
+                    600 => '#c03939',
+                    700 => '#a12c2c',
+                    800 => '#852828',
+                    900 => '#6f2626',
+                    950 => '#3c0f0f',
+                ],
+                'gray' => Color::Slate,
             ])
+            ->font('DM Sans')
+            ->sidebarCollapsibleOnDesktop()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([

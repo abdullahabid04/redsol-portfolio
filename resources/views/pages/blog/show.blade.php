@@ -1,4 +1,5 @@
 <x-app-layout>
+    @section('title', ucwords(str_replace('-', ' ', $slug)))
     <article class="bg-surface-light dark:bg-[#111827] min-h-screen pb-24">
         <!-- Post Header -->
         <header class="pt-32 pb-16 bg-navy relative overflow-hidden border-b border-white/5">

@@ -1,4 +1,6 @@
 <x-app-layout>
+    @section('title', 'Our Services')
+    @section('meta_description', 'Explore REDSOL services including HIS implementation, training, custom software development, and technical support.')
     <!-- Page Hero -->
     <section class="pt-32 pb-20 bg-navy relative overflow-hidden">
         <div class="absolute inset-0 z-0">

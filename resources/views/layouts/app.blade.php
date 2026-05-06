@@ -5,7 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'REDSOL HIS') }}</title>
+    <title>@yield('title', config('app.name', 'REDSOL HIS')) | Premium Digital Health Solutions</title>
+    
+    <meta name="description" content="@yield('meta_description', 'REDSOL provides enterprise-grade Health Information Systems (HIS) and Campus Management Systems (CMS) for modern hospitals and medical colleges.')">
+    <meta name="keywords" content="HIS, Hospital Management System, CMS, Campus Management, Digital Health, EMR, REDSOL">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('title', config('app.name', 'REDSOL HIS'))">
+    <meta property="og:description" content="@yield('meta_description', 'Premium Digital Health & Education Solutions')">
+    <meta property="og:image" content="{{ asset('images/og-image.jpg') }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url()->current() }}">
+    <meta property="twitter:title" content="@yield('title', config('app.name', 'REDSOL HIS'))">
+    <meta property="twitter:description" content="@yield('meta_description', 'Premium Digital Health & Education Solutions')">
+
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

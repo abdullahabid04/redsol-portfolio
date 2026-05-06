@@ -1,4 +1,6 @@
 <x-app-layout>
+    @section('title', 'Contact Us')
+    @section('meta_description', 'Get in touch with REDSOL for a free HIS demo or consultation on your digital healthcare needs.')
     <section class="pt-32 pb-24 bg-navy relative min-h-screen flex items-center">
         <!-- Background Elements -->
         <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">

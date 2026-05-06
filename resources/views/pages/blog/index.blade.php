@@ -1,4 +1,6 @@
 <x-app-layout>
+    @section('title', 'Insights & Blog')
+    @section('meta_description', 'Latest updates, industry news, and technical insights from the REDSOL healthcare technology team.')
     <!-- Page Hero -->
     <section class="pt-32 pb-20 bg-navy relative overflow-hidden">
         <div class="absolute inset-0 z-0">
