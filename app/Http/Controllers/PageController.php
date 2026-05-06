@@ -25,4 +25,19 @@ class PageController extends Controller
     {
         return view('pages.contact');
     }
+
+    public function productsIndex()
+    {
+        return view('pages.products.index');
+    }
+
+    public function productsHis()
+    {
+        return view('pages.products.his');
+    }
+
+    public function productsCms()
+    {
+        return view('pages.products.cms');
+    }
 }
