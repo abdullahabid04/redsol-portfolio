@@ -1,0 +1,43 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    /* Fonts */
+    --font-display: 'Syne', ui-sans-serif, system-ui, sans-serif;
+    --font-heading: 'Syne', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+    /* Brand Colors */
+    --color-primary: #C0392B;
+    --color-neon-red: #E74C3C;
+    --color-navy: #0D1117;
+    --color-midnight: #1A1A2E;
+    --color-steel: #16213E;
+    --color-cyan: #00D4FF;
+    --color-gold: #F39C12;
+    --color-success: #2ECC71;
+
+    /* Backgrounds & Text */
+    --color-surface-light: #F4F6FB;
+    --color-text-light: #4A4A68;
+    --color-text-dark: #E2E8F0;
+
+    /* Glassmorphism */
+    --color-glass-bg: rgba(255, 255, 255, 0.05);
+    --color-glass-border: rgba(255, 255, 255, 0.12);
+}
+
+@layer utilities {
+    .glass-card {
+        @apply bg-glass-bg border border-glass-border backdrop-blur-xl rounded-[20px] shadow-[0_8px_32px_rgba(0,0,0,0.3)];
+    }
+    
+    .text-gradient {
+        @apply bg-clip-text text-transparent bg-gradient-to-br from-primary via-neon-red to-gold;
+    }
+}
