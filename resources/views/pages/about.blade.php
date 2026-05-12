@@ -88,7 +88,7 @@
 
                         {{-- Floating badge bottom-left --}}
                         <div class="absolute -bottom-4 -left-4 bg-gray-900 text-white rounded-xl px-4 py-3 shadow-lg">
-                            <div class="font-display font-800 text-crimson-400 text-lg leading-none">2012</div>
+                            <div class="font-display font-800 text-crimson-400 text-lg leading-none">2016</div>
                             <div class="font-body text-xs text-gray-400 mt-0.5">Est. Pakistan</div>
                         </div>
                     </div>
@@ -152,7 +152,7 @@
 
                     {{-- Floating year card --}}
                     <div class="absolute bottom-6 left-6 bg-gray-900 rounded-xl px-5 py-4 shadow-xl border border-white/5">
-                        <div class="font-display font-800 text-crimson-400 text-3xl leading-none mb-1">2012</div>
+                        <div class="font-display font-800 text-crimson-400 text-3xl leading-none mb-1">2016</div>
                         <div class="font-body text-gray-400 text-xs tracking-wide uppercase">Year Founded</div>
                     </div>
 

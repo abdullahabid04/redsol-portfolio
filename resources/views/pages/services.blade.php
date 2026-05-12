@@ -5,7 +5,7 @@
     {{-- ═══════════════════════════════════════════════════
         PAGE HERO
     ════════════════════════════════════════════════════ --}}
-    <section class="relative pt-36 pb-24 overflow-hidden bg-white">
+    <section class="relative pt-32 pb-20 overflow-hidden bg-white">
         {{-- Diagonal red slash decoration --}}
         <div class="absolute top-0 right-0 w-[55%] h-full pointer-events-none overflow-hidden">
             <div class="absolute top-0 right-0 w-full h-full bg-gray-50" style="clip-path: polygon(12% 0, 100% 0, 100% 100%, 0% 100%)"></div>
@@ -31,13 +31,6 @@
                 <p class="font-body text-gray-500 text-lg leading-relaxed max-w-xl mb-10">
                     From full HIS implementation to custom patient portals and annual maintenance — everything your hospital needs to run on modern, integrated software.
                 </p>
-
-                {{-- Breadcrumb --}}
-                <div class="flex items-center gap-2 text-sm font-body text-gray-400">
-                    <a href="/" class="hover:text-crimson-500 transition-colors">Home</a>
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                    <span class="text-gray-900 font-medium">Services</span>
-                </div>
             </div>
         </div>
     </section>
