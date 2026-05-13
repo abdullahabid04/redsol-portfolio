@@ -8,7 +8,7 @@
     @foreach($module->sections as $section)
 
         @includeIf(
-            "products.sections.{$section->section_type}",
+            "pages.products.sections.{$section->section_type}",
             ['section' => $section, 'module' => $module]
         )
 

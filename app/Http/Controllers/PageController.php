@@ -2,7 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use App\Models\HisModule;
+use App\Models\BlogPost;
+use App\Models\Client;
+use App\Models\ContactSubmission;
+use App\Models\DemoRequest;
+use App\Models\Product;
+use App\Models\Service;
+use App\Models\Testimonial;
+use App\Models\TeamMember;
+use App\Models\Project;
+
 
 class PageController extends Controller
 {
@@ -18,7 +30,21 @@ class PageController extends Controller
 
     public function services()
     {
-        return view('pages.services');
+        $services = Service::where('is_active', true)
+            ->orderBy('sort_order')
+            ->whereIn('sort_order', [1, 2])
+            ->get();
+
+        $smallServices = Service::where('is_active', true)
+            ->orderBy('sort_order')
+            ->whereNotIn('sort_order', [1, 2])
+            ->get();
+
+        $products = HisModule::where('is_published', true)
+            ->orderBy('sort_order')
+            ->get();
+
+        return view('pages.services.index', compact('services', 'smallServices', 'products'));
     }
 
     public function contact()
@@ -28,17 +54,20 @@ class PageController extends Controller
 
     public function productsIndex()
     {
-        return view('pages.products.index');
+        $allModules = HisModule::published()
+            ->orderBy('sort_order')
+            ->get();
+
+        return view('pages.products.index', compact('allModules'));
     }
 
-    public function productsHis()
+    public function projectsIndex()
     {
-        return view('pages.products.his');
-    }
+        $projects = Project::where('is_active', true)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-    public function productsCms()
-    {
-        return view('pages.products.cms');
+        return view('pages.projects.index', compact('projects'));
     }
 
     public function servicesCustomDev()

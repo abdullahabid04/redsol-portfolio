@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HisModule;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class HisModuleController extends Controller
 {
@@ -28,18 +29,20 @@ class HisModuleController extends Controller
             'operations' => ['label' => 'Operations & Supply Chain', 'desc' => 'Billing, pharmacy dispensing, and inventory management.'],
         ];
 
-        return view('products.index', compact('groupedModules', 'categories'));
+        return view('pages.products.index', compact('groupedModules', 'categories'));
     }
 
     public function show(string $slug)
     {
+        Log::info("Fetching HIS module details for slug: {$slug}");
         $module = Cache::remember("his_module_{$slug}", 3600, function () use ($slug) {
             return HisModule::published()
                 ->where('slug', $slug)
                 ->with(['features', 'sections'])
                 ->firstOrFail();
         });
+        Log::info("Successfully retrieved HIS module: {$module->name}");
 
-        return view('products.show', compact('module'));
+        return view('pages.products.show', compact('module'));
     }
 }

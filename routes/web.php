@@ -11,8 +11,7 @@ Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 
 Route::prefix('products')->name('products.')->group(function () {
     Route::get('/', [PageController::class, 'productsIndex'])->name('index');
-    Route::get('/his', [PageController::class, 'productsHis'])->name('his');
-    Route::get('/campus-management-system', [PageController::class, 'productsCms'])->name('cms');
+    Route::get('/{slug}', [HisModuleController::class, 'show'])->name('show');
 });
 
 Route::get('/services/custom-software-development', [PageController::class, 'servicesCustomDev'])->name('services.custom-dev');
@@ -22,8 +21,7 @@ Route::prefix('blog')->name('blog.')->group(function () {
     Route::get('/{slug}', [PageController::class, 'blogShow'])->name('show');
 });
 
-// Module listing page
-Route::get('/products', [HisModuleController::class, 'index'])->name('products.index');
-
-// Module detail page (dynamic)
-Route::get('/products/{slug}', [HisModuleController::class, 'show'])->name('products.show');
+Route::prefix('projects')->name('projects.')->group(function () {
+    Route::get('/', [PageController::class, 'projectsIndex'])->name('index');
+    Route::get('/{slug}', [PageController::class, 'projectShow'])->name('show');
+});
