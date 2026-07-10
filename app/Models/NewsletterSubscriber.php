@@ -22,14 +22,10 @@ class NewsletterSubscriber extends Model
         'unsubscribed_at' => 'datetime',
     ];
 
-    // ── Scopes ───────────────────────────────────────────────
-
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
     }
-
-    // ── Helpers ──────────────────────────────────────────────
 
     public function unsubscribe(): void
     {
@@ -46,10 +42,6 @@ class NewsletterSubscriber extends Model
             'unsubscribed_at' => null,
         ]);
     }
-
-    /**
-     * Total active subscriber count — for the dashboard.
-     */
     public static function activeCount(): int
     {
         return static::where('is_active', true)->count();

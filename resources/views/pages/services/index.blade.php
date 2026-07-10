@@ -1,15 +1,7 @@
-
-
-
 @extends('layouts.app')
 
-@section('content')
-
-                    {{-- ═══════════════════════════════════════════════════
-                        PAGE HERO
-                    ════════════════════════════════════════════════════ --}}
-                    <section class="relative pt-32 pb-20 overflow-hidden bg-white">
-                        {{-- Diagonal red slash decoration --}}
+@section('content')<section class="relative pt-32 pb-20 overflow-hidden bg-white">
+                        
                         <div class="absolute top-0 right-0 w-[55%] h-full pointer-events-none overflow-hidden">
                             <div class="absolute top-0 right-0 w-full h-full bg-gray-50" style="clip-path: polygon(12% 0, 100% 0, 100% 100%, 0% 100%)"></div>
                             <div class="absolute top-0 right-0 w-full h-full" style="clip-path: polygon(12% 0, 100% 0, 100% 100%, 0% 100%); background: radial-gradient(ellipse 80% 70% at 80% 40%, rgba(225,29,72,0.06) 0%, transparent 70%)"></div>
@@ -36,13 +28,7 @@
                                 </p>
                             </div>
                         </div>
-                    </section>
-
-
-                    {{-- ═══════════════════════════════════════════════════
-                        SECTION 1: CORE SERVICES — Large featured cards
-                    ════════════════════════════════════════════════════ --}}
-                    <section class="py-24 bg-white border-t border-gray-100">
+                    </section><section class="py-24 bg-white border-t border-gray-100">
                         <div class="max-w-7xl mx-auto px-6 lg:px-8">
 
                             <div class="mb-14 reveal">
@@ -55,11 +41,11 @@
                                 </h2>
                             </div>
 
-                            {{-- Featured Big Cards --}}
+                            
                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
 
                                 @foreach($services as $index => $svc)
-                                    {{-- Determine card style based on position (0 = dark, 1 = light) --}}
+                                    
                                     @php
         $isDark = ($index === 0);
         $cardBg = $isDark ? 'bg-gray-900' : 'bg-white border border-gray-200';
@@ -75,7 +61,7 @@
 
                                     <div
                                         class="group relative rounded-3xl overflow-hidden {{ $cardBg }} p-10 reveal reveal-delay-{{ $index + 1 }} cursor-pointer hover:scale-[1.01] transition-all duration-500 {{ $hoverShadow }}">
-                                        {{-- Gradient overlay (dark card only) --}}
+                                        
                                         @if($isDark)
                                             <div
                                                 class="absolute inset-0 bg-gradient-to-br from-crimson-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -92,7 +78,7 @@
                                         <div class="relative">
                                             <div class="flex items-start justify-between mb-8">
                                                 <div class="w-14 h-14 rounded-2xl {{ $iconBg }} flex items-center justify-center">
-                                                    {!! $svc->icon !!} {{-- Render SVG string safely --}}
+                                                    {!! $svc->icon !!} 
                                                 </div>
                                                 <span
                                                     class="text-[10px] font-display font-600 tracking-wider uppercase px-3 py-1.5 rounded-full {{ $tagBg }}">
@@ -108,7 +94,7 @@
                                                 {{ $svc->description }}
                                             </p>
 
-                                            {{-- Features list (if available) --}}
+                                            
                                             @if($svc->features && is_array($svc->features) && count($svc->features) > 0)
                                                 <div class="grid grid-cols-2 gap-3 mb-8">
                                                     @foreach($svc->features as $feat)
@@ -133,7 +119,7 @@
                                 @endforeach
                             </div>
 
-                            {{-- Three smaller cards row --}}
+                            
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 @foreach($smallServices as $i => $svc)
                                 <a href="/services/{{ $svc->slug }}"
@@ -158,13 +144,7 @@
                                 @endforeach
                             </div>
                         </div>
-                    </section>
-
-
-                    {{-- ═══════════════════════════════════════════════════
-                        SECTION 2: HIS MODULE CATEGORIES (from PDF)
-                    ════════════════════════════════════════════════════ --}}
-                    <section class="py-24 bg-gray-50 border-t border-gray-200">
+                    </section><section class="py-24 bg-gray-50 border-t border-gray-200">
                         <div class="max-w-7xl mx-auto px-6 lg:px-8">
 
                             <div class="text-center mb-16 reveal">
@@ -175,7 +155,7 @@
                                     <div class="h-px w-10 bg-crimson-500"></div>
                                 </div>
                                 <h2 class="font-display text-4xl lg:text-5xl font-800 text-gray-900 leading-tight mb-4">
-                                    25 Modules Across<br><span class="red-gradient-text">Every Department</span>
+                                    {{ $moduleCount }} Modules Across<br><span class="red-gradient-text">Every Department</span>
                                 </h2>
                                 <p class="font-body text-gray-500 max-w-xl mx-auto">
                                     Our HIS automates clinical, diagnostic, administrative, and imaging workflows — all connected on a
@@ -183,10 +163,10 @@
                                 </p>
                             </div>
 
-                            {{-- Dynamic category grid from HisModule model --}}
+                            
                             @php
     // Load published modules, grouped by category, preserving sort_order
-    $modules = \App\Models\HisModule::published()
+    $modules = \App\Models\Product::published()
         ->orderBy('sort_order')
         ->get();
 
@@ -225,14 +205,14 @@
 
                                                                     <div
                                                                         class="rounded-2xl bg-white border border-gray-200 overflow-hidden reveal reveal-delay-{{ ($ci % 3) + 1 }}">
-                                                                        {{-- Category header --}}
+                                                                        
                                                                         <div class="flex items-center gap-4 px-8 py-5 border-b border-gray-100 bg-white">
                                                                             <div class="w-1 h-8 rounded-full {{ $accent }}"></div>
                                                                             <h3 class="font-display font-700 text-gray-900 text-lg">{{ $catLabel }}</h3>
                                                                             <span class="ml-auto text-xs font-body text-gray-400">{{ $modsInCat->count() }} modules</span>
                                                                         </div>
 
-                                                                        {{-- Module pills --}}
+                                                                        
                                                                         <div class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                                                                             @foreach($modsInCat as $module)
                                                                                                                     @php
@@ -259,7 +239,7 @@
                                                                                                                                 {{ $module->tagline }}
                                                                                                                             </div>
 
-                                                                                                                            {{-- Optional: Show features if relation exists --}}
+                                                                                                                            
                                                                                                                             @if($module->relationLoaded('features') && $module->features->isNotEmpty())
                                                                                                                                 <div class="mt-2 flex flex-wrap gap-1">
                                                                                                                                     @foreach($module->features->take(2) as $feat)
@@ -292,18 +272,12 @@
                                 </a>
                             </div>
                         </div>
-                    </section>
-
-
-                    {{-- ═══════════════════════════════════════════════════
-                        SECTION 3: GENERAL FEATURES (from PDF)
-                    ════════════════════════════════════════════════════ --}}
-                    <section class="py-24 bg-white border-t border-gray-200">
+                    </section><section class="py-24 bg-white border-t border-gray-200">
                         <div class="max-w-7xl mx-auto px-6 lg:px-8">
 
                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
-                                {{-- Left: text --}}
+                                
                                 <div class="reveal">
                                     <div class="flex items-center gap-3 mb-5">
                                         <div class="h-px w-10 bg-crimson-500"></div>
@@ -323,7 +297,7 @@
                                     </a>
                                 </div>
 
-                                {{-- Right: feature grid --}}
+                                
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 reveal reveal-delay-2">
                                     @php
     $features = [
@@ -354,13 +328,7 @@
                                 </div>
                             </div>
                         </div>
-                    </section>
-
-
-                    {{-- ═══════════════════════════════════════════════════
-                        SECTION 4: PROCESS / HOW WE DELIVER
-                    ════════════════════════════════════════════════════ --}}
-                    <section class="py-24 bg-gray-900 border-t border-gray-800">
+                    </section><section class="py-24 bg-gray-900 border-t border-gray-800">
                         <div class="max-w-7xl mx-auto px-6 lg:px-8">
 
                             <div class="text-center mb-16 reveal">
@@ -400,13 +368,7 @@
                                 @endforeach
                             </div>
                         </div>
-                    </section>
-
-
-                    {{-- ═══════════════════════════════════════════════════
-                        SECTION 5: CTA
-                    ════════════════════════════════════════════════════ --}}
-                    <section class="py-24 bg-white border-t border-gray-100">
+                    </section><section class="py-24 bg-white border-t border-gray-100">
                         <div class="max-w-4xl mx-auto px-6 text-center reveal">
 
                             <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-crimson-500/20 bg-crimson-500/5 mb-8">
@@ -426,7 +388,7 @@
                             <div class="flex flex-wrap gap-4 justify-center mb-14">
                                 <a href="/contact"
                                    class="group flex items-center gap-3 px-10 py-4 rounded-2xl bg-crimson-500 text-white font-display font-700 text-sm hover:bg-crimson-600 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-crimson-500/25">
-                                    Book a Free Consultation
+                                    Book a Free Demo
                                     <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                                     </svg>
@@ -437,14 +399,13 @@
                                 </a>
                             </div>
 
-                            {{-- Trust bar --}}
+                            
                             <div class="flex flex-wrap justify-center gap-8 pt-10 border-t border-gray-100">
                                 @foreach([
-        ['icon' => '✓', 'text' => 'No setup fees'],
         ['icon' => '✓', 'text' => 'Full training included'],
         ['icon' => '✓', 'text' => '24/7 AMC support'],
         ['icon' => '✓', 'text' => 'ICD-10 compliant'],
-        ['icon' => '✓', 'text' => '150+ hospitals deployed'],
+        ['icon' => '✓', 'text' => $hospitalCount . '+ hospitals deployed'],
     ] as $trust)
                                     <div class="flex items-center gap-2 text-sm font-body text-gray-500">
                                         <span class="text-crimson-500 font-bold text-base">{{ $trust['icon'] }}</span>

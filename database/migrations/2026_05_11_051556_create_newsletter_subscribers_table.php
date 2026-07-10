@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        // ── Newsletter subscribers ────────────────────────────
         Schema::create('newsletter_subscribers', function (Blueprint $table) {
             $table->id();
             $table->string('email')->unique();
@@ -20,7 +19,6 @@ return new class extends Migration {
             $table->index('is_active');
         });
 
-        // ── Admin password reset tokens ───────────────────────
         // Separate token table from the public users one
         // (referenced in config/auth.php under passwords.admins)
         Schema::create('admin_password_reset_tokens', function (Blueprint $table) {

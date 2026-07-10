@@ -11,14 +11,10 @@ use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
 {
-    /**
-     * Display a listing of projects.
-     */
     public function index(Request $request)
     {
         $query = Project::query();
 
-        // ── Filters ──────────────────────────────────────────
         if ($search = $request->get('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
@@ -36,13 +32,11 @@ class ProjectController extends Controller
             $query->where('is_active', $status === 'active');
         }
 
-        // ── Pagination ───────────────────────────────────────
         $projects = $query
             ->ordered()
             ->paginate(15)
             ->withQueryString();
 
-        // ── Summary counts ───────────────────────────────────
         $stats = [
             'total' => Project::count(),
             'active' => Project::active()->count(),
@@ -51,10 +45,6 @@ class ProjectController extends Controller
 
         return view('admin.pages.projects.index', compact('projects', 'stats'));
     }
-
-    /**
-     * Show the form for creating a new project.
-     */
     public function create()
     {
         return view('admin.pages.projects.form', [
@@ -62,10 +52,6 @@ class ProjectController extends Controller
             'isEdit' => false,
         ]);
     }
-
-    /**
-     * Store a newly created project in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -111,12 +97,10 @@ class ProjectController extends Controller
         ]);
 
         try {
-            // ── Handle featured image upload ─────────────────
             if ($request->hasFile('featured_image')) {
                 $validated['featured_image'] = $request->file('featured_image')->store('projects', 'public');
             }
 
-            // ── Merge stat_keys + stat_values into stats array ─
             $stats = [];
             if ($request->filled('stat_keys') && $request->filled('stat_values')) {
                 foreach ($request->stat_keys as $i => $key) {
@@ -129,17 +113,14 @@ class ProjectController extends Controller
             }
             $validated['stats'] = $stats;
 
-            // ── Clean up empty array values ──────────────────
             $validated['modules_deployed'] = array_filter(array_map('trim', $validated['modules_deployed'] ?? []));
             $validated['services_provided'] = array_filter(array_map('trim', $validated['services_provided'] ?? []));
             $validated['outcomes'] = array_filter(array_map('trim', $validated['outcomes'] ?? []));
 
-            // ── Defaults ─────────────────────────────────────
             $validated['is_active'] = $validated['is_active'] ?? true;
             $validated['is_featured'] = $validated['is_featured'] ?? false;
             $validated['sort_order'] = $validated['sort_order'] ?? (Project::max('sort_order') ?? 0) + 1;
 
-            // ── Create ───────────────────────────────────────
             Project::create($validated);
 
             return redirect()
@@ -162,10 +143,6 @@ class ProjectController extends Controller
             return back()->withInput()->with('error', 'Failed to create project. Please try again.');
         }
     }
-
-    /**
-     * Show the form for editing the specified project.
-     */
     public function edit(string $id)
     {
         $project = Project::findOrFail($id);
@@ -175,10 +152,6 @@ class ProjectController extends Controller
             'isEdit' => true,
         ]);
     }
-
-    /**
-     * Update the specified project in storage.
-     */
     public function update(Request $request, string $id)
     {
         $project = Project::findOrFail($id);
@@ -226,7 +199,6 @@ class ProjectController extends Controller
         ]);
 
         try {
-            // ── Handle featured image replacement ────────────
             if ($request->hasFile('featured_image')) {
                 if ($project->featured_image && Storage::disk('public')->exists($project->featured_image)) {
                     Storage::disk('public')->delete($project->featured_image);
@@ -234,7 +206,6 @@ class ProjectController extends Controller
                 $validated['featured_image'] = $request->file('featured_image')->store('projects', 'public');
             }
 
-            // ── Merge stat_keys + stat_values ────────────────
             $stats = [];
             if ($request->filled('stat_keys') && $request->filled('stat_values')) {
                 foreach ($request->stat_keys as $i => $key) {
@@ -247,12 +218,10 @@ class ProjectController extends Controller
             }
             $validated['stats'] = $stats;
 
-            // ── Clean up empty arrays ────────────────────────
             $validated['modules_deployed'] = array_filter(array_map('trim', $validated['modules_deployed'] ?? []));
             $validated['services_provided'] = array_filter(array_map('trim', $validated['services_provided'] ?? []));
             $validated['outcomes'] = array_filter(array_map('trim', $validated['outcomes'] ?? []));
 
-            // ── Update ───────────────────────────────────────
             $project->update($validated);
 
             return redirect()
@@ -275,10 +244,6 @@ class ProjectController extends Controller
             return back()->withInput()->with('error', 'Failed to update project. Please try again.');
         }
     }
-
-    /**
-     * Toggle active status for a project.
-     */
     public function toggle(string $id)
     {
         try {
@@ -292,10 +257,6 @@ class ProjectController extends Controller
             return redirect()->back()->with('error', 'Failed to update project status.');
         }
     }
-
-    /**
-     * Toggle featured status for a project.
-     */
     public function toggleFeatured(string $id)
     {
         try {
@@ -309,16 +270,11 @@ class ProjectController extends Controller
             return redirect()->back()->with('error', 'Failed to update featured status.');
         }
     }
-
-    /**
-     * Remove the specified project from storage.
-     */
     public function destroy(string $id)
     {
         try {
             $project = Project::findOrFail($id);
 
-            // ── Delete featured image if exists ──────────────
             if ($project->featured_image && Storage::disk('public')->exists($project->featured_image)) {
                 Storage::disk('public')->delete($project->featured_image);
             }

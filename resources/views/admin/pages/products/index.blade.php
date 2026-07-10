@@ -7,14 +7,9 @@
     <span class="text-xs font-body text-gray-400">Manage HIS modules and product listings</span>
 @endsection
 
-@section('content')
+@section('content')<div class="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-6 gap-3 mb-6">
 
-    {{-- ══════════════════════════════════════════════
-    SUMMARY BAR
-    ══════════════════════════════════════════════ --}}
-    <div class="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-6 gap-3 mb-6">
-
-        {{-- Total --}}
+        
         <div
             class="col-span-2 sm:col-span-1 bg-gray-900 rounded-2xl px-5 py-4 flex items-center gap-4 relative overflow-hidden">
             <div class="absolute inset-0 opacity-25"
@@ -26,7 +21,7 @@
             </div>
         </div>
 
-        {{-- Active --}}
+        
         <div class="bg-white border border-gray-200 rounded-2xl px-4 py-4">
             <div class="font-display font-800 text-2xl text-gray-900 leading-none">{{ $stats['active'] }}</div>
             <div class="font-body text-xs text-gray-400 mt-0.5 flex items-center gap-1.5">
@@ -34,7 +29,7 @@
             </div>
         </div>
 
-        {{-- Inactive --}}
+        
         <div class="bg-white border border-gray-200 rounded-2xl px-4 py-4">
             <div class="font-display font-800 text-2xl text-gray-900 leading-none">{{ $stats['inactive'] }}</div>
             <div class="font-body text-xs text-gray-400 mt-0.5 flex items-center gap-1.5">
@@ -42,7 +37,7 @@
             </div>
         </div>
 
-        {{-- Category counts --}}
+        
         @foreach($categoryCounts as $catKey => $count)
             <div class="bg-white border border-gray-200 rounded-2xl px-4 py-4">
                 <div class="font-display font-800 text-2xl text-gray-900 leading-none">
@@ -54,17 +49,11 @@
             </div>
         @endforeach
 
-    </div>
-
-
-    {{-- ══════════════════════════════════════════════
-    TOOLBAR — Search · Filter · Add button
-    ══════════════════════════════════════════════ --}}
-    <div class="bg-white border border-gray-200 rounded-2xl p-4 mb-4">
+    </div><div class="bg-white border border-gray-200 rounded-2xl p-4 mb-4">
         <form method="GET" action="{{ route('admin.products.index') }}"
             class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
 
-            {{-- Search --}}
+            
             <div class="relative flex-1">
                 <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none"
                     stroke="currentColor" viewBox="0 0 24 24">
@@ -78,7 +67,7 @@
                               placeholder-gray-400 transition-all">
             </div>
 
-            {{-- Category filter --}}
+            
             <select name="category" class="px-3 py-2.5 text-sm font-body text-gray-700 bg-gray-50 border border-gray-200
                            rounded-xl focus:outline-none focus:border-crimson-500 focus:ring-1 focus:ring-crimson-500
                            transition-all cursor-pointer">
@@ -88,7 +77,7 @@
                 @endforeach
             </select>
 
-            {{-- Status filter --}}
+            
             <select name="status" class="px-3 py-2.5 text-sm font-body text-gray-700 bg-gray-50 border border-gray-200
                            rounded-xl focus:outline-none focus:border-crimson-500 focus:ring-1 focus:ring-crimson-500
                            transition-all cursor-pointer">
@@ -97,13 +86,13 @@
                 <option value="inactive" @selected(request('status') === 'inactive')>Inactive</option>
             </select>
 
-            {{-- Apply --}}
+            
             <button type="submit" class="px-4 py-2.5 rounded-xl bg-gray-900 text-white text-sm font-display font-600
                            hover:bg-gray-800 transition-colors shrink-0">
                 Filter
             </button>
 
-            {{-- Clear (only shown when filters active) --}}
+            
             @if(request('search') || request('category') || request('status'))
                 <a href="{{ route('admin.products.index') }}" class="px-4 py-2.5 rounded-xl border border-gray-200 text-gray-500 text-sm font-display font-600
                                   hover:border-crimson-500/30 hover:text-crimson-600 transition-colors shrink-0">
@@ -111,7 +100,7 @@
                 </a>
             @endif
 
-            {{-- Spacer --}}
+            
             <div class="flex-1 hidden sm:block"></div>
 
             <a href="{{ route('admin.products.create') }}" class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-crimson-500 text-white
@@ -123,13 +112,7 @@
                 Add Product
             </a>
         </form>
-    </div>
-
-
-    {{-- ══════════════════════════════════════════════
-    FLASH MESSAGES
-    ══════════════════════════════════════════════ --}}
-    @if(session('success'))
+    </div>@if(session('success'))
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-green-50 border border-green-200 text-green-700
                             font-body text-sm mb-4">
             <svg class="w-4 h-4 shrink-0 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -147,13 +130,7 @@
             </svg>
             {{ session('error') }}
         </div>
-    @endif
-
-
-    {{-- ══════════════════════════════════════════════
-    RESULTS COUNT
-    ══════════════════════════════════════════════ --}}
-    <div class="flex items-center justify-between mb-3 px-1">
+    @endif<div class="flex items-center justify-between mb-3 px-1">
         <span class="font-body text-xs text-gray-400">
             Showing {{ $products->firstItem() ?? 0 }}–{{ $products->lastItem() ?? 0 }}
             of {{ $products->total() }} module{{ $products->total() !== 1 ? 's' : '' }}
@@ -162,20 +139,14 @@
             @endif
         </span>
 
-        {{-- Sort order hint --}}
+        
         <span class="font-body text-xs text-gray-400 hidden sm:block">
             Ordered by sort_order · drag to reorder
         </span>
-    </div>
-
-
-    {{-- ══════════════════════════════════════════════
-    PRODUCTS TABLE
-    ══════════════════════════════════════════════ --}}
-    <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden mb-4">
+    </div><div class="bg-white border border-gray-200 rounded-2xl overflow-hidden mb-4">
 
         @if($products->isEmpty())
-            {{-- Empty state --}}
+            
             <div class="flex flex-col items-center justify-center py-20 px-6 text-center">
                 <div class="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mb-4">
                     <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -248,7 +219,7 @@
                         @foreach($products as $product)
                                 <tr class="group hover:bg-gray-50/60 transition-colors duration-150" data-id="{{ $product->id }}">
 
-                                    {{-- Sort handle + order number --}}
+                                    
                                     <td class="px-5 py-4">
                                         <div class="flex items-center gap-2">
                                             <button type="button"
@@ -266,10 +237,10 @@
                                         </div>
                                     </td>
 
-                                    {{-- Module name + icon --}}
+                                    
                                     <td class="px-4 py-4">
                                         <div class="flex items-center gap-3">
-                                            {{-- Icon bubble --}}
+                                            
                                             <div class="w-9 h-9 rounded-xl bg-gray-50 border border-gray-200
                                                                         flex items-center justify-center text-lg leading-none
                                                                         shrink-0 group-hover:border-crimson-500/20 transition-colors">
@@ -288,7 +259,7 @@
                                         </div>
                                     </td>
 
-                                    {{-- Category badge --}}
+                                    
                                     <td class="px-4 py-4 hidden lg:table-cell">
                                         @php
                                             $catColors = [
@@ -306,14 +277,14 @@
                                         </span>
                                     </td>
 
-                                    {{-- Tagline --}}
+                                    
                                     <td class="px-4 py-4 hidden xl:table-cell max-w-[220px]">
                                         <span class="font-body text-xs text-gray-500 italic line-clamp-2">
                                             {{ $product->tagline ?: '—' }}
                                         </span>
                                     </td>
 
-                                    {{-- Feature count --}}
+                                    
                                     <td class="px-4 py-4 hidden md:table-cell">
                                         @php $featureCount = is_array($product->features) ? count($product->features) : 0; @endphp
                                         <div class="flex items-center gap-1.5">
@@ -328,7 +299,7 @@
                                         </div>
                                     </td>
 
-                                    {{-- Active toggle --}}
+                                    
                                     <td class="px-4 py-4 text-center">
                                         <form method="POST" action="{{ route('admin.products.toggle', $product->id) }}" class="inline">
                                             @csrf
@@ -355,11 +326,11 @@
 
                                     </td>
 
-                                    {{-- Actions --}}
+                                    
                                     <td class="px-5 py-4">
                                         <div class="flex items-center justify-end gap-1.5">
 
-                                            {{-- View on site --}}
+                                            
                                             <a href="{{ $product->href ?? '/products/' . $product->slug }}" target="_blank"
                                                 title="View on public site" class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center
                                                                   text-gray-400 hover:text-gray-700 hover:border-gray-300 transition-all
@@ -380,7 +351,7 @@
                                             </a>
 
                                             @if(Auth::guard('admin')->user()->can('delete_any'))
-                                                {{-- Delete --}}
+                                                
                                                 <form method="POST" action="{{ route('admin.products.destroy', $product->id) }}"
                                                     onsubmit="return confirm('Delete \'{{ addslashes($product->name) }}\'? This cannot be undone.')">
                                                     @csrf
@@ -406,20 +377,14 @@
             </div>
 
         @endif
-    </div>
-
-
-    {{-- ══════════════════════════════════════════════
-    PAGINATION
-    ══════════════════════════════════════════════ --}}
-    @if($products->hasPages())
+    </div>@if($products->hasPages())
         <div class="flex items-center justify-between px-1">
             <span class="font-body text-xs text-gray-400">
                 Page {{ $products->currentPage() }} of {{ $products->lastPage() }}
             </span>
             <div class="flex items-center gap-1">
 
-                {{-- Previous --}}
+                
                 @if($products->onFirstPage())
                     <span class="w-8 h-8 rounded-lg border border-gray-100 flex items-center justify-center
                                                  text-gray-300 cursor-not-allowed">
@@ -436,7 +401,7 @@
                     </a>
                 @endif
 
-                {{-- Page numbers --}}
+                
                 @foreach($products->getUrlRange(max(1, $products->currentPage() - 2), min($products->lastPage(), $products->currentPage() + 2)) as $page => $url)
                     <a href="{{ $url }}" class="w-8 h-8 rounded-lg border flex items-center justify-center
                                               text-xs font-display font-700 transition-all
@@ -447,7 +412,7 @@
                     </a>
                 @endforeach
 
-                {{-- Next --}}
+                
                 @if($products->hasMorePages())
                     <a href="{{ $products->nextPageUrl() }}" class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center
                                               text-gray-500 hover:border-crimson-500/30 hover:text-crimson-600 transition-all">
@@ -472,8 +437,7 @@
 
 @push('scripts')
     <script>
-        // ── Auto-dismiss flash messages after 4s ─────────────────
-        document.querySelectorAll('[data-flash]').forEach(el => {
+                document.querySelectorAll('[data-flash]').forEach(el => {
             setTimeout(() => {
                 el.style.transition = 'opacity 0.4s ease';
                 el.style.opacity = '0';

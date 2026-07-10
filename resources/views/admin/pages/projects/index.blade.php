@@ -32,7 +32,7 @@
         ];
     @endphp
 
-    {{-- Toolbar --}}
+    
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
         <div class="flex items-center gap-2 flex-wrap">
             @foreach(['all' => 'All', 'published' => 'Published', 'drafts' => 'Drafts', 'featured' => 'Featured'] as $val => $label)
@@ -67,7 +67,7 @@
         </a>
     </div>
 
-    {{-- Projects table --}}
+    
     <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full">
@@ -99,7 +99,7 @@
 
                             <td class="px-5 py-4">
                                 <div class="flex items-center gap-3">
-                                    {{-- Featured star --}}
+                                    
                                     @if($project->is_featured)
                                         <svg class="w-3.5 h-3.5 text-amber-400 shrink-0" fill="currentColor" viewBox="0 0 24 24">
                                             <path
@@ -152,16 +152,16 @@
 
                             <td class="px-4 py-4">
                                 <div class="flex items-center justify-end gap-1.5">
-                                    {{-- Preview --}}
-                                    <a href="/projects/{{ $project->slug }}" target="_blank"
+                                    
+                                    {{-- <a href="/projects/{{ $project->slug }}" target="_blank"
                                         class="w-7 h-7 rounded-lg border border-gray-200 flex items-center justify-center text-gray-400 hover:text-gray-700 hover:border-gray-300 transition-all"
                                         title="Preview on site">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                                         </svg>
-                                    </a>
-                                    {{-- Featured toggle --}}
+                                    </a> --}}
+                                    
                                     {{-- <form method="POST" action="{{ route('admin.projects.toggleFeatured', $project->id) }}">
                                         @csrf
                                         <button type="submit"
@@ -176,7 +176,7 @@
                                             </svg>
                                         </button>
                                     </form> --}}
-                                    {{-- Edit --}}
+                                    
                                     <a href="{{ route('admin.projects.edit', $project->id) }}"
                                         class="w-7 h-7 rounded-lg border border-gray-200 flex items-center justify-center text-gray-400 hover:text-crimson-500 hover:border-crimson-500/30 hover:bg-crimson-50 transition-all">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -184,7 +184,7 @@
                                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                         </svg>
                                     </a>
-                                    {{-- Delete --}}
+                                    
                                     <form method="POST" action="{{ route('admin.projects.destroy', $project->id) }}"
                                         onsubmit="return confirm('Delete this project?')">
                                         @csrf @method('DELETE')

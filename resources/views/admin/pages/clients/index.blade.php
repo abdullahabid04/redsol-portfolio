@@ -9,13 +9,8 @@
     <span class="text-xs font-body text-gray-500">Clients</span>
 @endsection
 
-@section('content')
-
-{{-- ══════════════════════════════════════════════
-TOOLBAR — Search · Filter · Add button
-══════════════════════════════════════════════ --}}
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
-    {{-- Filters --}}
+@section('content')<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
+    
     <div class="flex items-center gap-2 flex-wrap">
         @foreach(['all' => 'All', 'active' => 'Active', 'inactive' => 'Inactive'] as $val => $label)
         <a href="{{ request()->fullUrlWithQuery(['status' => $val === 'all' ? null : $val]) }}"
@@ -27,7 +22,7 @@ TOOLBAR — Search · Filter · Add button
         </a>
         @endforeach
 
-        {{-- Type filter --}}
+        
         <select name="type" onchange="window.location.href=this.value" class="px-3 py-1.5 rounded-lg text-xs font-display font-600 text-gray-500 border border-gray-200 bg-white cursor-pointer">
             <option value="{{ route('admin.clients.index') }}">All types</option>
             @foreach(\App\Models\Client::TYPES as $typeKey => $typeLabel)
@@ -38,7 +33,7 @@ TOOLBAR — Search · Filter · Add button
             @endforeach
         </select>
 
-        {{-- Search --}}
+        
         <form action="{{ route('admin.clients.index') }}" method="GET" class="flex items-center gap-2 ml-1">
             <div class="relative">
                 <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none"
@@ -51,19 +46,14 @@ TOOLBAR — Search · Filter · Add button
         </form>
     </div>
 
-    {{-- New client button --}}
+    
     <a href="{{ route('admin.clients.create') }}"
        class="flex items-center gap-2 px-4 py-2 rounded-xl bg-crimson-500 text-white font-display font-600 text-sm
               hover:bg-crimson-600 transition-all hover:shadow-lg hover:shadow-crimson-500/25 shrink-0">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
         New Client
     </a>
-</div>
-
-{{-- ══════════════════════════════════════════════
-CLIENTS TABLE
-══════════════════════════════════════════════ --}}
-<div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+</div><div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
     <div class="overflow-x-auto">
         <table class="w-full">
             <thead>
@@ -80,12 +70,12 @@ CLIENTS TABLE
             <tbody class="divide-y divide-gray-50">
                 @forelse($clients as $client)
                 <tr class="group hover:bg-gray-50/60 transition-colors duration-150">
-                    {{-- Sort order --}}
+                    
                     <td class="px-5 py-4">
                         <span class="font-body text-xs text-gray-400 w-4 text-center">{{ $client->sort_order ?: '—' }}</span>
                     </td>
 
-                    {{-- Client name + logo --}}
+                    
                     <td class="px-4 py-4">
                         <div class="flex items-center gap-3">
                             <div class="w-9 h-9 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center shrink-0">
@@ -108,21 +98,21 @@ CLIENTS TABLE
                         </div>
                     </td>
 
-                    {{-- Location --}}
+                    
                     <td class="px-4 py-4 hidden md:table-cell">
                         <span class="font-body text-xs text-gray-500">
                             {{ $client->locationString() ?: '—' }}
                         </span>
                     </td>
 
-                    {{-- Type badge --}}
+                    
                     <td class="px-4 py-4 hidden lg:table-cell">
                         <span class="inline-flex items-center text-[10px] font-display font-600 tracking-wide px-2 py-1 rounded-lg border {{ $client->typeBadgeClass() }}">
                             {{ $client->typeLabel() }}
                         </span>
                     </td>
 
-                    {{-- Website (XL) --}}
+                    
                     <td class="px-4 py-4 hidden xl:table-cell">
                         @if($client->website_url)
                             <a href="{{ $client->website_url }}" target="_blank" class="font-body text-xs text-crimson-500 hover:underline truncate block max-w-[180px]">
@@ -133,7 +123,7 @@ CLIENTS TABLE
                         @endif
                     </td>
 
-                    {{-- Active toggle --}}
+                    
                     <td class="px-4 py-4 text-center">
                         <form method="POST" action="{{ route('admin.clients.toggle', $client->id) }}" class="inline">
                             @csrf
@@ -152,10 +142,10 @@ CLIENTS TABLE
                         </form>
                     </td>
 
-                    {{-- Actions --}}
+                    
                     <td class="px-5 py-4">
                         <div class="flex items-center justify-end gap-1.5">
-                            {{-- Edit --}}
+                            
                             <a href="{{ route('admin.clients.edit', $client->id) }}" title="Edit client"
                                class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-gray-400 hover:text-crimson-600 hover:border-crimson-500/30 hover:bg-crimson-500/5 transition-all">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -163,7 +153,7 @@ CLIENTS TABLE
                                 </svg>
                             </a>
 
-                            {{-- Delete --}}
+                            
                             <form method="POST" action="{{ route('admin.clients.destroy', $client->id) }}"
                                   onsubmit="return confirm('Remove {{ addslashes($client->name) }}?')">
                                 @csrf @method('DELETE')
@@ -199,7 +189,7 @@ CLIENTS TABLE
         </table>
     </div>
 
-    {{-- Pagination --}}
+    
     @if($clients->hasPages())
     <div class="px-5 py-3 border-t border-gray-100 bg-gray-50/50">
         {{ $clients->links() }}

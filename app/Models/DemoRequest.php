@@ -39,7 +39,6 @@ class DemoRequest extends Model
         'bed_count' => 'integer',
     ];
 
-    // ── Status constants ─────────────────────────────────────
     const STATUS_NEW = 'new';
     const STATUS_CONTACTED = 'contacted';
     const STATUS_SCHEDULED = 'scheduled';
@@ -56,7 +55,6 @@ class DemoRequest extends Model
         self::STATUS_LOST => 'Lost',
     ];
 
-    // ── Hospital type constants ───────────────────────────────
     const TYPES = [
         'government' => 'Government',
         'private' => 'Private',
@@ -65,14 +63,10 @@ class DemoRequest extends Model
         'other' => 'Other',
     ];
 
-    // ── Relationships ────────────────────────────────────────
-
     public function assignedAdmin(): BelongsTo
     {
         return $this->belongsTo(Admin::class, 'assigned_to');
     }
-
-    // ── Scopes ───────────────────────────────────────────────
 
     public function scopeNew($query)
     {
@@ -97,8 +91,6 @@ class DemoRequest extends Model
         return $query->orderByDesc('created_at');
     }
 
-    // ── Accessors ────────────────────────────────────────────
-
     public function statusLabel(): string
     {
         return self::STATUSES[$this->status] ?? ucfirst($this->status);
@@ -121,11 +113,6 @@ class DemoRequest extends Model
     {
         return self::TYPES[$this->hospital_type] ?? ucfirst($this->hospital_type ?? '');
     }
-
-    /**
-     * Returns module names from slugs for display.
-     * Resolves against the Product model.
-     */
     public function moduleNames(): \Illuminate\Support\Collection
     {
         if (empty($this->modules_interest)) {
@@ -135,16 +122,10 @@ class DemoRequest extends Model
         return Product::whereIn('slug', $this->modules_interest)
             ->pluck('name');
     }
-
-    /**
-     * How many days since this request was submitted.
-     */
     public function daysOld(): int
     {
         return (int) $this->created_at->diffInDays(now());
     }
-
-    // ── Helpers ──────────────────────────────────────────────
 
     public function advanceTo(string $status): void
     {
@@ -160,10 +141,6 @@ class DemoRequest extends Model
             self::STATUS_LOST,
         ]);
     }
-
-    /**
-     * Count of new unassigned demo requests — for the sidebar badge.
-     */
     public static function newCount(): int
     {
         return static::where('status', self::STATUS_NEW)->count();

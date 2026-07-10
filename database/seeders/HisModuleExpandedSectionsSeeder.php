@@ -38,12 +38,11 @@ class HisModuleExpandedSectionsSeeder extends Seeder
         $this->seedVoiceReporting();
     }
 
-    // ─── Helper ───────────────────────────────────────────────────────────────
-
     private function addSections(string $slug, array $sections): void
     {
         $module = HisModule::where('slug', $slug)->first();
-        if (!$module) return;
+        if (!$module)
+            return;
 
         // Set starting sort_order after existing sections
         $maxOrder = $module->sections()->max('sort_order') ?? 5;
@@ -53,8 +52,6 @@ class HisModuleExpandedSectionsSeeder extends Seeder
             $module->sections()->create($section);
         }
     }
-
-    // ─── LIMS ─────────────────────────────────────────────────────────────────
 
     private function seedLims(): void
     {
@@ -251,8 +248,15 @@ class HisModuleExpandedSectionsSeeder extends Seeder
                         ['label' => 'Languages', 'value' => 'English (additional languages available on client request)'],
                     ],
                     'standards' => [
-                        'LOINC', 'SNOMED CT', 'HL7 v2.x', 'CLSI', 'IHE LAW',
-                        'ISO 15189', 'GLP', 'HIPAA-aligned', 'ICD-10',
+                        'LOINC',
+                        'SNOMED CT',
+                        'HL7 v2.x',
+                        'CLSI',
+                        'IHE LAW',
+                        'ISO 15189',
+                        'GLP',
+                        'HIPAA-aligned',
+                        'ICD-10',
                     ],
                     'requirements' => [
                         'Windows Server 2016+ or Linux (Ubuntu 20.04+)',
@@ -350,8 +354,6 @@ class HisModuleExpandedSectionsSeeder extends Seeder
             ],
         ]);
     }
-
-    // ─── PHARMACY ─────────────────────────────────────────────────────────────
 
     private function seedPharmacy(): void
     {
@@ -511,7 +513,10 @@ class HisModuleExpandedSectionsSeeder extends Seeder
                         ['label' => 'Reports', 'value' => 'Daily receiving/issuance, stock status, drug-wise reports'],
                     ],
                     'standards' => [
-                        'ICD-10', 'WHO Essential Medicines', 'HL7 v2.x', 'CPOE-integrated',
+                        'ICD-10',
+                        'WHO Essential Medicines',
+                        'HL7 v2.x',
+                        'CPOE-integrated',
                     ],
                     'requirements' => [
                         'Barcode scanner at dispensing counters',
@@ -551,8 +556,6 @@ class HisModuleExpandedSectionsSeeder extends Seeder
             ],
         ]);
     }
-
-    // ─── RADIOLOGY ────────────────────────────────────────────────────────────
 
     private function seedRadiology(): void
     {
@@ -713,8 +716,6 @@ class HisModuleExpandedSectionsSeeder extends Seeder
             ],
         ]);
     }
-
-    // ─── PATIENT REGISTRATION ─────────────────────────────────────────────────
 
     private function seedPatientRegistration(): void
     {
@@ -922,7 +923,6 @@ class HisModuleExpandedSectionsSeeder extends Seeder
         ]);
     }
 
-    // ─── REMAINING MODULES — Seeded with core expanded sections ──────────────
     // Following the same pattern for all other modules
 
     private function seedBilling(): void
@@ -998,19 +998,33 @@ class HisModuleExpandedSectionsSeeder extends Seeder
         $this->addSections('emergency-center', [
             ['section_type' => 'image_banner', 'is_active' => true, 'settings' => ['image_url' => 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=1200&q=80', 'image_alt' => 'Emergency department workflow', 'caption' => 'From triage to disposition — every ED step is documented, timed, and traceable.']],
             ['section_type' => 'stats', 'is_active' => true, 'settings' => ['heading' => 'Emergency Department Metrics', 'stats' => [['value' => '< 5m', 'label' => 'Registration to triage completion target'], ['value' => '24/7', 'label' => 'Real-time ED occupancy visibility'], ['value' => '100%', 'label' => 'Pharmacy, lab, and imaging integration'], ['value' => 'Zero', 'label' => 'Paper-based medication orders in ED']]]],
-            ['section_type' => 'workflow', 'is_active' => true, 'settings' => ['heading' => 'Emergency Patient Flow', 'steps' => [
-                ['title' => 'Rapid Registration', 'description' => 'The patient\'s basic demographics are captured at the ED reception counter — even if incomplete. A wristband and slip are generated immediately. Full details are updated as the patient\'s condition allows.', 'note' => 'Unknown patients can be registered with placeholder data and updated later.'],
-                ['title' => 'Triage Assessment', 'description' => 'The attending nurse or doctor assigns a triage category. Vitals (BP, pulse, temperature, SpO2, GCS) are recorded. The triage category determines queue priority — critical patients bypass the standard queue.'],
-                ['title' => 'Doctor Assessment & Orders', 'description' => 'The ED doctor opens the patient\'s assessment sheet in the system. Clinical notes are entered, diagnostic orders (lab and imaging) are placed, and pharmacy orders for emergency medicines are raised.'],
-                ['title' => 'Nursing Monitoring', 'description' => 'Nurses enter vitals at each shift handover. Intake and output are recorded. The doctor can view real-time vitals trends without leaving the assessment module.'],
-                ['title' => 'Disposition Decision', 'description' => 'The doctor decides: discharge, admit to a ward, transfer to ICU or OT, or refer externally. An ED episode summary is generated automatically from the clinical notes entered during the encounter.'],
-                ['title' => 'Emergency Episode Summary', 'description' => 'A structured summary of the entire ED encounter — registration time, triage category, investigations, treatments, and final disposition — is generated and filed in the patient\'s medical record.'],
-            ]]],
-            ['section_type' => 'faq', 'is_active' => true, 'settings' => ['heading' => 'FAQ — Emergency Center', 'items' => [
-                ['question' => 'How are emergency medicines ordered when the patient has no MRN yet?', 'answer' => 'Emergency medicine orders can be placed on a temporary MR# assigned at rapid registration. Once the full registration is completed, all emergency orders and transactions are linked to the patient\'s permanent UMRN automatically.'],
-                ['question' => 'Can zero-cost emergency services be approved?', 'answer' => 'Yes. Hospital administration can configure certain services or service categories to be available at zero cost for emergency patients — for example, trauma cases requiring immediate diagnostics. A flag triggers an administrative approval workflow before the service is rendered.'],
-                ['question' => 'How does the ED integrate with the OT for emergency surgery?', 'answer' => 'The ED doctor can initiate an emergency surgical process directly from the emergency module. This generates a priority surgery booking in the OT module, triggers alerts to the surgeon and anaesthetist, and transfers the patient\'s clinical documentation to the OT team automatically.'],
-            ]]],
+            [
+                'section_type' => 'workflow',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'Emergency Patient Flow',
+                    'steps' => [
+                        ['title' => 'Rapid Registration', 'description' => 'The patient\'s basic demographics are captured at the ED reception counter — even if incomplete. A wristband and slip are generated immediately. Full details are updated as the patient\'s condition allows.', 'note' => 'Unknown patients can be registered with placeholder data and updated later.'],
+                        ['title' => 'Triage Assessment', 'description' => 'The attending nurse or doctor assigns a triage category. Vitals (BP, pulse, temperature, SpO2, GCS) are recorded. The triage category determines queue priority — critical patients bypass the standard queue.'],
+                        ['title' => 'Doctor Assessment & Orders', 'description' => 'The ED doctor opens the patient\'s assessment sheet in the system. Clinical notes are entered, diagnostic orders (lab and imaging) are placed, and pharmacy orders for emergency medicines are raised.'],
+                        ['title' => 'Nursing Monitoring', 'description' => 'Nurses enter vitals at each shift handover. Intake and output are recorded. The doctor can view real-time vitals trends without leaving the assessment module.'],
+                        ['title' => 'Disposition Decision', 'description' => 'The doctor decides: discharge, admit to a ward, transfer to ICU or OT, or refer externally. An ED episode summary is generated automatically from the clinical notes entered during the encounter.'],
+                        ['title' => 'Emergency Episode Summary', 'description' => 'A structured summary of the entire ED encounter — registration time, triage category, investigations, treatments, and final disposition — is generated and filed in the patient\'s medical record.'],
+                    ]
+                ]
+            ],
+            [
+                'section_type' => 'faq',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'FAQ — Emergency Center',
+                    'items' => [
+                        ['question' => 'How are emergency medicines ordered when the patient has no MRN yet?', 'answer' => 'Emergency medicine orders can be placed on a temporary MR# assigned at rapid registration. Once the full registration is completed, all emergency orders and transactions are linked to the patient\'s permanent UMRN automatically.'],
+                        ['question' => 'Can zero-cost emergency services be approved?', 'answer' => 'Yes. Hospital administration can configure certain services or service categories to be available at zero cost for emergency patients — for example, trauma cases requiring immediate diagnostics. A flag triggers an administrative approval workflow before the service is rendered.'],
+                        ['question' => 'How does the ED integrate with the OT for emergency surgery?', 'answer' => 'The ED doctor can initiate an emergency surgical process directly from the emergency module. This generates a priority surgery booking in the OT module, triggers alerts to the surgeon and anaesthetist, and transfers the patient\'s clinical documentation to the OT team automatically.'],
+                    ]
+                ]
+            ],
         ]);
     }
 
@@ -1019,18 +1033,32 @@ class HisModuleExpandedSectionsSeeder extends Seeder
         $this->addSections('operation-theatre', [
             ['section_type' => 'image_banner', 'is_active' => true, 'settings' => ['image_url' => 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1200&q=80', 'image_alt' => 'Operation theatre management system', 'caption' => 'From surgical scheduling to post-operative notes — the entire perioperative journey is documented digitally.']],
             ['section_type' => 'stats', 'is_active' => true, 'settings' => ['heading' => 'OT Module Performance', 'stats' => [['value' => '100%', 'label' => 'OT cases with pre-surgery checklist compliance'], ['value' => 'Auto', 'label' => 'Surgeon, anaesthetist & patient alerts on scheduling'], ['value' => 'Live', 'label' => 'OT calendar and slot availability'], ['value' => 'Zero', 'label' => 'Patient data re-entry from ward to OT counter']]]],
-            ['section_type' => 'workflow', 'is_active' => true, 'settings' => ['heading' => 'Operation Theatre Workflow', 'steps' => [
-                ['title' => 'Surgery Scheduling', 'description' => 'The surgeon advises surgery — elective or emergency. The OT coordinator selects a vacant slot from the surgeon\'s calendar and books the OT. The system sends automatic alerts to the patient, surgeon, and anaesthetist with the scheduled date and time.'],
-                ['title' => 'Pre-operative Preparation', 'description' => 'The anesthetist completes a pre-anesthetic checkup and records findings. A pre-defined surgery checklist is presented to the OT team — preparatory steps must be checked off before the actual OT process can begin in the system.'],
-                ['title' => 'Patient Transfer to OT', 'description' => 'The patient\'s ward record is forwarded automatically to the OT counter dashboard. A barcoded wrist tag is generated if not already present. Intra-operative details are entered: surgeon names, anaesthetic type, procedure performed, and team members.'],
-                ['title' => 'Intra-operative Documentation', 'description' => 'Perfusionist parameters (for cardiac surgery) are captured via single-click options. Sample containers for histopathology or pathology are barcoded and sent to the lab. All consumables used during the procedure are logged.'],
-                ['title' => 'Post-operative Handover', 'description' => 'Post-operative notes and recovery assessment are entered. The patient is transferred to the ward, ICU, or recovery room — the nursing module is updated automatically. All OT charges are posted to the patient\'s IPD billing account.'],
-            ]]],
-            ['section_type' => 'faq', 'is_active' => true, 'settings' => ['heading' => 'FAQ — Operation Theatre', 'items' => [
-                ['question' => 'How is an emergency surgery prioritised over elective cases?', 'answer' => 'The OT module allows an emergency surgery to be inserted into the schedule with priority status. The system automatically moves it to the top of the day\'s schedule, updates the OT calendar, and sends alerts to all concerned staff immediately.'],
-                ['question' => 'Can the system track samples sent from OT to the laboratory?', 'answer' => 'Yes. Sample containers for histopathology, pathology, and microbiology can be barcoded directly from the OT module. Lab technicians scan the barcode on receipt, and results are tracked and accessible from within the OT patient record.'],
-                ['question' => 'What happens if a surgery is rescheduled?', 'answer' => 'The OT coordinator can reschedule a surgery from the calendar view. A reason must be entered before the reschedule is saved. The system automatically notifies all affected parties — patient, surgeon, and anaesthetist — with the updated time and slot.'],
-            ]]],
+            [
+                'section_type' => 'workflow',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'Operation Theatre Workflow',
+                    'steps' => [
+                        ['title' => 'Surgery Scheduling', 'description' => 'The surgeon advises surgery — elective or emergency. The OT coordinator selects a vacant slot from the surgeon\'s calendar and books the OT. The system sends automatic alerts to the patient, surgeon, and anaesthetist with the scheduled date and time.'],
+                        ['title' => 'Pre-operative Preparation', 'description' => 'The anesthetist completes a pre-anesthetic checkup and records findings. A pre-defined surgery checklist is presented to the OT team — preparatory steps must be checked off before the actual OT process can begin in the system.'],
+                        ['title' => 'Patient Transfer to OT', 'description' => 'The patient\'s ward record is forwarded automatically to the OT counter dashboard. A barcoded wrist tag is generated if not already present. Intra-operative details are entered: surgeon names, anaesthetic type, procedure performed, and team members.'],
+                        ['title' => 'Intra-operative Documentation', 'description' => 'Perfusionist parameters (for cardiac surgery) are captured via single-click options. Sample containers for histopathology or pathology are barcoded and sent to the lab. All consumables used during the procedure are logged.'],
+                        ['title' => 'Post-operative Handover', 'description' => 'Post-operative notes and recovery assessment are entered. The patient is transferred to the ward, ICU, or recovery room — the nursing module is updated automatically. All OT charges are posted to the patient\'s IPD billing account.'],
+                    ]
+                ]
+            ],
+            [
+                'section_type' => 'faq',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'FAQ — Operation Theatre',
+                    'items' => [
+                        ['question' => 'How is an emergency surgery prioritised over elective cases?', 'answer' => 'The OT module allows an emergency surgery to be inserted into the schedule with priority status. The system automatically moves it to the top of the day\'s schedule, updates the OT calendar, and sends alerts to all concerned staff immediately.'],
+                        ['question' => 'Can the system track samples sent from OT to the laboratory?', 'answer' => 'Yes. Sample containers for histopathology, pathology, and microbiology can be barcoded directly from the OT module. Lab technicians scan the barcode on receipt, and results are tracked and accessible from within the OT patient record.'],
+                        ['question' => 'What happens if a surgery is rescheduled?', 'answer' => 'The OT coordinator can reschedule a surgery from the calendar view. A reason must be entered before the reschedule is saved. The system automatically notifies all affected parties — patient, surgeon, and anaesthetist — with the updated time and slot.'],
+                    ]
+                ]
+            ],
         ]);
     }
 
@@ -1039,17 +1067,31 @@ class HisModuleExpandedSectionsSeeder extends Seeder
         $this->addSections('nursing-wards', [
             ['section_type' => 'image_banner', 'is_active' => true, 'settings' => ['image_url' => 'https://images.unsplash.com/photo-1576765608866-5b51046452be?w=1200&q=80', 'image_alt' => 'Nursing ward management system', 'caption' => 'Every bed, every patient, every medication — visible in real time from any ward counter terminal.']],
             ['section_type' => 'stats', 'is_active' => true, 'settings' => ['heading' => 'Ward Management Metrics', 'stats' => [['value' => 'Live', 'label' => 'Bed occupancy and patient status'], ['value' => '100%', 'label' => 'Real-time pharmacy and diagnostics integration'], ['value' => 'Auto', 'label' => 'IPD billing updates on every ward action'], ['value' => 'Zero', 'label' => 'Paper medicine request slips between ward and pharmacy']]]],
-            ['section_type' => 'workflow', 'is_active' => true, 'settings' => ['heading' => 'Ward Nursing Workflow', 'steps' => [
-                ['title' => 'Bed Allocation & Admission', 'description' => 'When the admission module approves an IPD admission, the ward nursing station receives the patient assignment. The nurse allocates a specific bed, confirms the provisional diagnosis, and updates the ward census.'],
-                ['title' => 'Shift Handover', 'description' => 'At each nursing shift change, the outgoing nurse documents vitals, intake/output measurements, and any care activities completed. The incoming nurse reviews the current status before assuming responsibility.'],
-                ['title' => 'Medicine & Disposables Orders', 'description' => 'Nurses place medicine and disposable requests online directly to the indoor pharmacy or ward sub-store. The pharmacy receives the request instantly and dispenses against the ward order — no paper slip required.'],
-                ['title' => 'Investigation Orders', 'description' => 'Lab, radiology, cardiology, and other investigation requests are placed from the nursing station and routed to the relevant department. Results return electronically and are filed in the patient\'s ward record.'],
-                ['title' => 'Cost Monitoring', 'description' => 'At any point during the stay, the nurse or ward administrator can view the estimated cost of stay including bed charges, drugs, and procedures. This helps counsel patients and plan discharge timing.'],
-            ]]],
-            ['section_type' => 'faq', 'is_active' => true, 'settings' => ['heading' => 'FAQ — Nursing & Wards', 'items' => [
-                ['question' => 'Can a patient be transferred between wards without re-registration?', 'answer' => 'Yes. Patient transfers between beds and wards are handled entirely within the nursing module. The ward census updates automatically, billing continues without interruption, and the patient\'s full record is accessible at the new ward immediately.'],
-                ['question' => 'How does the system manage ward sub-stores for medicines?', 'answer' => 'Each ward can have its own sub-store with a defined stock holding. The nursing module shows real-time stock levels in the sub-store. When stock falls below threshold, the nurse initiates a demand request to the main indoor pharmacy, which is approved and fulfilled digitally.'],
-            ]]],
+            [
+                'section_type' => 'workflow',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'Ward Nursing Workflow',
+                    'steps' => [
+                        ['title' => 'Bed Allocation & Admission', 'description' => 'When the admission module approves an IPD admission, the ward nursing station receives the patient assignment. The nurse allocates a specific bed, confirms the provisional diagnosis, and updates the ward census.'],
+                        ['title' => 'Shift Handover', 'description' => 'At each nursing shift change, the outgoing nurse documents vitals, intake/output measurements, and any care activities completed. The incoming nurse reviews the current status before assuming responsibility.'],
+                        ['title' => 'Medicine & Disposables Orders', 'description' => 'Nurses place medicine and disposable requests online directly to the indoor pharmacy or ward sub-store. The pharmacy receives the request instantly and dispenses against the ward order — no paper slip required.'],
+                        ['title' => 'Investigation Orders', 'description' => 'Lab, radiology, cardiology, and other investigation requests are placed from the nursing station and routed to the relevant department. Results return electronically and are filed in the patient\'s ward record.'],
+                        ['title' => 'Cost Monitoring', 'description' => 'At any point during the stay, the nurse or ward administrator can view the estimated cost of stay including bed charges, drugs, and procedures. This helps counsel patients and plan discharge timing.'],
+                    ]
+                ]
+            ],
+            [
+                'section_type' => 'faq',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'FAQ — Nursing & Wards',
+                    'items' => [
+                        ['question' => 'Can a patient be transferred between wards without re-registration?', 'answer' => 'Yes. Patient transfers between beds and wards are handled entirely within the nursing module. The ward census updates automatically, billing continues without interruption, and the patient\'s full record is accessible at the new ward immediately.'],
+                        ['question' => 'How does the system manage ward sub-stores for medicines?', 'answer' => 'Each ward can have its own sub-store with a defined stock holding. The nursing module shows real-time stock levels in the sub-store. When stock falls below threshold, the nurse initiates a demand request to the main indoor pharmacy, which is approved and fulfilled digitally.'],
+                    ]
+                ]
+            ],
         ]);
     }
 
@@ -1058,17 +1100,31 @@ class HisModuleExpandedSectionsSeeder extends Seeder
         $this->addSections('admission-discharge', [
             ['section_type' => 'image_banner', 'is_active' => true, 'settings' => ['image_url' => 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1200&q=80', 'image_alt' => 'Hospital bed management system', 'caption' => 'Real-time bed availability, instant admission, and automatic discharge billing in a single integrated system.']],
             ['section_type' => 'stats', 'is_active' => true, 'settings' => ['heading' => 'IPD Management by the Numbers', 'stats' => [['value' => 'Live', 'label' => 'Bed availability across all wards'], ['value' => 'Auto', 'label' => 'Discharge bill from all accumulated charges'], ['value' => '100%', 'label' => 'Inpatient charges captured without manual entry'], ['value' => 'Zero', 'label' => 'Missed charges on discharge billing']]]],
-            ['section_type' => 'workflow', 'is_active' => true, 'settings' => ['heading' => 'Inpatient Journey', 'steps' => [
-                ['title' => 'Admission Decision', 'description' => 'The treating doctor advises admission. The ward clerk checks real-time bed availability from the IPD management screen and selects a bed category appropriate to the patient\'s billing category and clinical need.'],
-                ['title' => 'Barcoded Wristband', 'description' => 'A barcoded wristband is generated with the patient\'s MRN, name, date of admission, ward, bed number, and provisional diagnosis. This wristband is scanned at every subsequent interaction — pharmacy, lab, OT — to confirm identity.'],
-                ['title' => 'Continuous Charge Accumulation', 'description' => 'Every service rendered during the stay — bed days, nursing care, lab tests, radiology, OT procedures, and medicines — posts to the patient\'s IPD account automatically as it occurs. There is no end-of-day batch entry.'],
-                ['title' => 'Discharge Clearance', 'description' => 'When the doctor issues a discharge order, the billing module compiles a complete, itemised bill from all accumulated charges. The ward clerk verifies any outstanding items before finalising.'],
-                ['title' => 'Final Bill & Discharge Summary', 'description' => 'The patient settles the final bill. A discharge summary is generated from the clinical notes, diagnoses, and treatment documented during the stay. Follow-up appointments are scheduled before the patient leaves.'],
-            ]]],
-            ['section_type' => 'faq', 'is_active' => true, 'settings' => ['heading' => 'FAQ — Admission & Discharge', 'items' => [
-                ['question' => 'What if a patient needs to be transferred to another ward?', 'answer' => 'Ward transfers are processed from the nursing module. The bed occupancy map updates instantly, the billing continues without interruption, and the patient\'s clinical record is accessible from the new ward immediately. No re-admission is required.'],
-                ['question' => 'Can a provisional bill be generated before discharge?', 'answer' => 'Yes. An interim bill can be generated at any point during the IPD stay — for patient information, deposit collection, or insurance pre-authorisation — without closing the account or affecting subsequent charges.'],
-            ]]],
+            [
+                'section_type' => 'workflow',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'Inpatient Journey',
+                    'steps' => [
+                        ['title' => 'Admission Decision', 'description' => 'The treating doctor advises admission. The ward clerk checks real-time bed availability from the IPD management screen and selects a bed category appropriate to the patient\'s billing category and clinical need.'],
+                        ['title' => 'Barcoded Wristband', 'description' => 'A barcoded wristband is generated with the patient\'s MRN, name, date of admission, ward, bed number, and provisional diagnosis. This wristband is scanned at every subsequent interaction — pharmacy, lab, OT — to confirm identity.'],
+                        ['title' => 'Continuous Charge Accumulation', 'description' => 'Every service rendered during the stay — bed days, nursing care, lab tests, radiology, OT procedures, and medicines — posts to the patient\'s IPD account automatically as it occurs. There is no end-of-day batch entry.'],
+                        ['title' => 'Discharge Clearance', 'description' => 'When the doctor issues a discharge order, the billing module compiles a complete, itemised bill from all accumulated charges. The ward clerk verifies any outstanding items before finalising.'],
+                        ['title' => 'Final Bill & Discharge Summary', 'description' => 'The patient settles the final bill. A discharge summary is generated from the clinical notes, diagnoses, and treatment documented during the stay. Follow-up appointments are scheduled before the patient leaves.'],
+                    ]
+                ]
+            ],
+            [
+                'section_type' => 'faq',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'FAQ — Admission & Discharge',
+                    'items' => [
+                        ['question' => 'What if a patient needs to be transferred to another ward?', 'answer' => 'Ward transfers are processed from the nursing module. The bed occupancy map updates instantly, the billing continues without interruption, and the patient\'s clinical record is accessible from the new ward immediately. No re-admission is required.'],
+                        ['question' => 'Can a provisional bill be generated before discharge?', 'answer' => 'Yes. An interim bill can be generated at any point during the IPD stay — for patient information, deposit collection, or insurance pre-authorisation — without closing the account or affecting subsequent charges.'],
+                    ]
+                ]
+            ],
         ]);
     }
 
@@ -1077,17 +1133,31 @@ class HisModuleExpandedSectionsSeeder extends Seeder
         $this->addSections('outdoor-clinics', [
             ['section_type' => 'image_banner', 'is_active' => true, 'settings' => ['image_url' => 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=1200&q=80', 'image_alt' => 'OPD consultation management system', 'caption' => 'Structured SOAP notes, real-time pharmacy stock, and instant referrals — all from one consultation screen.']],
             ['section_type' => 'stats', 'is_active' => true, 'settings' => ['heading' => 'OPD Module Impact', 'stats' => [['value' => '0', 'label' => 'Paper prescription slips with CPOE integration'], ['value' => 'Live', 'label' => 'Pharmacy stock visibility at point of prescription'], ['value' => '100%', 'label' => 'Orders routed directly to lab, radiology, and pharmacy'], ['value' => 'Instant', 'label' => 'Patient referral to any department or external hospital']]]],
-            ['section_type' => 'workflow', 'is_active' => true, 'settings' => ['heading' => 'OPD Clinical Workflow', 'steps' => [
-                ['title' => 'Patient Arrives & Queue Entry', 'description' => 'The patient\'s appointment is confirmed at the front desk and they are added to the clinic queue. The doctor sees the patient\'s name, queue number, and brief history in their clinic list.'],
-                ['title' => 'Clinical Documentation (SOAP)', 'description' => 'The doctor opens the consultation screen. Subjective, Objective, Assessment, and Plan notes are entered using specialty-specific templates. Chief complaints, examination findings, and provisional diagnosis are structured fields — not free text.'],
-                ['title' => 'CPOE — Orders to Pharmacy, Lab, Radiology', 'description' => 'Investigations are ordered with a single click. Prescriptions are written from the drug formulary with real-time stock visibility. Orders are routed instantly to the relevant department — lab, radiology, or pharmacy — without any paper slip.'],
-                ['title' => 'Referral Management', 'description' => 'If the patient needs to see another specialist, an internal referral is generated. For external referrals, a formal referral letter is generated and logged. Both types of referral are tracked and follow-up visits are linked.'],
-                ['title' => 'Visit Completion & Billing', 'description' => 'When the consultation is closed, the consultation fee and any ordered services are posted to the patient\'s billing account. The patient proceeds to the pharmacy to collect medicines and to the billing counter to pay.'],
-            ]]],
-            ['section_type' => 'faq', 'is_active' => true, 'settings' => ['heading' => 'FAQ — OPD / Consultant Practice', 'items' => [
-                ['question' => 'Can the doctor see previous visit notes from the same clinic?', 'answer' => 'Yes. All previous OPD visits are stored in the patient\'s discharged vault and are accessible to the consulting doctor at any time. The doctor can review past complaints, prescriptions, investigation results, and diagnoses without switching screens.'],
-                ['question' => 'What are clinical templates and how are they managed?', 'answer' => 'Clinical templates are pre-configured consultation note structures tailored to specific specialties or common presentations. An administrator or senior doctor creates templates (e.g., a hypertension follow-up template or a respiratory examination template). Doctors select the appropriate template at the start of a consultation, then modify it as needed.'],
-            ]]],
+            [
+                'section_type' => 'workflow',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'OPD Clinical Workflow',
+                    'steps' => [
+                        ['title' => 'Patient Arrives & Queue Entry', 'description' => 'The patient\'s appointment is confirmed at the front desk and they are added to the clinic queue. The doctor sees the patient\'s name, queue number, and brief history in their clinic list.'],
+                        ['title' => 'Clinical Documentation (SOAP)', 'description' => 'The doctor opens the consultation screen. Subjective, Objective, Assessment, and Plan notes are entered using specialty-specific templates. Chief complaints, examination findings, and provisional diagnosis are structured fields — not free text.'],
+                        ['title' => 'CPOE — Orders to Pharmacy, Lab, Radiology', 'description' => 'Investigations are ordered with a single click. Prescriptions are written from the drug formulary with real-time stock visibility. Orders are routed instantly to the relevant department — lab, radiology, or pharmacy — without any paper slip.'],
+                        ['title' => 'Referral Management', 'description' => 'If the patient needs to see another specialist, an internal referral is generated. For external referrals, a formal referral letter is generated and logged. Both types of referral are tracked and follow-up visits are linked.'],
+                        ['title' => 'Visit Completion & Billing', 'description' => 'When the consultation is closed, the consultation fee and any ordered services are posted to the patient\'s billing account. The patient proceeds to the pharmacy to collect medicines and to the billing counter to pay.'],
+                    ]
+                ]
+            ],
+            [
+                'section_type' => 'faq',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'FAQ — OPD / Consultant Practice',
+                    'items' => [
+                        ['question' => 'Can the doctor see previous visit notes from the same clinic?', 'answer' => 'Yes. All previous OPD visits are stored in the patient\'s discharged vault and are accessible to the consulting doctor at any time. The doctor can review past complaints, prescriptions, investigation results, and diagnoses without switching screens.'],
+                        ['question' => 'What are clinical templates and how are they managed?', 'answer' => 'Clinical templates are pre-configured consultation note structures tailored to specific specialties or common presentations. An administrator or senior doctor creates templates (e.g., a hypertension follow-up template or a respiratory examination template). Doctors select the appropriate template at the start of a consultation, then modify it as needed.'],
+                    ]
+                ]
+            ],
         ]);
     }
 
@@ -1095,16 +1165,30 @@ class HisModuleExpandedSectionsSeeder extends Seeder
     {
         $this->addSections('integrated-appointment-system', [
             ['section_type' => 'image_banner', 'is_active' => true, 'settings' => ['image_url' => 'https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=1200&q=80', 'image_alt' => 'Hospital appointment scheduling system', 'caption' => 'Configurable slot types, per-role booking rights, and automated queue generation in one system.']],
-            ['section_type' => 'workflow', 'is_active' => true, 'settings' => ['heading' => 'Appointment Booking Workflow', 'steps' => [
-                ['title' => 'Slot Configuration', 'description' => 'The administrator defines available slots per consultant: slot type (OPD, IPD, VIP, overbooking), maximum patients per slot, and booking rights per staff role. Different rules can apply to different slot types.'],
-                ['title' => 'Appointment Booking', 'description' => 'The front desk or PA searches for the patient, selects the consultant, and sees only genuinely available slots in real time. The appointment is confirmed, and a serial number and queue token are generated automatically.'],
-                ['title' => 'Day-of-Visit Management', 'description' => 'On the appointment date, the patient is checked in at the front desk. Their queue position is confirmed. If they are delayed, the system manages the queue re-insertion.'],
-                ['title' => 'Historical Records', 'description' => 'All past appointments are stored and accessible. The doctor can see a patient\'s appointment history — how often they attend, whether they have a pattern of no-shows, and what services they have previously accessed.'],
-            ]]],
-            ['section_type' => 'faq', 'is_active' => true, 'settings' => ['heading' => 'FAQ — Appointment System', 'items' => [
-                ['question' => 'What is the overbooking slot type?', 'answer' => 'Overbooking allows a limited number of additional patients to be booked beyond the consultant\'s normal capacity — for example, for urgent cases or at a consultant\'s specific request. The system tracks overbooked cases separately for scheduling analytics.'],
-                ['question' => 'Can the PA book appointments directly for their consultant?', 'answer' => 'Yes. Each consultant\'s Personal Assistant can be given booking rights restricted to their doctor\'s clinic. They see only the relevant consultant\'s schedule and cannot book into other consultants\' slots without additional permissions.'],
-            ]]],
+            [
+                'section_type' => 'workflow',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'Appointment Booking Workflow',
+                    'steps' => [
+                        ['title' => 'Slot Configuration', 'description' => 'The administrator defines available slots per consultant: slot type (OPD, IPD, VIP, overbooking), maximum patients per slot, and booking rights per staff role. Different rules can apply to different slot types.'],
+                        ['title' => 'Appointment Booking', 'description' => 'The front desk or PA searches for the patient, selects the consultant, and sees only genuinely available slots in real time. The appointment is confirmed, and a serial number and queue token are generated automatically.'],
+                        ['title' => 'Day-of-Visit Management', 'description' => 'On the appointment date, the patient is checked in at the front desk. Their queue position is confirmed. If they are delayed, the system manages the queue re-insertion.'],
+                        ['title' => 'Historical Records', 'description' => 'All past appointments are stored and accessible. The doctor can see a patient\'s appointment history — how often they attend, whether they have a pattern of no-shows, and what services they have previously accessed.'],
+                    ]
+                ]
+            ],
+            [
+                'section_type' => 'faq',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'FAQ — Appointment System',
+                    'items' => [
+                        ['question' => 'What is the overbooking slot type?', 'answer' => 'Overbooking allows a limited number of additional patients to be booked beyond the consultant\'s normal capacity — for example, for urgent cases or at a consultant\'s specific request. The system tracks overbooked cases separately for scheduling analytics.'],
+                        ['question' => 'Can the PA book appointments directly for their consultant?', 'answer' => 'Yes. Each consultant\'s Personal Assistant can be given booking rights restricted to their doctor\'s clinic. They see only the relevant consultant\'s schedule and cannot book into other consultants\' slots without additional permissions.'],
+                    ]
+                ]
+            ],
         ]);
     }
 
@@ -1112,28 +1196,49 @@ class HisModuleExpandedSectionsSeeder extends Seeder
     {
         $this->addSections('queue-management', [
             ['section_type' => 'stats', 'is_active' => true, 'settings' => ['heading' => 'Queue Management Impact', 'stats' => [['value' => 'Live', 'label' => 'Waiting time displayed to patients in real time'], ['value' => 'Auto', 'label' => 'Queue re-routing on doctor or room change'], ['value' => 'Config', 'label' => 'Senior citizen priority — no manual intervention needed'], ['value' => 'Full', 'label' => 'Waiting hall display board integration']]]],
-            ['section_type' => 'workflow', 'is_active' => true, 'settings' => ['heading' => 'Queue Flow', 'steps' => [
-                ['title' => 'Token Generation', 'description' => 'When a patient arrives and is checked in for a clinic or service, a queue token is generated automatically. The token includes the patient\'s serial number, expected service, and estimated waiting time.'],
-                ['title' => 'Priority Insertion', 'description' => 'Senior citizens (age threshold is configurable) are automatically inserted ahead of standard queue positions. Emergency patients referred from the ED bypass the standard queue entirely.'],
-                ['title' => 'Hold Queue Management', 'description' => 'If a doctor advises a patient to have an urgent diagnostic test and return for re-consultation, the "Hold" feature saves their queue position. When the test result is available, the patient is re-inserted with priority.'],
-                ['title' => 'Waiting Hall Display', 'description' => 'A live display board shows the current token being served per clinic, the next tokens in queue, and estimated waiting times. Patients can monitor their progress without approaching the counter.'],
-            ]]],
+            [
+                'section_type' => 'workflow',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'Queue Flow',
+                    'steps' => [
+                        ['title' => 'Token Generation', 'description' => 'When a patient arrives and is checked in for a clinic or service, a queue token is generated automatically. The token includes the patient\'s serial number, expected service, and estimated waiting time.'],
+                        ['title' => 'Priority Insertion', 'description' => 'Senior citizens (age threshold is configurable) are automatically inserted ahead of standard queue positions. Emergency patients referred from the ED bypass the standard queue entirely.'],
+                        ['title' => 'Hold Queue Management', 'description' => 'If a doctor advises a patient to have an urgent diagnostic test and return for re-consultation, the "Hold" feature saves their queue position. When the test result is available, the patient is re-inserted with priority.'],
+                        ['title' => 'Waiting Hall Display', 'description' => 'A live display board shows the current token being served per clinic, the next tokens in queue, and estimated waiting times. Patients can monitor their progress without approaching the counter.'],
+                    ]
+                ]
+            ],
         ]);
     }
 
     private function seedWelfare(): void
     {
         $this->addSections('patient-welfare', [
-            ['section_type' => 'workflow', 'is_active' => true, 'settings' => ['heading' => 'Welfare Approval & Application Workflow', 'steps' => [
-                ['title' => 'Welfare Application', 'description' => 'The patient or their family submits a welfare application at the relevant counter, along with supporting documents (income certificate, medical board recommendation, etc.). Documents are scanned and attached digitally.'],
-                ['title' => 'Category Assessment', 'description' => 'The welfare officer reviews the application and assigns the patient to the appropriate welfare category — for example, 25% discount, 50% discount, or 100% welfare. Each category has pre-configured discount rules.'],
-                ['title' => 'Approval & Vault Entry', 'description' => 'Once approved, the patient is added to the welfare vault. Their record is flagged with the welfare category, validity period, and renewal date. From this point, all their billing transactions apply the configured discounts automatically.'],
-                ['title' => 'Expiry & Renewal', 'description' => 'Welfare approvals have defined validity periods. As expiry approaches, the system flags the patient for renewal. If not renewed, the discount stops applying automatically on the expiry date — no manual intervention required.'],
-            ]]],
-            ['section_type' => 'faq', 'is_active' => true, 'settings' => ['heading' => 'FAQ — Patient Welfare', 'items' => [
-                ['question' => 'Can different welfare categories have different discount percentages?', 'answer' => 'Yes. The hospital administrator can define any number of welfare categories, each with its own discount percentage. For example, Category A might receive 50% off all services, while Category B covers only diagnostics at 100%.'],
-                ['question' => 'What happens when a welfare patient\'s approval expires?', 'answer' => 'The system tracks expiry dates for every approved welfare patient. On the expiry date, the discount ceases automatically. The patient must renew their application to continue receiving welfare benefits. Staff are alerted to upcoming expirations in advance.'],
-            ]]],
+            [
+                'section_type' => 'workflow',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'Welfare Approval & Application Workflow',
+                    'steps' => [
+                        ['title' => 'Welfare Application', 'description' => 'The patient or their family submits a welfare application at the relevant counter, along with supporting documents (income certificate, medical board recommendation, etc.). Documents are scanned and attached digitally.'],
+                        ['title' => 'Category Assessment', 'description' => 'The welfare officer reviews the application and assigns the patient to the appropriate welfare category — for example, 25% discount, 50% discount, or 100% welfare. Each category has pre-configured discount rules.'],
+                        ['title' => 'Approval & Vault Entry', 'description' => 'Once approved, the patient is added to the welfare vault. Their record is flagged with the welfare category, validity period, and renewal date. From this point, all their billing transactions apply the configured discounts automatically.'],
+                        ['title' => 'Expiry & Renewal', 'description' => 'Welfare approvals have defined validity periods. As expiry approaches, the system flags the patient for renewal. If not renewed, the discount stops applying automatically on the expiry date — no manual intervention required.'],
+                    ]
+                ]
+            ],
+            [
+                'section_type' => 'faq',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'FAQ — Patient Welfare',
+                    'items' => [
+                        ['question' => 'Can different welfare categories have different discount percentages?', 'answer' => 'Yes. The hospital administrator can define any number of welfare categories, each with its own discount percentage. For example, Category A might receive 50% off all services, while Category B covers only diagnostics at 100%.'],
+                        ['question' => 'What happens when a welfare patient\'s approval expires?', 'answer' => 'The system tracks expiry dates for every approved welfare patient. On the expiry date, the discount ceases automatically. The patient must renew their application to continue receiving welfare benefits. Staff are alerted to upcoming expirations in advance.'],
+                    ]
+                ]
+            ],
         ]);
     }
 
@@ -1141,17 +1246,31 @@ class HisModuleExpandedSectionsSeeder extends Seeder
     {
         $this->addSections('inventory', [
             ['section_type' => 'image_banner', 'is_active' => true, 'settings' => ['image_url' => 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&q=80', 'image_alt' => 'Hospital inventory and warehouse management', 'caption' => 'From purchase order to ward sub-store — every item tracked from procurement to consumption.']],
-            ['section_type' => 'workflow', 'is_active' => true, 'settings' => ['heading' => 'Supply Chain Workflow', 'steps' => [
-                ['title' => 'Demand Request', 'description' => 'A department submits a demand request specifying the items and quantities needed. The request is routed to the store manager for approval. Requests exceeding configured limits require additional authorization.'],
-                ['title' => 'Purchase Order Issuance', 'description' => 'Approved demand requests are consolidated into purchase orders and sent to registered vendors. Local purchase orders can also be issued for urgent items.'],
-                ['title' => 'Goods Receipt & Inspection', 'description' => 'When goods arrive, a Goods Receiving Note (GRN) is created. Items are inspected against the purchase order — accepted quantities are entered into stock; rejected items are documented for vendor return.'],
-                ['title' => 'Store & Sub-Store Management', 'description' => 'Accepted stock enters the main warehouse. Departments can request transfers to their sub-stores. All transfers are logged with requesting user, approver, and quantities.'],
-                ['title' => 'Consumption & Condemnation', 'description' => 'As items are used, consumption is recorded against the relevant sub-store. At end-of-life, a formal condemnation process documents the disposal with approver identity and reason.'],
-            ]]],
-            ['section_type' => 'faq', 'is_active' => true, 'settings' => ['heading' => 'FAQ — Inventory', 'items' => [
-                ['question' => 'Does the inventory module cover medical consumables as well as general items?', 'answer' => 'Yes. The inventory module covers all non-pharmaceutical hospital consumables — surgical gloves, syringes, sterile dressings, hospital stationery, furniture, and equipment. Pharmaceutical items are managed separately in the pharmacy module.'],
-                ['question' => 'How is stock audited?', 'answer' => 'The system supports periodic, random, and full stock audits. During an audit, physical counts are entered against the system\'s book stock. Discrepancies are flagged for investigation. The audit trail records who conducted the count and when.'],
-            ]]],
+            [
+                'section_type' => 'workflow',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'Supply Chain Workflow',
+                    'steps' => [
+                        ['title' => 'Demand Request', 'description' => 'A department submits a demand request specifying the items and quantities needed. The request is routed to the store manager for approval. Requests exceeding configured limits require additional authorization.'],
+                        ['title' => 'Purchase Order Issuance', 'description' => 'Approved demand requests are consolidated into purchase orders and sent to registered vendors. Local purchase orders can also be issued for urgent items.'],
+                        ['title' => 'Goods Receipt & Inspection', 'description' => 'When goods arrive, a Goods Receiving Note (GRN) is created. Items are inspected against the purchase order — accepted quantities are entered into stock; rejected items are documented for vendor return.'],
+                        ['title' => 'Store & Sub-Store Management', 'description' => 'Accepted stock enters the main warehouse. Departments can request transfers to their sub-stores. All transfers are logged with requesting user, approver, and quantities.'],
+                        ['title' => 'Consumption & Condemnation', 'description' => 'As items are used, consumption is recorded against the relevant sub-store. At end-of-life, a formal condemnation process documents the disposal with approver identity and reason.'],
+                    ]
+                ]
+            ],
+            [
+                'section_type' => 'faq',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'FAQ — Inventory',
+                    'items' => [
+                        ['question' => 'Does the inventory module cover medical consumables as well as general items?', 'answer' => 'Yes. The inventory module covers all non-pharmaceutical hospital consumables — surgical gloves, syringes, sterile dressings, hospital stationery, furniture, and equipment. Pharmaceutical items are managed separately in the pharmacy module.'],
+                        ['question' => 'How is stock audited?', 'answer' => 'The system supports periodic, random, and full stock audits. During an audit, physical counts are entered against the system\'s book stock. Discrepancies are flagged for investigation. The audit trail records who conducted the count and when.'],
+                    ]
+                ]
+            ],
         ]);
     }
 
@@ -1159,37 +1278,58 @@ class HisModuleExpandedSectionsSeeder extends Seeder
     {
         $this->addSections('gynecology', [
             ['section_type' => 'image_banner', 'is_active' => true, 'settings' => ['image_url' => 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=1200&q=80', 'image_alt' => 'Gynecology and obstetrics management system', 'caption' => 'Integrated prenatal records, fetal ultrasound measurements, and vaccination tracking in a single clinical module.']],
-            ['section_type' => 'workflow', 'is_active' => true, 'settings' => ['heading' => 'Obstetrics & Gynecology Clinical Flow', 'steps' => [
-                ['title' => 'Initial Consultation & History', 'description' => 'The gynecologist opens the patient\'s OB/GYN record. Past pregnancy history, parity status, social and family history, and surgical history are reviewed. Pre-defined templates for common complaints (infertility, vaginitis, breast lumps) are selected.'],
-                ['title' => 'Prenatal Registration', 'description' => 'For a new pregnancy, a prenatal record is created. LMP, EDD, and gravida/para status are entered. Subsequent prenatal visits are linked to this record and tracked in a longitudinal flow.'],
-                ['title' => 'Ultrasound Recording', 'description' => 'Fetal ultrasound measurements are entered directly from the ultrasound machine interface. GA, BPD, FL, and other parameters are recorded and compared to standard growth charts automatically.'],
-                ['title' => 'Vaccination Tracking', 'description' => 'The system presents pending vaccination alerts at each visit based on the patient\'s immunization history and gestational age. Administered vaccinations are recorded and removed from the pending list.'],
-                ['title' => 'Treatment Plan & Follow-up', 'description' => 'A treatment plan is selected from standard templates per diagnosis — drug, dosage, days, quantity, and advice are all pre-filled. The next visit date is set and an appointment is booked before the patient leaves.'],
-            ]]],
+            [
+                'section_type' => 'workflow',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'Obstetrics & Gynecology Clinical Flow',
+                    'steps' => [
+                        ['title' => 'Initial Consultation & History', 'description' => 'The gynecologist opens the patient\'s OB/GYN record. Past pregnancy history, parity status, social and family history, and surgical history are reviewed. Pre-defined templates for common complaints (infertility, vaginitis, breast lumps) are selected.'],
+                        ['title' => 'Prenatal Registration', 'description' => 'For a new pregnancy, a prenatal record is created. LMP, EDD, and gravida/para status are entered. Subsequent prenatal visits are linked to this record and tracked in a longitudinal flow.'],
+                        ['title' => 'Ultrasound Recording', 'description' => 'Fetal ultrasound measurements are entered directly from the ultrasound machine interface. GA, BPD, FL, and other parameters are recorded and compared to standard growth charts automatically.'],
+                        ['title' => 'Vaccination Tracking', 'description' => 'The system presents pending vaccination alerts at each visit based on the patient\'s immunization history and gestational age. Administered vaccinations are recorded and removed from the pending list.'],
+                        ['title' => 'Treatment Plan & Follow-up', 'description' => 'A treatment plan is selected from standard templates per diagnosis — drug, dosage, days, quantity, and advice are all pre-filled. The next visit date is set and an appointment is booked before the patient leaves.'],
+                    ]
+                ]
+            ],
         ]);
     }
 
     private function seedDialysis(): void
     {
         $this->addSections('dialysis-center', [
-            ['section_type' => 'workflow', 'is_active' => true, 'settings' => ['heading' => 'Dialysis Session Workflow', 'steps' => [
-                ['title' => 'Session Scheduling', 'description' => 'The dialysis coordinator books the patient\'s session on the appropriate machine and shift. Machine assignment accounts for infection control — patients with blood-borne infections are scheduled on dedicated machines.'],
-                ['title' => 'Pre-Dialysis Assessment', 'description' => 'Before the session begins, the nurse records weight, blood pressure, access site condition, and any symptoms since the last session. The dialysis prescription (duration, flow rates, membrane type) is confirmed.'],
-                ['title' => 'Session Execution & Monitoring', 'description' => 'Clinical parameters are recorded at defined intervals during the session. Any complications — hypotension, cramps, access issues — are documented in real time.'],
-                ['title' => 'Post-Dialysis Documentation', 'description' => 'Post-session weight, blood pressure, and any post-session symptoms are recorded. Consumable usage (dialyser, bloodline, needles, solutions) is logged per session for inventory and billing purposes.'],
-            ]]],
+            [
+                'section_type' => 'workflow',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'Dialysis Session Workflow',
+                    'steps' => [
+                        ['title' => 'Session Scheduling', 'description' => 'The dialysis coordinator books the patient\'s session on the appropriate machine and shift. Machine assignment accounts for infection control — patients with blood-borne infections are scheduled on dedicated machines.'],
+                        ['title' => 'Pre-Dialysis Assessment', 'description' => 'Before the session begins, the nurse records weight, blood pressure, access site condition, and any symptoms since the last session. The dialysis prescription (duration, flow rates, membrane type) is confirmed.'],
+                        ['title' => 'Session Execution & Monitoring', 'description' => 'Clinical parameters are recorded at defined intervals during the session. Any complications — hypotension, cramps, access issues — are documented in real time.'],
+                        ['title' => 'Post-Dialysis Documentation', 'description' => 'Post-session weight, blood pressure, and any post-session symptoms are recorded. Consumable usage (dialyser, bloodline, needles, solutions) is logged per session for inventory and billing purposes.'],
+                    ]
+                ]
+            ],
         ]);
     }
 
     private function seedDoctorShare(): void
     {
         $this->addSections('doctor-share', [
-            ['section_type' => 'workflow', 'is_active' => true, 'settings' => ['heading' => 'Doctor Share Calculation Workflow', 'steps' => [
-                ['title' => 'Rate Configuration', 'description' => 'The billing administrator defines each consultant\'s share rate per service type — a fixed amount, percentage, or tiered structure. Rates can vary by service category (e.g., a higher share for complex procedures than routine consultations).'],
-                ['title' => 'Automatic Calculation at Billing', 'description' => 'When a service is billed to a patient, the system calculates the doctor\'s share automatically using the pre-configured rate. Tax handling (with or without tax) is applied per hospital policy.'],
-                ['title' => 'Equipment & Material Adjustment', 'description' => 'If the doctor provided their own equipment for a procedure, the cost is entered and deducted from the share calculation before the final share amount is posted to the ledger.'],
-                ['title' => 'Ledger & Reporting', 'description' => 'Each doctor maintains a dual ledger — their share account and the hospital\'s revenue account are tracked separately. Monthly share reports can be generated per doctor, per service type, or for any date range.'],
-            ]]],
+            [
+                'section_type' => 'workflow',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'Doctor Share Calculation Workflow',
+                    'steps' => [
+                        ['title' => 'Rate Configuration', 'description' => 'The billing administrator defines each consultant\'s share rate per service type — a fixed amount, percentage, or tiered structure. Rates can vary by service category (e.g., a higher share for complex procedures than routine consultations).'],
+                        ['title' => 'Automatic Calculation at Billing', 'description' => 'When a service is billed to a patient, the system calculates the doctor\'s share automatically using the pre-configured rate. Tax handling (with or without tax) is applied per hospital policy.'],
+                        ['title' => 'Equipment & Material Adjustment', 'description' => 'If the doctor provided their own equipment for a procedure, the cost is entered and deducted from the share calculation before the final share amount is posted to the ledger.'],
+                        ['title' => 'Ledger & Reporting', 'description' => 'Each doctor maintains a dual ledger — their share account and the hospital\'s revenue account are tracked separately. Monthly share reports can be generated per doctor, per service type, or for any date range.'],
+                    ]
+                ]
+            ],
         ]);
     }
 
@@ -1197,24 +1337,38 @@ class HisModuleExpandedSectionsSeeder extends Seeder
     {
         $this->addSections('system-security', [
             ['section_type' => 'stats', 'is_active' => true, 'settings' => ['heading' => 'Security Architecture at a Glance', 'stats' => [['value' => 'RBAC', 'label' => 'Role-Based Access Control for every module and menu item'], ['value' => '100%', 'label' => 'Critical transactions logged with user identity & timestamp'], ['value' => 'MAC', 'label' => 'Terminal-level hardware binding for workstation security'], ['value' => 'Zero', 'label' => 'Unauthorized access to confidential patient records']]]],
-            ['section_type' => 'workflow', 'is_active' => true, 'settings' => ['heading' => 'Access Control Workflow', 'steps' => [
-                ['title' => 'User Creation & Role Assignment', 'description' => 'HR creates an employee record. The IT/Admin team creates a HIS user account, assigns the user to a job-wise role group, and maps them to their permitted terminals and locations.'],
-                ['title' => 'Login & Session Validation', 'description' => 'The user logs in with their employee code and password from a registered workstation. The system validates the IP address, MAC address, and physical location against the pre-registered terminal configuration. Unregistered devices are rejected.'],
-                ['title' => 'Access Enforcement per Screen', 'description' => 'For every module, menu item, and data field the user attempts to access, permissions are checked against their role. Read-only, write, approve, and delete rights are individually configurable.'],
-                ['title' => 'Audit Logging', 'description' => 'Every critical action — result entry, billing modification, patient record access, report sign-off — is logged to an immutable audit table with user ID, workstation, timestamp, and the nature of the action.'],
-                ['title' => 'Access Review', 'description' => 'Administrators can run periodic user rights review reports to identify over-privileged accounts, inactive users, or unusual access patterns. Reports can be filtered by user, department, module, or date range.'],
-            ]]],
+            [
+                'section_type' => 'workflow',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'Access Control Workflow',
+                    'steps' => [
+                        ['title' => 'User Creation & Role Assignment', 'description' => 'HR creates an employee record. The IT/Admin team creates a HIS user account, assigns the user to a job-wise role group, and maps them to their permitted terminals and locations.'],
+                        ['title' => 'Login & Session Validation', 'description' => 'The user logs in with their employee code and password from a registered workstation. The system validates the IP address, MAC address, and physical location against the pre-registered terminal configuration. Unregistered devices are rejected.'],
+                        ['title' => 'Access Enforcement per Screen', 'description' => 'For every module, menu item, and data field the user attempts to access, permissions are checked against their role. Read-only, write, approve, and delete rights are individually configurable.'],
+                        ['title' => 'Audit Logging', 'description' => 'Every critical action — result entry, billing modification, patient record access, report sign-off — is logged to an immutable audit table with user ID, workstation, timestamp, and the nature of the action.'],
+                        ['title' => 'Access Review', 'description' => 'Administrators can run periodic user rights review reports to identify over-privileged accounts, inactive users, or unusual access patterns. Reports can be filtered by user, department, module, or date range.'],
+                    ]
+                ]
+            ],
         ]);
     }
 
     private function seedFrontDesk(): void
     {
         $this->addSections('front-desk', [
-            ['section_type' => 'workflow', 'is_active' => true, 'settings' => ['heading' => 'Front Desk Interaction Flow', 'steps' => [
-                ['title' => 'Inquiry Received', 'description' => 'A patient\'s family member or attendant approaches the front desk — in person or by phone. The front desk officer opens the inquiry interface.'],
-                ['title' => 'Patient Search', 'description' => 'The patient is found by MRN, name, phone number, or CNIC. Full visit status is retrieved: which ward they are in, which doctor is treating them, what tests are pending, and what their appointment status is.'],
-                ['title' => 'Information Provided', 'description' => 'The officer provides the requested information and directs the visitor to the correct department, ward, or counter. Complex queries (billing disputes, test result enquiries) are escalated to the relevant department manager.'],
-            ]]],
+            [
+                'section_type' => 'workflow',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'Front Desk Interaction Flow',
+                    'steps' => [
+                        ['title' => 'Inquiry Received', 'description' => 'A patient\'s family member or attendant approaches the front desk — in person or by phone. The front desk officer opens the inquiry interface.'],
+                        ['title' => 'Patient Search', 'description' => 'The patient is found by MRN, name, phone number, or CNIC. Full visit status is retrieved: which ward they are in, which doctor is treating them, what tests are pending, and what their appointment status is.'],
+                        ['title' => 'Information Provided', 'description' => 'The officer provides the requested information and directs the visitor to the correct department, ward, or counter. Complex queries (billing disputes, test result enquiries) are escalated to the relevant department manager.'],
+                    ]
+                ]
+            ],
         ]);
     }
 
@@ -1222,35 +1376,56 @@ class HisModuleExpandedSectionsSeeder extends Seeder
     {
         $this->addSections('statistics-dashboard', [
             ['section_type' => 'image_banner', 'is_active' => true, 'settings' => ['image_url' => 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80', 'image_alt' => 'Hospital statistics and analytics dashboard', 'caption' => 'Real-time hospital-wide KPIs — from bed occupancy to pharmacy stock alerts — on a single executive dashboard.']],
-            ['section_type' => 'user_roles', 'is_active' => true, 'settings' => ['heading' => 'Who Uses the Statistics Dashboard', 'roles' => [
-                ['role' => 'CEO / Medical Director', 'icon' => '👔', 'responsibilities' => ['View hospital-wide performance at a glance', 'Monitor revenue vs operational costs', 'Track patient volume trends over time', 'Identify departmental bottlenecks']],
-                ['role' => 'Department Heads', 'icon' => '🏥', 'responsibilities' => ['Monitor their department\'s specific KPIs', 'Track staff productivity and turnaround times', 'Identify high-demand periods for resource planning']],
-                ['role' => 'Finance Manager', 'icon' => '💰', 'responsibilities' => ['Review daily, weekly, and monthly revenue', 'Monitor outstanding balances and doctor shares', 'Track welfare programme impact on revenue']],
-                ['role' => 'IT Administrator', 'icon' => '🖥️', 'responsibilities' => ['Monitor system usage and active user counts', 'Track workstation activity and login anomalies', 'Review module-wise transaction volumes']],
-            ]]],
+            [
+                'section_type' => 'user_roles',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'Who Uses the Statistics Dashboard',
+                    'roles' => [
+                        ['role' => 'CEO / Medical Director', 'icon' => '👔', 'responsibilities' => ['View hospital-wide performance at a glance', 'Monitor revenue vs operational costs', 'Track patient volume trends over time', 'Identify departmental bottlenecks']],
+                        ['role' => 'Department Heads', 'icon' => '🏥', 'responsibilities' => ['Monitor their department\'s specific KPIs', 'Track staff productivity and turnaround times', 'Identify high-demand periods for resource planning']],
+                        ['role' => 'Finance Manager', 'icon' => '💰', 'responsibilities' => ['Review daily, weekly, and monthly revenue', 'Monitor outstanding balances and doctor shares', 'Track welfare programme impact on revenue']],
+                        ['role' => 'IT Administrator', 'icon' => '🖥️', 'responsibilities' => ['Monitor system usage and active user counts', 'Track workstation activity and login anomalies', 'Review module-wise transaction volumes']],
+                    ]
+                ]
+            ],
         ]);
     }
 
     private function seedHR(): void
     {
         $this->addSections('hr-management', [
-            ['section_type' => 'workflow', 'is_active' => true, 'settings' => ['heading' => 'HR Management Workflow', 'steps' => [
-                ['title' => 'Employee Onboarding', 'description' => 'A new staff member\'s profile is created with full personal, professional, and credential details. Department assignment, designation, and employment type are configured.'],
-                ['title' => 'Shift & Roster Management', 'description' => 'Shift schedules are defined per department and staff category. Rosters are generated for the week or month, with the system tracking who is on duty at any given time.'],
-                ['title' => 'Attendance & Leave Tracking', 'description' => 'Attendance is recorded daily. Leave applications are submitted and approved through the system. Leave balances are updated automatically.'],
-                ['title' => 'Payroll Integration', 'description' => 'Attendance data feeds into the payroll calculation. Doctor share data from the billing module is pulled for consultant payroll. Monthly payroll reports are generated for the finance department.'],
-            ]]],
+            [
+                'section_type' => 'workflow',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'HR Management Workflow',
+                    'steps' => [
+                        ['title' => 'Employee Onboarding', 'description' => 'A new staff member\'s profile is created with full personal, professional, and credential details. Department assignment, designation, and employment type are configured.'],
+                        ['title' => 'Shift & Roster Management', 'description' => 'Shift schedules are defined per department and staff category. Rosters are generated for the week or month, with the system tracking who is on duty at any given time.'],
+                        ['title' => 'Attendance & Leave Tracking', 'description' => 'Attendance is recorded daily. Leave applications are submitted and approved through the system. Leave balances are updated automatically.'],
+                        ['title' => 'Payroll Integration', 'description' => 'Attendance data feeds into the payroll calculation. Doctor share data from the billing module is pulled for consultant payroll. Monthly payroll reports are generated for the finance department.'],
+                    ]
+                ]
+            ],
         ]);
     }
 
     private function seedAssets(): void
     {
         $this->addSections('assets-management', [
-            ['section_type' => 'workflow', 'is_active' => true, 'settings' => ['heading' => 'Asset Lifecycle Management', 'steps' => [
-                ['title' => 'Asset Registration', 'description' => 'Every asset is registered on arrival: purchase date, cost, vendor, warranty expiry, serial number, and department location. A barcode or asset tag is generated.'],
-                ['title' => 'Location & Maintenance Tracking', 'description' => 'Asset location is updated whenever the asset moves between departments. Scheduled maintenance dates are recorded, and the system alerts the relevant department when a service is due.'],
-                ['title' => 'Depreciation & Write-Off', 'description' => 'The system calculates depreciation over the asset\'s configured useful life. When an asset reaches end-of-life, a condemnation request is initiated, reviewed by the appropriate authority, and recorded.'],
-            ]]],
+            [
+                'section_type' => 'workflow',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'Asset Lifecycle Management',
+                    'steps' => [
+                        ['title' => 'Asset Registration', 'description' => 'Every asset is registered on arrival: purchase date, cost, vendor, warranty expiry, serial number, and department location. A barcode or asset tag is generated.'],
+                        ['title' => 'Location & Maintenance Tracking', 'description' => 'Asset location is updated whenever the asset moves between departments. Scheduled maintenance dates are recorded, and the system alerts the relevant department when a service is due.'],
+                        ['title' => 'Depreciation & Write-Off', 'description' => 'The system calculates depreciation over the asset\'s configured useful life. When an asset reaches end-of-life, a condemnation request is initiated, reviewed by the appropriate authority, and recorded.'],
+                    ]
+                ]
+            ],
         ]);
     }
 
@@ -1259,28 +1434,44 @@ class HisModuleExpandedSectionsSeeder extends Seeder
         $this->addSections('pacs', [
             ['section_type' => 'image_banner', 'is_active' => true, 'settings' => ['image_url' => 'https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=1200&q=80', 'image_alt' => 'PACS medical imaging system', 'caption' => 'DICOM lossless compression, unlimited workstation licences, and real-time replication across storage servers.']],
             ['section_type' => 'stats', 'is_active' => true, 'settings' => ['heading' => 'PACS Performance', 'stats' => [['value' => 'DICOM', 'label' => 'Full 3.0 class UID support for all modality types'], ['value' => '∞', 'label' => 'Diagnostic workstation licences — no per-seat restriction'], ['value' => '0', 'label' => 'Manual patient data entry at modality machines'], ['value' => 'Real-time', 'label' => 'Storage server replication for disaster recovery']]]],
-            ['section_type' => 'technical_specs', 'is_active' => true, 'settings' => ['heading' => 'PACS Technical Specifications', 'specs' => [
-                ['label' => 'Standard', 'value' => 'DICOM 3.0 — all class UIDs for communication'],
-                ['label' => 'Compression', 'value' => 'DICOM lossless compression with image integrity assurance'],
-                ['label' => 'Modalities', 'value' => 'CR, DX, MG, CT, MR, US, ECG, endoscopy, colour imaging'],
-                ['label' => 'Storage', 'value' => 'SAN, NAS, CAS with real-time server replication'],
-                ['label' => 'Export', 'value' => 'JPEG, BMP, WMV, DICOM — auto-run CD generation'],
-                ['label' => 'Viewing', 'value' => 'Dual-monitor support; dual-system comparison reporting'],
-                ['label' => 'Security', 'value' => 'Authentication per modality and client; PACS audit log'],
-                ['label' => 'Licences', 'value' => 'Unlimited diagnostic workstation licences — no restriction'],
-            ], 'standards' => ['DICOM 3.0', 'IHE Radiology', 'HL7 v2.x', 'WADO-RS', 'WADO-URI'], 'requirements' => ['Gigabit LAN between modalities and PACS server', 'Dedicated SAN/NAS storage per hospital storage policy', 'Dual monitors for reporting workstations']]],
+            [
+                'section_type' => 'technical_specs',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'PACS Technical Specifications',
+                    'specs' => [
+                        ['label' => 'Standard', 'value' => 'DICOM 3.0 — all class UIDs for communication'],
+                        ['label' => 'Compression', 'value' => 'DICOM lossless compression with image integrity assurance'],
+                        ['label' => 'Modalities', 'value' => 'CR, DX, MG, CT, MR, US, ECG, endoscopy, colour imaging'],
+                        ['label' => 'Storage', 'value' => 'SAN, NAS, CAS with real-time server replication'],
+                        ['label' => 'Export', 'value' => 'JPEG, BMP, WMV, DICOM — auto-run CD generation'],
+                        ['label' => 'Viewing', 'value' => 'Dual-monitor support; dual-system comparison reporting'],
+                        ['label' => 'Security', 'value' => 'Authentication per modality and client; PACS audit log'],
+                        ['label' => 'Licences', 'value' => 'Unlimited diagnostic workstation licences — no restriction'],
+                    ],
+                    'standards' => ['DICOM 3.0', 'IHE Radiology', 'HL7 v2.x', 'WADO-RS', 'WADO-URI'],
+                    'requirements' => ['Gigabit LAN between modalities and PACS server', 'Dedicated SAN/NAS storage per hospital storage policy', 'Dual monitors for reporting workstations']
+                ]
+            ],
         ]);
     }
 
     private function seedVoiceReporting(): void
     {
         $this->addSections('voice-reporting', [
-            ['section_type' => 'workflow', 'is_active' => true, 'settings' => ['heading' => 'Voice Reporting Workflow', 'steps' => [
-                ['title' => 'Profile Setup', 'description' => 'Each radiologist or pathologist sets up their personal voice profile. They record a set of standard phrases to train the engine to their accent, vocabulary, and speech patterns. Personal shortcut words are configured at this stage.'],
-                ['title' => 'Dictation', 'description' => 'The user opens a study in the reporting module and begins speaking into the microphone. Transcription appears in real time in the report text field. Custom shortcut words expand automatically into full phrases.'],
-                ['title' => 'Review & Correction', 'description' => 'The transcribed text is reviewed on screen. Minor corrections are made by voice or keyboard. The spell checker flags medical terminology issues. The profile learns from corrections over time.'],
-                ['title' => 'Verification', 'description' => 'The report is submitted for electronic verification — either by the same user or a senior reviewer. Once verified, the report is locked and printed automatically at defined locations.'],
-            ]]],
+            [
+                'section_type' => 'workflow',
+                'is_active' => true,
+                'settings' => [
+                    'heading' => 'Voice Reporting Workflow',
+                    'steps' => [
+                        ['title' => 'Profile Setup', 'description' => 'Each radiologist or pathologist sets up their personal voice profile. They record a set of standard phrases to train the engine to their accent, vocabulary, and speech patterns. Personal shortcut words are configured at this stage.'],
+                        ['title' => 'Dictation', 'description' => 'The user opens a study in the reporting module and begins speaking into the microphone. Transcription appears in real time in the report text field. Custom shortcut words expand automatically into full phrases.'],
+                        ['title' => 'Review & Correction', 'description' => 'The transcribed text is reviewed on screen. Minor corrections are made by voice or keyboard. The spell checker flags medical terminology issues. The profile learns from corrections over time.'],
+                        ['title' => 'Verification', 'description' => 'The report is submitted for electronic verification — either by the same user or a senior reviewer. Once verified, the report is locked and printed automatically at defined locations.'],
+                    ]
+                ]
+            ],
         ]);
     }
 }

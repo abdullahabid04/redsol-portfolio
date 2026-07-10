@@ -33,8 +33,6 @@ class Admin extends Authenticatable
         'last_login_at' => 'datetime',
     ];
 
-    // ── Relationships ────────────────────────────────────────
-
     public function blogPosts(): HasMany
     {
         return $this->hasMany(BlogPost::class, 'author_id');
@@ -55,18 +53,10 @@ class Admin extends Authenticatable
         return $this->hasMany(DemoRequest::class, 'assigned_to');
     }
 
-    // ── Scopes ───────────────────────────────────────────────
-
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
     }
-
-    // ── Simplified Role Helpers ─────────────────────────────
-
-    /**
-     * All admins have full access. Override if you need granular permissions later.
-     */
     public function can($permission, $arguments = []): bool
     {
         return true;
@@ -81,8 +71,6 @@ class Admin extends Authenticatable
     {
         return 'bg-crimson-500/10 text-crimson-600 border-crimson-500/20';
     }
-
-    // ── Helpers ──────────────────────────────────────────────
 
     public function recordLogin(): void
     {

@@ -11,14 +11,10 @@ use Illuminate\Support\Str;
 
 class BlogPostController extends Controller
 {
-    /**
-     * Display a listing of blog posts.
-     */
     public function index(Request $request)
     {
         $query = BlogPost::query();
 
-        // ── Filters ──────────────────────────────────────────
         if ($search = $request->get('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
@@ -34,7 +30,6 @@ class BlogPostController extends Controller
             $query->where('status', $status);
         }
 
-        // ── Pagination ───────────────────────────────────────
         $posts = $query
             ->latest('published_at')
             ->latest('id')
@@ -43,18 +38,10 @@ class BlogPostController extends Controller
 
         return view('admin.pages.blog.index', compact('posts'));
     }
-
-    /**
-     * Show the form for creating a new post.
-     */
     public function create()
     {
         return view('admin.pages.blog.form');
     }
-
-    /**
-     * Store a newly created blog post in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -79,7 +66,6 @@ class BlogPostController extends Controller
         ]);
 
         try {
-            // ── Map form fields to model fields ─────────────
             $validated['status'] = !empty($validated['is_published'])
                 ? BlogPost::STATUS_PUBLISHED
                 : BlogPost::STATUS_DRAFT;
@@ -96,14 +82,12 @@ class BlogPostController extends Controller
             }
             unset($validated['cover_image']);
 
-            // ── Auto-set author & publish date ───────────────
             $validated['author_id'] = Auth::guard('admin')->id();
 
             if ($validated['status'] === BlogPost::STATUS_PUBLISHED && empty($validated['published_at'])) {
                 $validated['published_at'] = now();
             }
 
-            // ── Create ───────────────────────────────────────
             BlogPost::create($validated);
 
             return redirect()
@@ -126,19 +110,11 @@ class BlogPostController extends Controller
             return back()->withInput()->with('error', 'Failed to create post. Please try again.');
         }
     }
-
-    /**
-     * Show the form for editing the specified post.
-     */
     public function edit(string $id)
     {
         $post = BlogPost::findOrFail($id);
         return view('admin.pages.blog.form', compact('post'));
     }
-
-    /**
-     * Update the specified blog post in storage.
-     */
     public function update(Request $request, string $id)
     {
         $post = BlogPost::findOrFail($id);
@@ -165,7 +141,6 @@ class BlogPostController extends Controller
         ]);
 
         try {
-            // ── Map form fields ─────────────────────────────
             $validated['status'] = !empty($validated['is_published'])
                 ? BlogPost::STATUS_PUBLISHED
                 : BlogPost::STATUS_DRAFT;
@@ -176,7 +151,6 @@ class BlogPostController extends Controller
                 unset($validated['read_time']);
             }
 
-            // ── Handle image replacement ────────────────────
             if ($request->hasFile('cover_image')) {
                 if ($post->featured_image && Storage::disk('public')->exists($post->featured_image)) {
                     Storage::disk('public')->delete($post->featured_image);
@@ -187,12 +161,10 @@ class BlogPostController extends Controller
                 unset($validated['featured_image']);
             }
 
-            // ── Auto publish date if transitioning to published ──
             if ($validated['status'] === BlogPost::STATUS_PUBLISHED && !$post->published_at) {
                 $validated['published_at'] = now();
             }
 
-            // ── Update ───────────────────────────────────────
             $post->update($validated);
 
             return redirect()
@@ -215,10 +187,6 @@ class BlogPostController extends Controller
             return back()->withInput()->with('error', 'Failed to update post. Please try again.');
         }
     }
-
-    /**
-     * Toggle publish status (Draft ↔ Published).
-     */
     public function toggle(string $id)
     {
         try {
@@ -242,16 +210,11 @@ class BlogPostController extends Controller
             return back()->with('error', 'Failed to update post status.');
         }
     }
-
-    /**
-     * Remove the specified blog post from storage.
-     */
     public function destroy(string $id)
     {
         try {
             $post = BlogPost::findOrFail($id);
 
-            // ── Delete featured image ───────────────────────
             if ($post->featured_image && Storage::disk('public')->exists($post->featured_image)) {
                 Storage::disk('public')->delete($post->featured_image);
             }

@@ -29,8 +29,6 @@ class Testimonial extends Model
         'sort_order' => 'integer',
     ];
 
-    // ── Scopes ───────────────────────────────────────────────
-
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
@@ -46,17 +44,10 @@ class Testimonial extends Model
         return $query->orderBy('sort_order');
     }
 
-    // ── Accessors ────────────────────────────────────────────
-
     public function photoUrl(): ?string
     {
         return $this->photo ? asset('storage/' . $this->photo) : null;
     }
-
-    /**
-     * Returns star rating as an array for easy Blade looping.
-     * Usage: @foreach($testimonial->starsArray() as $filled)
-     */
     public function starsArray(): array
     {
         return array_map(
@@ -64,11 +55,6 @@ class Testimonial extends Model
             range(1, 5)
         );
     }
-
-    /**
-     * Auto-generate initials if not set.
-     * "Dr. Sarah Hassan" → "SH"
-     */
     public function getAuthorInitialsAttribute($value): string
     {
         if ($value)
@@ -81,8 +67,6 @@ class Testimonial extends Model
         }
         return $initials;
     }
-
-    // ── Helpers ──────────────────────────────────────────────
 
     public function toggle(): void
     {

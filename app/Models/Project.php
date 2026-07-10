@@ -51,7 +51,6 @@ class Project extends Model
         'duration_months' => 'integer',
     ];
 
-    // ── Client type constants ────────────────────────────────
     const TYPE_GOVERNMENT = 'government';
     const TYPE_PRIVATE = 'private';
     const TYPE_SEMI_GOVERNMENT = 'semi-government';
@@ -65,18 +64,10 @@ class Project extends Model
         self::TYPE_NGO => 'NGO',
         self::TYPE_OTHER => 'Other',
     ];
-
-    // ── Relationships ────────────────────────────────────────
-
-    /**
-     * The testimonial linked to this project.
-     */
     public function testimonial(): BelongsTo
     {
         return $this->belongsTo(Testimonial::class, 'testimonial_id');
     }
-
-    // ── Scopes ───────────────────────────────────────────────
 
     public function scopeActive($query)
     {
@@ -107,56 +98,30 @@ class Project extends Model
                 ->orWhere('client_city', 'like', "%{$term}%");
         });
     }
-
-    // ── Accessors ────────────────────────────────────────────
-
-    /**
-     * Fallback to title + "| REDSOL" if meta_title not set.
-     */
     public function getMetaTitleAttribute($value): string
     {
         return $value ?: $this->title . ' | REDSOL';
     }
-
-    /**
-     * Fallback to summary if meta_description not set.
-     */
     public function getMetaDescriptionAttribute($value): string
     {
         return $value ?: Str::limit(strip_tags($this->summary), 155);
     }
-
-    /**
-     * Full storage URL for the featured image.
-     */
     public function featuredImageUrl(): ?string
     {
         return $this->featured_image
             ? asset('storage/' . $this->featured_image)
             : null;
     }
-
-    /**
-     * Gallery image URLs as an array.
-     */
     public function galleryUrls(): array
     {
         if (empty($this->gallery))
             return [];
         return array_map(fn($path) => asset('storage/' . $path), $this->gallery);
     }
-
-    /**
-     * Human-readable client type label.
-     */
     public function clientTypeLabel(): string
     {
         return self::CLIENT_TYPES[$this->client_type] ?? ucfirst($this->client_type ?? '');
     }
-
-    /**
-     * Tailwind badge classes for the client type pill.
-     */
     public function clientTypeBadgeClass(): string
     {
         return match ($this->client_type) {
@@ -167,21 +132,12 @@ class Project extends Model
             default => 'bg-gray-100 text-gray-600 border-gray-200',
         };
     }
-
-    /**
-     * Full location string — "Lahore, Punjab"
-     */
     public function locationString(): string
     {
         return collect([$this->client_city, $this->client_province])
             ->filter()
             ->implode(', ');
     }
-
-    /**
-     * How long the project took as a readable string.
-     * Uses duration_months if set, otherwise calculates from dates.
-     */
     public function durationLabel(): string
     {
         $months = $this->duration_months;
@@ -207,19 +163,10 @@ class Project extends Model
             $label .= ' ' . $rem . ' month' . ($rem > 1 ? 's' : '');
         return $label;
     }
-
-    /**
-     * Count of deployed modules.
-     */
     public function moduleCount(): int
     {
         return is_array($this->modules_deployed) ? count($this->modules_deployed) : 0;
     }
-
-    /**
-     * Resolve module names from slugs using the Product model.
-     * Returns a Collection of name strings.
-     */
     public function moduleNames(): \Illuminate\Support\Collection
     {
         if (empty($this->modules_deployed))
@@ -228,10 +175,6 @@ class Project extends Model
         return Product::whereIn('slug', $this->modules_deployed)
             ->pluck('name');
     }
-
-    /**
-     * Resolve service names from slugs using the Service model.
-     */
     public function serviceNames(): \Illuminate\Support\Collection
     {
         if (empty($this->services_provided))
@@ -240,17 +183,10 @@ class Project extends Model
         return Service::whereIn('slug', $this->services_provided)
             ->pluck('name');
     }
-
-    /**
-     * Short summary trimmed to a specific length.
-     * Usage: $project->summaryPreview(120)
-     */
     public function summaryPreview(int $chars = 120): string
     {
         return Str::limit(strip_tags($this->summary), $chars);
     }
-
-    // ── Boot ─────────────────────────────────────────────────
 
     protected static function boot(): void
     {
@@ -276,8 +212,6 @@ class Project extends Model
         });
     }
 
-    // ── Helpers ──────────────────────────────────────────────
-
     public function toggle(): void
     {
         $this->update(['is_active' => !$this->is_active]);
@@ -287,18 +221,10 @@ class Project extends Model
     {
         $this->update(['is_featured' => !$this->is_featured]);
     }
-
-    /**
-     * Count of active projects — for the dashboard stat card.
-     */
     public static function activeCount(): int
     {
         return static::where('is_active', true)->count();
     }
-
-    /**
-     * Count of featured projects — for the dashboard stat card.
-     */
     public static function featuredCount(): int
     {
         return static::where('is_featured', true)->count();

@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@config "../../tailwind.config.js";
+
 :root {
     --crimson:     #e11d48;
     --crimson-dark:#be123c;
@@ -169,6 +171,7 @@ body::before {
 .scroll-track {
     scrollbar-width: none;
     -ms-overflow-style: none;
+    touch-action: pan-x;
 }
 .scroll-track::-webkit-scrollbar { display: none; }
 

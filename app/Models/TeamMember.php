@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class TeamMember extends Model
 {
@@ -22,13 +23,11 @@ class TeamMember extends Model
     ];
 
     protected $casts = [
-        'social_links'  => 'array',
-        'is_visible'    => 'boolean',
+        'social_links' => 'array',
+        'is_visible' => 'boolean',
         'is_leadership' => 'boolean',
-        'sort_order'    => 'integer',
+        'sort_order' => 'integer',
     ];
-
-    // ── Scopes ───────────────────────────────────────────────
 
     public function scopeVisible($query)
     {
@@ -44,13 +43,6 @@ class TeamMember extends Model
     {
         return $query->orderBy('sort_order');
     }
-
-    // ── Accessors ────────────────────────────────────────────
-
-    /**
-     * Returns the member's initials for avatar fallback.
-     * "Dr. Muhammad Arif" → "MA"
-     */
     public function getInitialsAttribute(): string
     {
         $words = explode(' ', preg_replace('/^(Dr\.|Mr\.|Ms\.|Mrs\.)\s*/i', '', $this->name));
@@ -60,29 +52,21 @@ class TeamMember extends Model
         }
         return $initials ?: strtoupper(substr($this->name, 0, 2));
     }
-
-    /**
-     * Returns the photo URL or null if no photo is stored.
-     * Usage in Blade: {{ $member->photoUrl() ?? '/images/placeholder.png' }}
-     */
     public function photoUrl(): ?string
     {
         return $this->photo ? asset('storage/' . $this->photo) : null;
     }
-
-    /**
-     * Pull a specific social link by key.
-     * Usage: $member->socialLink('linkedin')
-     */
     public function socialLink(string $platform): ?string
     {
+        Log::info("Retrieving social link for platform: {$platform} for team member ID {$this->id}");
+        Log::info("Current social links: ", $this->social_links);
+        Log::info($this->social_links[$platform] ?? null);
+        // [{"url":"https://www.linkedin.com/in/shazil-rajpoot-a09a2322a/","platform":"linkedin"}]
         return $this->social_links[$platform] ?? null;
     }
 
-    // ── Helpers ──────────────────────────────────────────────
-
     public function toggle(): void
     {
-        $this->update(['is_visible' => ! $this->is_visible]);
+        $this->update(['is_visible' => !$this->is_visible]);
     }
 }

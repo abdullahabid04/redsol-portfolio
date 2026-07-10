@@ -52,8 +52,6 @@ class HisModulesSeeder extends Seeder
 
         $modules = [
 
-            // ── ADMINISTRATION ─────────────────────────────────────────────────────────
-
             [
                 'name' => 'System Security & Administration',
                 'slug' => 'system-security',
@@ -176,8 +174,6 @@ class HisModulesSeeder extends Seeder
                     'Integration with Inventory module for spare parts and consumable linkage',
                 ],
             ],
-
-            // ── PATIENT JOURNEY ─────────────────────────────────────────────────────────
 
             [
                 'name' => 'Patient Registration',
@@ -303,8 +299,6 @@ class HisModulesSeeder extends Seeder
                     'OT transfer integration — seamless handoff between ward and operating theatre',
                 ],
             ],
-
-            // ── CLINICAL ───────────────────────────────────────────────────────────────
 
             [
                 'name' => 'Outdoor Clinics & Consultant Practice',
@@ -491,8 +485,6 @@ class HisModulesSeeder extends Seeder
                 ],
             ],
 
-            // ── DIAGNOSTICS ─────────────────────────────────────────────────────────────
-
             [
                 'name' => 'Laboratory (LIMS)',
                 'slug' => 'laboratory-lims',
@@ -602,8 +594,6 @@ class HisModulesSeeder extends Seeder
                     'Profile portability — voice profile accessible from any workstation in the network',
                 ],
             ],
-
-            // ── OPERATIONS ─────────────────────────────────────────────────────────────
 
             [
                 'name' => 'Patient Billing System',
@@ -831,8 +821,7 @@ class HisModulesSeeder extends Seeder
 //        ];
 //
 //        $modules = [
-//            // ── ADMINISTRATION ─────────────────────────────────────────
-//            [
+//            //            [
 //                'name' => 'System Security & Administration',
 //                'slug' => 'system-security',
 //                'icon' => '🔐',
@@ -923,8 +912,7 @@ class HisModulesSeeder extends Seeder
 //                ],
 //            ],
 //
-//            // ── PATIENT JOURNEY ─────────────────────────────────────────
-//            [
+//            //            [
 //                'name' => 'Patient Registration',
 //                'slug' => 'patient-registration',
 //                'icon' => '👤',
@@ -1019,8 +1007,7 @@ class HisModulesSeeder extends Seeder
 //                ],
 //            ],
 //
-//            // ── CLINICAL ─────────────────────────────────────────
-//            [
+//            //            [
 //                'name' => 'Outdoor Clinics & Consultant Practice',
 //                'slug' => 'outdoor-clinics',
 //                'icon' => '🩺',
@@ -1154,8 +1141,7 @@ class HisModulesSeeder extends Seeder
 //                ],
 //            ],
 //
-//            // ── DIAGNOSTICS ─────────────────────────────────────────
-//            [
+//            //            [
 //                'name' => 'Laboratory (LIMS)',
 //                'slug' => 'laboratory-lims',
 //                'icon' => '🧪',
@@ -1233,8 +1219,7 @@ class HisModulesSeeder extends Seeder
 //                ],
 //            ],
 //
-//            // ── OPERATIONS ─────────────────────────────────────────
-//            [
+//            //            [
 //                'name' => 'Patient Billing System',
 //                'slug' => 'patient-billing-system',
 //                'icon' => '💳',

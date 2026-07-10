@@ -12,13 +12,8 @@
     <span class="text-xs font-body text-gray-500">Blog Posts</span>
 @endsection
 
-@section('content')
-
-    {{-- ══════════════════════════════════════════════
-    OVERVIEW CARDS
-    ══════════════════════════════════════════════ --}}
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
-        {{-- Total Posts - Dark Card --}}
+@section('content')<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+        
         <div
             class="col-span-2 sm:col-span-1 bg-gray-900 rounded-2xl px-5 py-4 flex items-center gap-4 relative overflow-hidden">
             <div class="absolute inset-0 opacity-25"
@@ -30,7 +25,7 @@
             </div>
         </div>
 
-        {{-- Published --}}
+        
         <div class="bg-white border border-gray-200 rounded-2xl px-4 py-4">
             <div class="font-display font-800 text-2xl text-gray-900 leading-none">
                 {{ $posts->filter(fn($p) => $p->status === 'published')->count() }}
@@ -40,7 +35,7 @@
             </div>
         </div>
 
-        {{-- Drafts --}}
+        
         <div class="bg-white border border-gray-200 rounded-2xl px-4 py-4">
             <div class="font-display font-800 text-2xl text-gray-900 leading-none">
                 {{ $posts->filter(fn($p) => $p->status === 'draft')->count() }}
@@ -50,7 +45,7 @@
             </div>
         </div>
 
-        {{-- Category counts (calculated from current page) --}}
+        
         @php
             $categoryCounts = $posts->groupBy('category')->map->count();
         @endphp
@@ -64,9 +59,9 @@
         @endforeach
     </div>
 
-    {{-- Toolbar --}}
+    
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
-        {{-- Filters --}}
+        
         <div class="flex items-center gap-2 flex-wrap">
             @foreach(['all', 'published', 'draft'] as $filter)
                 <a href="{{ request()->fullUrlWithQuery(['status' => $filter === 'all' ? null : $filter]) }}" class="px-3 py-1.5 rounded-lg text-xs font-display font-600 tracking-wide transition-all
@@ -77,7 +72,7 @@
                 </a>
             @endforeach
 
-            {{-- Search --}}
+            
             <form action="{{ route('admin.blog.index') }}" method="GET" class="flex items-center gap-2 ml-1">
                 <div class="relative">
                     <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none"
@@ -91,7 +86,7 @@
             </form>
         </div>
 
-        {{-- New post button --}}
+        
         <a href="{{ route('admin.blog.create') }}" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-crimson-500 text-white font-display font-600 text-sm
                   hover:bg-crimson-600 transition-all hover:shadow-lg hover:shadow-crimson-500/25 shrink-0">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -101,7 +96,7 @@
         </a>
     </div>
 
-    {{-- Table card --}}
+    
     <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full">
@@ -131,7 +126,7 @@
                     @forelse($posts as $post)
                         <tr class="hover:bg-gray-50/60 transition-colors group">
 
-                            {{-- Title --}}
+                            
                             <td class="px-5 py-3.5">
                                 <span
                                     class="font-body text-sm font-500 text-gray-800 group-hover:text-crimson-600 transition-colors line-clamp-1 block max-w-xs">
@@ -139,7 +134,7 @@
                                 </span>
                             </td>
 
-                            {{-- Category --}}
+                            
                             <td class="px-4 py-3.5 hidden md:table-cell">
                                 <span
                                     class="text-[10px] font-display font-600 tracking-wide px-2 py-1 rounded-md bg-gray-100 text-gray-500">
@@ -147,7 +142,7 @@
                                 </span>
                             </td>
 
-                            {{-- Status --}}
+                            
                             <td class="px-4 py-3.5">
                                 @if($post->status === 'published')
                                     <span
@@ -162,24 +157,24 @@
                                 @endif
                             </td>
 
-                            {{-- Author --}}
+                            
                             <td class="px-4 py-3.5 hidden lg:table-cell">
                                 <span class="font-body text-xs text-gray-500">
                                     {{ $post->author?->name ?? '—' }}
                                 </span>
                             </td>
 
-                            {{-- Date --}}
+                            
                             <td class="px-4 py-3.5 hidden lg:table-cell">
                                 <span class="font-body text-xs text-gray-400">
                                     {{ $post->published_at?->format('M j, Y') ?? 'Not set' }}
                                 </span>
                             </td>
 
-                            {{-- Actions --}}
+                            
                             <td class="px-4 py-3.5">
                                 <div class="flex items-center justify-end gap-1.5">
-                                    {{-- Preview --}}
+                                    
                                     <a href="/blog/{{ $post->slug }}" target="_blank"
                                         class="w-7 h-7 rounded-lg border border-gray-200 flex items-center justify-center text-gray-400 hover:text-gray-700 hover:border-gray-300 transition-all"
                                         title="Preview">
@@ -190,7 +185,7 @@
                                                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                         </svg>
                                     </a>
-                                    {{-- Edit --}}
+                                    
                                     <a href="{{ route('admin.blog.edit', $post->id) }}"
                                         class="w-7 h-7 rounded-lg border border-gray-200 flex items-center justify-center text-gray-400 hover:text-crimson-500 hover:border-crimson-500/30 hover:bg-crimson-50 transition-all"
                                         title="Edit">
@@ -199,7 +194,7 @@
                                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                         </svg>
                                     </a>
-                                    {{-- Delete --}}
+                                    
                                     <form method="POST" action="{{ route('admin.blog.destroy', $post->id) }}"
                                         onsubmit="return confirm('Delete this post? This cannot be undone.')">
                                         @csrf @method('DELETE')
@@ -247,7 +242,7 @@
             </table>
         </div>
 
-        {{-- Pagination --}}
+        
         @if($posts->hasPages())
             <div class="px-5 py-3 border-t border-gray-100 bg-gray-50/50">
                 {{ $posts->links() }}

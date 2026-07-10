@@ -17,20 +17,11 @@ $action  = $isEdit
         <span class="text-gray-600">{{ $isEdit ? $service->name : 'New Service' }}</span>
     </div>
 @endsection
-@section('content')
-{{-- ══════════════════════════════════════════════
-MAIN FORM — closes BEFORE Danger Zone
-══════════════════════════════════════════════ --}}
-<form method="POST" action="{{ $action }}" id="serviceForm" novalidate>
+@section('content')<form method="POST" action="{{ $action }}" id="serviceForm" novalidate>
     @csrf
-    @if($isEdit) @method('PUT') @endif
+    @if($isEdit) @method('PUT') @endif<div class="flex items-center justify-between gap-4 mb-6">
 
-    {{-- ══════════════════════════════════════════════
-    TOP ACTION BAR
-    ═══════════════════════════════════════════════ --}}
-    <div class="flex items-center justify-between gap-4 mb-6">
-
-        {{-- Back link --}}
+        
         <a href="{{ route('admin.services.index') }}"
            class="flex items-center gap-2 text-sm font-body text-gray-500 hover:text-gray-900 transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -39,11 +30,11 @@ MAIN FORM — closes BEFORE Danger Zone
             Back to Services
         </a>
 
-        {{-- Save buttons --}}
+        
         <div class="flex items-center gap-2">
-            {{-- Save as inactive / Save as active --}}
+            
             <button type="button" id="toggleActiveBtn" class="flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all text-sm font-display font-600" onclick="toggleActive()">
-                {{-- text/style set by JS on load --}}
+                
             </button>
 
             <button type="submit" class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-crimson-500 text-white text-sm font-display font-700 hover:bg-crimson-600 transition-all hover:shadow-lg hover:shadow-crimson-500/25">
@@ -53,13 +44,7 @@ MAIN FORM — closes BEFORE Danger Zone
                 {{ $isEdit ? 'Save Changes' : 'Create Service' }}
             </button>
         </div>
-    </div>
-    
-
-    {{-- ══════════════════════════════════════════════
-    VALIDATION ERRORS BANNER
-    ═══════════════════════════════════════════════ --}}
-    @if($errors->any())
+    </div>@if($errors->any())
         <div class="flex items-start gap-3 px-5 py-4 rounded-2xl bg-crimson-500/5 border border-crimson-500/20 mb-6">
             <svg class="w-5 h-5 text-crimson-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -80,26 +65,16 @@ MAIN FORM — closes BEFORE Danger Zone
         </div>
     @endif
 
-    <input type="hidden" name="is_active" id="isActiveInput" value="{{ old('is_active', $isEdit ? ($service->is_active ? '1' : '0') : '1') }}">
+    <input type="hidden" name="is_active" id="isActiveInput" value="{{ old('is_active', $isEdit ? ($service->is_active ? '1' : '0') : '1') }}"><div class="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-5"><div class="space-y-5">
 
-    {{-- ══════════════════════════════════════════════
-    TWO-COLUMN LAYOUT
-    ═══════════════════════════════════════════════ --}}
-    <div class="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-5">
-
-        {{-- ────────────────────────────────────────
-        LEFT COLUMN — main fields
-        ──────────────────────────────────────── --}}
-        <div class="space-y-5">
-
-            {{-- ── IDENTITY ──────────────────────── --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-6 py-4 border-b border-gray-100">
                     <div class="h-4 w-0.5 bg-crimson-500 rounded-full"></div>
                     <h2 class="font-display font-700 text-gray-900 text-sm">Identity</h2>
                 </div>
                 <div class="p-6 space-y-5">
-                    {{-- Name --}}
+                    
                     <div>
                         <label for="name" class="block font-body text-xs font-600 text-gray-700 mb-1.5">
                             Service Name <span class="text-crimson-500">*</span>
@@ -113,7 +88,7 @@ MAIN FORM — closes BEFORE Danger Zone
                         @enderror
                     </div>
 
-                    {{-- Slug --}}
+                    
                     <div>
                         <label for="slug" class="block font-body text-xs font-600 text-gray-700 mb-1.5">
                             Slug <span class="text-crimson-500">*</span>
@@ -131,7 +106,7 @@ MAIN FORM — closes BEFORE Danger Zone
                         @enderror
                     </div>
 
-                    {{-- Tagline --}}
+                    
                     <div>
                         <label for="tagline" class="block font-body text-xs font-600 text-gray-700 mb-1.5">
                             Tagline <span class="text-crimson-500">*</span>
@@ -146,7 +121,7 @@ MAIN FORM — closes BEFORE Danger Zone
                         </div>
                     </div>
 
-                    {{-- Icon + Sort order --}}
+                    
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label for="icon" class="block font-body text-xs font-600 text-gray-700 mb-1.5">Icon Emoji</label>
@@ -165,7 +140,7 @@ MAIN FORM — closes BEFORE Danger Zone
                 </div>
             </div>
 
-            {{-- ── DESCRIPTION ───────────────────── --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-6 py-4 border-b border-gray-100">
                     <div class="h-4 w-0.5 bg-crimson-500 rounded-full"></div>
@@ -183,7 +158,7 @@ MAIN FORM — closes BEFORE Danger Zone
                 </div>
             </div>
 
-            {{-- ── KEY FEATURES ───────────────────── --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-6 py-4 border-b border-gray-100">
                     <div class="h-4 w-0.5 bg-crimson-500 rounded-full"></div>
@@ -216,7 +191,7 @@ MAIN FORM — closes BEFORE Danger Zone
                 </div>
             </div>
 
-            {{-- ── SEO ───────────────────────────── --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-6 py-4 border-b border-gray-100">
                     <div class="h-4 w-0.5 bg-gray-400 rounded-full"></div>
@@ -236,14 +211,9 @@ MAIN FORM — closes BEFORE Danger Zone
                     </div>
                 </div>
             </div>
-        </div>
+        </div><div class="space-y-5">
 
-        {{-- ────────────────────────────────────────
-        RIGHT COLUMN — settings sidebar
-        ──────────────────────────────────────── --}}
-        <div class="space-y-5">
-
-            {{-- ── STATUS ────────────────────────── --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-5 py-4 border-b border-gray-100">
                     <div class="h-4 w-0.5 bg-crimson-500 rounded-full"></div>
@@ -266,7 +236,7 @@ MAIN FORM — closes BEFORE Danger Zone
                 </div>
             </div>
 
-            {{-- ── TAG ───────────────────────────── --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-5 py-4 border-b border-gray-100">
                     <div class="h-4 w-0.5 bg-crimson-500 rounded-full"></div>
@@ -294,7 +264,7 @@ MAIN FORM — closes BEFORE Danger Zone
                 </div>
             </div>
 
-            {{-- ── PUBLIC URL ─────────────────────── --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-5 py-4 border-b border-gray-100">
                     <div class="h-4 w-0.5 bg-gray-400 rounded-full"></div>
@@ -311,7 +281,7 @@ MAIN FORM — closes BEFORE Danger Zone
                 </div>
             </div>
 
-            {{-- ── LIVE PREVIEW CARD ──────────────── --}}
+            
             <div class="bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-5 py-4 border-b border-gray-100">
                     <div class="h-4 w-0.5 bg-gray-400 rounded-full"></div>
@@ -351,12 +321,7 @@ MAIN FORM — closes BEFORE Danger Zone
             </div>
         </div>
     </div>
-</form> {{-- ✅ MAIN FORM CLOSES HERE --}}
-
-{{-- ══════════════════════════════════════════════
-DANGER ZONE — SEPARATE FORM, outside main form
-══════════════════════════════════════════════ --}}
-@if($isEdit && Auth::guard('admin')->user()->can('delete_any'))
+</form>@if($isEdit && Auth::guard('admin')->user()->can('delete_any'))
     <div class="mt-6 bg-white border border-crimson-500/15 rounded-2xl overflow-hidden">
         <div class="flex items-center gap-3 px-5 py-4 border-b border-crimson-500/10">
             <div class="h-4 w-0.5 bg-crimson-500 rounded-full"></div>
@@ -384,10 +349,8 @@ DANGER ZONE — SEPARATE FORM, outside main form
 (function () {
 'use strict';
 
-// ── Initial state ─────────────────────────────────────────
 let isActive = document.getElementById('isActiveInput').value === '1';
 
-// ── Active toggle ─────────────────────────────────────────
 function updateActiveUI() {
     const input  = document.getElementById('isActiveInput');
     const sw     = document.getElementById('activeSwitch');
@@ -423,7 +386,6 @@ window.toggleActive = function () {
 };
 updateActiveUI();
 
-// ── Slug auto-generation from name ────────────────────────
 const nameInput = document.getElementById('name');
 const slugInput = document.getElementById('slug');
 let slugManuallyEdited = slugInput.value.length > 0;
@@ -441,7 +403,6 @@ nameInput.addEventListener('input', () => {
     updatePreview();
 });
 
-// ── Icon preview ──────────────────────────────────────────
 const iconInput = document.getElementById('icon');
 iconInput.addEventListener('input', () => {
     const val = iconInput.value.trim() || '📦';
@@ -449,7 +410,6 @@ iconInput.addEventListener('input', () => {
     document.getElementById('previewIcon').textContent = val;
 });
 
-// ── Character counters ────────────────────────────────────
 const taglineInput = document.getElementById('tagline');
 const taglineCount = document.getElementById('taglineCount');
 taglineInput.addEventListener('input', () => {
@@ -461,13 +421,11 @@ const descInput = document.getElementById('description');
 const descCount = document.getElementById('descCount');
 descInput.addEventListener('input', () => { descCount.textContent = descInput.value.length + ' chars'; });
 
-// ── Tag sync ──────────────────────────────────────────────
 const tagSelect = document.getElementById('tag');
 tagSelect.addEventListener('change', () => {
     document.getElementById('previewTag').textContent = tagSelect.value || 'Tag';
 });
 
-// ── Live preview update ───────────────────────────────────
 function updatePreview() {
     document.getElementById('previewName').textContent = nameInput.value.trim() || 'Service Name';
     const tagline = taglineInput.value.trim();
@@ -476,7 +434,6 @@ function updatePreview() {
 nameInput.addEventListener('input', updatePreview);
 taglineInput.addEventListener('input', updatePreview);
 
-// ── Features — sync preview (first 3) ────────────────────
 function syncFeaturePreview() {
     const container = document.getElementById('previewFeatures');
     const inputs    = document.querySelectorAll('#featuresContainer input[name="features[]"]');
@@ -494,7 +451,6 @@ function syncFeaturePreview() {
 }
 document.getElementById('featuresContainer').addEventListener('input', syncFeaturePreview);
 
-// ── Add feature row ───────────────────────────────────────
 window.addFeature = function () {
     const container = document.getElementById('featuresContainer');
     const row = document.createElement('div');
@@ -513,7 +469,6 @@ window.addFeature = function () {
     row.querySelector('input').addEventListener('input', syncFeaturePreview);
 };
 
-// ── Remove feature row ────────────────────────────────────
 window.removeFeature = function (btn) {
     const container = document.getElementById('featuresContainer');
     const row = btn.closest('.feature-row');
@@ -526,7 +481,6 @@ window.removeFeature = function (btn) {
     }
 };
 
-// ── Form validation before submit ────────────────────────
 document.getElementById('serviceForm').addEventListener('submit', function (e) {
     const name     = nameInput.value.trim();
     const slug     = slugInput.value.trim();

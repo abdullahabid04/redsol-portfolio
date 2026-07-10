@@ -17,19 +17,10 @@ $action  = $isEdit
         <span class="text-gray-600">{{ $isEdit ? $testimonial->author_name : 'New Testimonial' }}</span>
     </div>
 @endsection
-@section('content')
-{{-- ══════════════════════════════════════════════
-MAIN FORM — closes BEFORE Danger Zone
-══════════════════════════════════════════════ --}}
-<form method="POST" action="{{ $action }}" id="testimonialForm" novalidate enctype="multipart/form-data">
+@section('content')<form method="POST" action="{{ $action }}" id="testimonialForm" novalidate enctype="multipart/form-data">
     @csrf
-    @if($isEdit) @method('PUT') @endif
-
-    {{-- ══════════════════════════════════════════════
-    TOP ACTION BAR
-    ═══════════════════════════════════════════════ --}}
-    <div class="flex items-center justify-between gap-4 mb-6">
-        {{-- Back link --}}
+    @if($isEdit) @method('PUT') @endif<div class="flex items-center justify-between gap-4 mb-6">
+        
         <a href="{{ route('admin.team.index') }}"
             class="flex items-center gap-2 text-sm font-body text-gray-500 hover:text-gray-900 transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -46,13 +37,7 @@ MAIN FORM — closes BEFORE Danger Zone
                 {{ $isEdit ? 'Save Changes' : 'Create Testimonial' }}
             </button>
         </div>
-    </div>
-    
-
-    {{-- ══════════════════════════════════════════════
-    VALIDATION ERRORS BANNER
-    ═══════════════════════════════════════════════ --}}
-    @if($errors->any())
+    </div>@if($errors->any())
         <div class="flex items-start gap-3 px-5 py-4 rounded-2xl bg-crimson-500/5 border border-crimson-500/20 mb-6">
             <svg class="w-5 h-5 text-crimson-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -73,26 +58,16 @@ MAIN FORM — closes BEFORE Danger Zone
         </div>
     @endif
 
-    <input type="hidden" name="is_active" id="isActiveInput" value="{{ old('is_active', $isEdit ? ($testimonial->is_active ? '1' : '0') : '1') }}">
+    <input type="hidden" name="is_active" id="isActiveInput" value="{{ old('is_active', $isEdit ? ($testimonial->is_active ? '1' : '0') : '1') }}"><div class="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-5"><div class="space-y-5">
 
-    {{-- ══════════════════════════════════════════════
-    TWO-COLUMN LAYOUT
-    ═══════════════════════════════════════════════ --}}
-    <div class="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-5">
-
-        {{-- ────────────────────────────────────────
-        LEFT COLUMN — main fields
-        ──────────────────────────────────────── --}}
-        <div class="space-y-5">
-
-            {{-- ── AUTHOR IDENTITY ────────────────── --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-6 py-4 border-b border-gray-100">
                     <div class="h-4 w-0.5 bg-crimson-500 rounded-full"></div>
                     <h2 class="font-display font-700 text-gray-900 text-sm">Author Identity</h2>
                 </div>
                 <div class="p-6 space-y-5">
-                    {{-- Author Name --}}
+                    
                     <div>
                         <label for="author_name" class="block font-body text-xs font-600 text-gray-700 mb-1.5">
                             Author Name <span class="text-crimson-500">*</span>
@@ -106,7 +81,7 @@ MAIN FORM — closes BEFORE Danger Zone
                         @enderror
                     </div>
 
-                    {{-- Author Role + Hospital row --}}
+                    
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label for="author_role" class="block font-body text-xs font-600 text-gray-700 mb-1.5">
@@ -122,7 +97,7 @@ MAIN FORM — closes BEFORE Danger Zone
                         </div>
                     </div>
 
-                    {{-- Initials + Sort order --}}
+                    
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label for="author_initials" class="block font-body text-xs font-600 text-gray-700 mb-1.5">
@@ -143,7 +118,7 @@ MAIN FORM — closes BEFORE Danger Zone
                 </div>
             </div>
 
-            {{-- ── TESTIMONIAL QUOTE ──────────────── --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-6 py-4 border-b border-gray-100">
                     <div class="h-4 w-0.5 bg-crimson-500 rounded-full"></div>
@@ -162,14 +137,14 @@ MAIN FORM — closes BEFORE Danger Zone
                 </div>
             </div>
 
-            {{-- ── RATING & MEDIA ─────────────────── --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-6 py-4 border-b border-gray-100">
                     <div class="h-4 w-0.5 bg-crimson-500 rounded-full"></div>
                     <h2 class="font-display font-700 text-gray-900 text-sm">Rating & Media</h2>
                 </div>
                 <div class="p-6 space-y-5">
-                    {{-- Star Rating --}}
+                    
                     <div>
                         <label class="block font-body text-xs font-600 text-gray-700 mb-2">
                             Star Rating <span class="text-crimson-500">*</span>
@@ -189,13 +164,13 @@ MAIN FORM — closes BEFORE Danger Zone
                         @enderror
                     </div>
 
-                    {{-- Photo Upload --}}
+                    
                     <div>
                         <label class="block font-body text-xs font-600 text-gray-700 mb-2">
                             Author Photo (optional)
                         </label>
                         <div class="flex items-center gap-4">
-                            {{-- Preview --}}
+                            
                             <div id="photoPreview" class="w-16 h-16 rounded-full bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden shrink-0">
                                 @if($isEdit && $testimonial->photo)
                                     <img src="{{ $testimonial->photoUrl() }}" alt="{{ $testimonial->author_name }}" class="w-full h-full object-cover">
@@ -203,7 +178,7 @@ MAIN FORM — closes BEFORE Danger Zone
                                     <span id="previewInitials" class="font-display font-700 text-gray-500 text-sm">{{ old('author_initials', $isEdit ? $testimonial->author_initials : 'MA') }}</span>
                                 @endif
                             </div>
-                            {{-- Upload input --}}
+                            
                             <div class="flex-1">
                                 <input type="file" id="photoInput" name="photo" accept="image/*" class="hidden" onchange="previewPhoto(this)">
                                 <button type="button" onclick="document.getElementById('photoInput').click()" class="px-4 py-2.5 rounded-xl border border-gray-200 text-sm font-display font-600 text-gray-600 hover:border-crimson-500/30 hover:text-crimson-600 transition-all">
@@ -218,7 +193,7 @@ MAIN FORM — closes BEFORE Danger Zone
                         </div>
                     </div>
 
-                    {{-- Avatar Gradient (fallback styling) --}}
+                    
                     <div>
                         <label for="avatar_gradient" class="block font-body text-xs font-600 text-gray-700 mb-1.5">
                             Avatar Background Style
@@ -234,21 +209,16 @@ MAIN FORM — closes BEFORE Danger Zone
                     </div>
                 </div>
             </div>
-        </div>
+        </div><div class="space-y-5">
 
-        {{-- ────────────────────────────────────────
-        RIGHT COLUMN — settings sidebar
-        ──────────────────────────────────────── --}}
-        <div class="space-y-5">
-
-            {{-- ── STATUS ────────────────────────── --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-5 py-4 border-b border-gray-100">
                     <div class="h-4 w-0.5 bg-crimson-500 rounded-full"></div>
                     <h2 class="font-display font-700 text-gray-900 text-sm">Status</h2>
                 </div>
                 <div class="p-5 space-y-3">
-                    {{-- Active toggle --}}
+                    
                     <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50 border border-gray-200">
                         <div>
                             <div class="font-body text-sm font-600 text-gray-800">Active</div>
@@ -259,7 +229,7 @@ MAIN FORM — closes BEFORE Danger Zone
                         </button>
                     </div>
 
-                    {{-- Featured toggle --}}
+                    
                     <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50 border border-gray-200">
                         <div>
                             <div class="font-body text-sm font-600 text-gray-800">Featured</div>
@@ -271,7 +241,7 @@ MAIN FORM — closes BEFORE Danger Zone
                         </label>
                     </div>
 
-                    {{-- Status indicator --}}
+                    
                     <div class="flex items-center gap-2 px-1">
                         <span id="statusDot" class="w-2 h-2 rounded-full shrink-0"></span>
                         <span id="statusLabel" class="font-body text-xs text-gray-500"></span>
@@ -279,7 +249,7 @@ MAIN FORM — closes BEFORE Danger Zone
                 </div>
             </div>
 
-            {{-- ── LIVE PREVIEW CARD ──────────────── --}}
+            
             <div class="bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-5 py-4 border-b border-gray-100">
                     <div class="h-4 w-0.5 bg-gray-400 rounded-full"></div>
@@ -288,20 +258,20 @@ MAIN FORM — closes BEFORE Danger Zone
                 </div>
                 <div class="p-5">
                     <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-                        {{-- Stars --}}
+                        
                         <div class="flex items-center gap-1 mb-3" id="previewStars">
                             @for($s = 1; $s <= 5; $s++)
                                 <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
                             @endfor
                         </div>
 
-                        {{-- Quote --}}
+                        
                         <div class="font-display text-4xl text-crimson-500/10 leading-none mb-1 select-none">"</div>
                         <blockquote id="previewQuote" class="font-body text-sm text-gray-600 leading-relaxed italic mb-4 line-clamp-3">
                             "{{ old('quote', $isEdit ? $testimonial->quote : 'Your testimonial quote will appear here…') }}"
                         </blockquote>
 
-                        {{-- Author --}}
+                        
                         <div class="flex items-center gap-3 pt-4 border-t border-gray-100">
                             <div id="previewAvatar" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0 font-display font-700 text-white text-xs">
                                 {{ old('author_initials', $isEdit ? $testimonial->author_initials : 'MA') }}
@@ -320,12 +290,7 @@ MAIN FORM — closes BEFORE Danger Zone
             </div>
         </div>
     </div>
-</form> {{-- ✅ MAIN FORM CLOSES HERE --}}
-
-{{-- ══════════════════════════════════════════════
-DANGER ZONE — SEPARATE FORM, outside main form
-══════════════════════════════════════════════ --}}
-@if($isEdit)
+</form>@if($isEdit)
 <div class="mt-6 bg-white border border-crimson-500/15 rounded-2xl overflow-hidden">
     <div class="flex items-center gap-3 px-5 py-4 border-b border-crimson-500/10">
         <div class="h-4 w-0.5 bg-crimson-500 rounded-full"></div>
@@ -365,10 +330,8 @@ DANGER ZONE — SEPARATE FORM, outside main form
 (function () {
 'use strict';
 
-// ── Initial state ─────────────────────────────────────────
 let isActive = document.getElementById('isActiveInput').value === '1';
 
-// ── Active toggle UI ─────────────────────────────────────
 function updateActiveUI() {
     const input  = document.getElementById('isActiveInput');
     const sw     = document.getElementById('activeSwitch');
@@ -398,7 +361,6 @@ window.toggleActive = function () {
 };
 updateActiveUI();
 
-// ── Auto-generate initials from name ───────────────────
 const nameInput = document.getElementById('author_name');
 const initialsInput = document.getElementById('author_initials');
 let initialsManuallyEdited = initialsInput.value.length > 0;
@@ -418,7 +380,6 @@ nameInput.addEventListener('input', () => {
     updatePreview();
 });
 
-// ── Quote character counter + preview ──────────────────
 const quoteInput = document.getElementById('quote');
 const quoteCount = document.getElementById('quoteCount');
 quoteInput.addEventListener('input', () => {
@@ -426,7 +387,6 @@ quoteInput.addEventListener('input', () => {
     updatePreview();
 });
 
-// ── Live preview updates ───────────────────────────────
 function updatePreview() {
     document.getElementById('previewName').textContent = nameInput.value.trim() || 'Author Name';
     
@@ -441,7 +401,6 @@ function updatePreview() {
     document.getElementById(id)?.addEventListener('input', updatePreview);
 });
 
-// ── Star rating selector ───────────────────────────────
 const ratingInput = document.getElementById('ratingInput');
 const starBtns = document.querySelectorAll('#ratingStars .star-btn');
 const previewStars = document.getElementById('previewStars');
@@ -468,7 +427,6 @@ starBtns.forEach(btn => {
 });
 updateStarsUI(parseInt(ratingInput.value) || 5);
 
-// ── Photo preview ──────────────────────────────────────
 window.previewPhoto = function(input) {
     const file = input.files[0];
     if (!file) return;
@@ -489,7 +447,6 @@ window.removePhoto = function() {
     document.getElementById('previewAvatar').classList.remove('hidden');
 };
 
-// ── Avatar gradient preview (optional enhancement) ─────
 const gradientSelect = document.getElementById('avatar_gradient');
 const previewAvatar = document.getElementById('previewAvatar');
 const gradientClasses = {
@@ -507,7 +464,6 @@ gradientSelect?.addEventListener('change', () => {
     }
 });
 
-// ── Form validation before submit ──────────────────────
 document.getElementById('testimonialForm').addEventListener('submit', function(e) {
     const name  = nameInput.value.trim();
     const quote = quoteInput.value.trim();

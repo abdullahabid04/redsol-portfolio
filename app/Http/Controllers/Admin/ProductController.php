@@ -9,14 +9,10 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of products.
-     */
     public function index(Request $request)
     {
         $query = Product::query();
 
-        // ── Filters ──────────────────────────────────────────
         if ($search = $request->get('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
@@ -33,14 +29,12 @@ class ProductController extends Controller
             $query->where('is_active', $status === 'active');
         }
 
-        // ── Pagination ───────────────────────────────────────
         $products = $query
             ->orderBy('sort_order')
             ->orderBy('name')
             ->paginate(15)
             ->withQueryString();
 
-        // ── Summary counts ───────────────────────────────────
         $stats = [
             'total' => Product::count(),
             'active' => Product::active()->count(),
@@ -54,10 +48,6 @@ class ProductController extends Controller
 
         return view('admin.pages.products.index', compact('products', 'stats', 'categoryCounts'));
     }
-
-    /**
-     * Show the form for creating a new product.
-     */
     public function create()
     {
         return view('admin.pages.products.form', [
@@ -65,10 +55,6 @@ class ProductController extends Controller
             'isEdit' => false,
         ]);
     }
-
-    /**
-     * Store a newly created product in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -111,31 +97,25 @@ class ProductController extends Controller
         ]);
 
         try {
-            // ── Auto-generate slug if empty ─────────────────
             if (empty($validated['slug'])) {
                 $validated['slug'] = Str::slug($validated['name']);
             }
 
-            // ── Auto-generate href if empty ─────────────────
             if (empty($validated['href'])) {
                 $validated['href'] = '/products/' . $validated['slug'];
             }
 
-            // ── Auto-set category_label from constants ─────
             if (empty($validated['category_label']) && isset(Product::CATEGORIES[$validated['category']])) {
                 $validated['category_label'] = Product::CATEGORIES[$validated['category']];
             }
 
-            // ── Default values ─────────────────────────────
             $validated['is_active'] = $validated['is_active'] ?? true;
             $validated['sort_order'] = $validated['sort_order'] ?? (Product::max('sort_order') ?? 0) + 1;
 
-            // ── Handle empty features array ─────────────────
             if (isset($validated['features']) && is_array($validated['features'])) {
                 $validated['features'] = array_filter(array_map('trim', $validated['features']));
             }
 
-            // ── Create ─────────────────────────────────────
             Product::create($validated);
 
             return redirect()
@@ -161,10 +141,6 @@ class ProductController extends Controller
                 ->with('error', 'Failed to create product. Please try again.');
         }
     }
-
-    /**
-     * Show the form for editing the specified product.
-     */
     public function edit(string $id)
     {
         $product = Product::findOrFail($id);
@@ -174,10 +150,6 @@ class ProductController extends Controller
             'isEdit' => true,
         ]);
     }
-
-    /**
-     * Update the specified product in storage.
-     */
     public function update(Request $request, string $id)
     {
         $product = Product::findOrFail($id);
@@ -218,27 +190,22 @@ class ProductController extends Controller
         ]);
 
         try {
-            // ── Auto-generate slug if empty ─────────────────
             if (empty($validated['slug'])) {
                 $validated['slug'] = Str::slug($validated['name']);
             }
 
-            // ── Auto-generate href if empty ─────────────────
             if (empty($validated['href'])) {
                 $validated['href'] = '/products/' . $validated['slug'];
             }
 
-            // ── Auto-set category_label from constants ─────
             if (empty($validated['category_label']) && isset(Product::CATEGORIES[$validated['category']])) {
                 $validated['category_label'] = Product::CATEGORIES[$validated['category']];
             }
 
-            // ── Handle empty features array ─────────────────
             if (isset($validated['features']) && is_array($validated['features'])) {
                 $validated['features'] = array_filter(array_map('trim', $validated['features']));
             }
 
-            // ── Update ─────────────────────────────────────
             $product->update($validated);
 
             return redirect()
@@ -263,10 +230,6 @@ class ProductController extends Controller
                 ->with('error', 'Failed to update product. Please try again.');
         }
     }
-
-    /**
-     * Toggle active status for a product.
-     */
     public function toggle(string $id)
     {
         try {
@@ -285,10 +248,6 @@ class ProductController extends Controller
                 ->with('error', 'Failed to update product status.');
         }
     }
-
-    /**
-     * Remove the specified product from storage.
-     */
     public function destroy(string $id)
     {
         try {

@@ -7,17 +7,14 @@ use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 
 class ClientController extends Controller
 {
-    /**
-     * Display a listing of clients.
-     */
     public function index(Request $request)
     {
         $query = Client::query();
 
-        // ── Filters ──────────────────────────────────────────
         if ($search = $request->get('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
@@ -38,42 +35,31 @@ class ClientController extends Controller
             }
         }
 
-        // ── Pagination ───────────────────────────────────────
         $clients = $query->ordered()->paginate(15)->withQueryString();
 
         return view('admin.pages.clients.index', compact('clients'));
     }
-
-    /**
-     * Show the form for creating a new client.
-     */
     public function create()
     {
         return view('admin.pages.clients.form');
     }
-
-    /**
-     * Store a newly created client in storage.
-     */
     public function store(Request $request)
     {
         $validated = $this->validateRequest($request);
 
         try {
-            // ── Handle logo upload ───────────────────────────
             if ($request->hasFile('logo')) {
                 $validated['logo_path'] = $request->file('logo')->store('clients', 'public');
             }
 
-            // ── Checkbox fallbacks ───────────────────────────
             $validated['is_active'] = $request->has('is_active');
             $validated['is_featured'] = $request->has('is_featured');
 
-            // ── Default sort order ───────────────────────────
             if (empty($validated['sort_order'])) {
                 $validated['sort_order'] = (Client::max('sort_order') ?? 0) + 1;
             }
 
+            Log::info('Creating client with data: ', $validated);
             Client::create($validated);
 
             return redirect()->route('admin.clients.index')->with('success', 'Client added successfully.');
@@ -87,10 +73,6 @@ class ClientController extends Controller
             return back()->withInput()->with('error', 'Failed to create client. Please try again.');
         }
     }
-
-    /**
-     * Show the form for editing the specified client.
-     */
     public function edit(string $id)
     {
         $client = Client::findOrFail($id);
@@ -100,17 +82,13 @@ class ClientController extends Controller
             'isEdit' => true,
         ]);
     }
-
-    /**
-     * Update the specified client in storage.
-     */
     public function update(Request $request, string $id)
     {
+        Log::info("Updating client ID {$id} with request data: ", $request->except('logo'));
         $client = Client::findOrFail($id);
         $validated = $this->validateRequest($request, $client->id);
 
         try {
-            // ── Handle logo removal/replacement ──────────────
             if ($request->filled('remove_logo')) {
                 if ($client->logo_path && Storage::disk('public')->exists($client->logo_path)) {
                     Storage::disk('public')->delete($client->logo_path);
@@ -122,13 +100,13 @@ class ClientController extends Controller
                 }
                 $validated['logo_path'] = $request->file('logo')->store('clients', 'public');
             } else {
-                // Keep existing logo
                 unset($validated['logo_path']);
             }
 
-            // ── Checkbox fallbacks ───────────────────────────
             $validated['is_active'] = $request->has('is_active');
             $validated['is_featured'] = $request->has('is_featured');
+
+            Log::info("Updating client ID {$id} with data: ", $validated);
 
             $client->update($validated);
 
@@ -148,16 +126,11 @@ class ClientController extends Controller
             return back()->withInput()->with('error', 'Failed to update client. Please try again.');
         }
     }
-
-    /**
-     * Remove the specified client from storage.
-     */
     public function destroy(string $id)
     {
         try {
             $client = Client::findOrFail($id);
 
-            // ── Delete associated logo ───────────────────────
             if ($client->logo_path && Storage::disk('public')->exists($client->logo_path)) {
                 Storage::disk('public')->delete($client->logo_path);
             }
@@ -174,10 +147,6 @@ class ClientController extends Controller
             return redirect()->route('admin.clients.index')->with('error', 'Failed to delete client.');
         }
     }
-
-    /**
-     * Toggle active status.
-     */
     public function toggle(string $id)
     {
         try {
@@ -188,10 +157,6 @@ class ClientController extends Controller
             return back()->with('error', 'Failed to update client status.');
         }
     }
-
-    /**
-     * Toggle featured status.
-     */
     public function toggleFeatured(string $id)
     {
         try {
@@ -202,10 +167,6 @@ class ClientController extends Controller
             return back()->with('error', 'Failed to update featured status.');
         }
     }
-
-    /**
-     * Shared validation rules.
-     */
     private function validateRequest(Request $request, ?int $ignoreId = null)
     {
         return $request->validate([
@@ -225,6 +186,7 @@ class ClientController extends Controller
                     'Gilgit-Baltistan'
                 ])
             ],
+            'modules' => ['nullable', 'array'],
             'website_url' => ['nullable', 'url', 'max:255'],
             'year_deployed' => ['nullable', 'integer', 'digits:4', 'min:2000', 'max:' . date('Y')],
             'notes' => ['nullable', 'string'],

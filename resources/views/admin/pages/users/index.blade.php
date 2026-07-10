@@ -26,7 +26,7 @@
         ]);
     @endphp
 
-    {{-- Role legend --}}
+    
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
         @foreach(Admin::ROLES as $key => $label)
             @php
@@ -51,7 +51,7 @@
         @endforeach
     </div>
 
-    {{-- Toolbar --}}
+    
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
         <div class="flex items-center gap-2 flex-wrap">
             @foreach(['all' => 'All', 'super_admin' => 'Super Admin', 'content_editor' => 'Content Editor', 'sales' => 'Sales', 'viewer' => 'Viewer', 'active' => 'Active', 'inactive' => 'Inactive'] as $val => $label)
@@ -73,7 +73,7 @@
         </button>
     </div>
 
-    {{-- Users table --}}
+    
     <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full">
@@ -113,7 +113,7 @@
                         @endphp
                         <tr class="hover:bg-gray-50/60 transition-colors group {{ !$admin->is_active ? 'opacity-60' : '' }}">
 
-                            {{-- User --}}
+                            
                             <td class="px-5 py-4">
                                 <div class="flex items-center gap-3">
                                     <div
@@ -134,7 +134,7 @@
                                 </div>
                             </td>
 
-                            {{-- Role --}}
+                            
                             <td class="px-4 py-4">
                                 <span
                                     class="inline-block text-[10px] font-display font-700 tracking-wide px-2 py-1 rounded-md border {{ $badgeClass }}">
@@ -142,7 +142,7 @@
                                 </span>
                             </td>
 
-                            {{-- Permissions --}}
+                            
                             <td class="px-4 py-4 hidden md:table-cell">
                                 <div class="flex flex-wrap gap-1">
                                     @foreach(array_slice($perms, 0, 3) as $perm)
@@ -158,7 +158,7 @@
                                 </div>
                             </td>
 
-                            {{-- Status --}}
+                            
                             <td class="px-4 py-4">
                                 @if($admin->is_active)
                                     <span
@@ -173,17 +173,17 @@
                                 @endif
                             </td>
 
-                            {{-- Last login --}}
+                            
                             <td class="px-4 py-4 hidden lg:table-cell">
                                 <span class="font-body text-xs text-gray-400">
                                     {{ $admin->last_login_at ? $admin->last_login_at->diffForHumans() : 'Never' }}
                                 </span>
                             </td>
 
-                            {{-- Actions --}}
+                            
                             <td class="px-4 py-4">
                                 <div class="flex items-center justify-end gap-1.5">
-                                    {{-- Edit --}}
+                                    
                                     <button
                                         onclick="openEditModal({{ json_encode(['id' => $admin->id, 'name' => $admin->name, 'email' => $admin->email, 'role' => $admin->role, 'is_active' => $admin->is_active]) }})"
                                         class="w-7 h-7 rounded-lg border border-gray-200 flex items-center justify-center text-gray-400 hover:text-crimson-500 hover:border-crimson-500/30 hover:bg-crimson-50 transition-all">
@@ -193,7 +193,7 @@
                                         </svg>
                                     </button>
 
-                                    {{-- Toggle active (can't deactivate yourself) --}}
+                                    
                                     @if(!$isCurrentUser)
                                                         <form method="POST" action="{{ route('admin.admins.toggleActive', $admin->id) }}">
                                                             @csrf
@@ -215,7 +215,7 @@
                                                             </button>
                                                         </form>
 
-                                                        {{-- Delete --}}
+                                                        
                                                         <form method="POST" action="{{ route('admin.admins.destroy', $admin->id) }}"
                                                             onsubmit="return confirm('Delete {{ addslashes($admin->name) }}? This cannot be undone.')">
                                                             @csrf @method('DELETE')
@@ -242,7 +242,7 @@
     </div>
 
 
-    {{-- ADD MODAL --}}
+    
     <div id="addModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onclick="document.getElementById('addModal').classList.add('hidden')"></div>
@@ -313,7 +313,7 @@
                     </div>
                 </div>
 
-                {{-- Permissions preview --}}
+                
                 <div class="bg-gray-50 border border-gray-100 rounded-xl p-4">
                     <p class="font-body text-xs text-gray-500 font-600 mb-2">Role permissions preview:</p>
                     @foreach(Admin::PERMISSIONS as $role => $perms)
@@ -349,7 +349,7 @@
         </div>
     </div>
 
-    {{-- EDIT MODAL --}}
+    
     <div id="editModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onclick="document.getElementById('editModal').classList.add('hidden')"></div>

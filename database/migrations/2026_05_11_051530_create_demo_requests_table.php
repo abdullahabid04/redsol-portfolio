@@ -10,7 +10,6 @@ return new class extends Migration {
         Schema::create('demo_requests', function (Blueprint $table) {
             $table->id();
 
-            // ── Hospital / organisation ───────────────────────
             $table->string('hospital_name');
             $table->string('hospital_city')->nullable();
             $table->enum('hospital_type', [
@@ -22,13 +21,11 @@ return new class extends Migration {
             ])->nullable();
             $table->unsignedSmallInteger('bed_count')->nullable(); // Approximate number of beds
 
-            // ── Contact person ────────────────────────────────
             $table->string('contact_name');
             $table->string('contact_role')->nullable();         // e.g. "Medical Superintendent", "IT Manager"
             $table->string('email');
             $table->string('phone');
 
-            // ── What they want ────────────────────────────────
             // JSON array of module slugs they expressed interest in
             // e.g. ["laboratory-lims", "pacs", "patient-registration"]
             $table->json('modules_interest')->nullable();
@@ -36,7 +33,6 @@ return new class extends Migration {
             // Free-text: anything extra they wrote in the request form
             $table->text('requirements')->nullable();
 
-            // ── Scheduling ────────────────────────────────────
             $table->date('preferred_date')->nullable();
             $table->enum('preferred_time', [
                 'morning',      // 9am – 12pm
@@ -44,7 +40,6 @@ return new class extends Migration {
                 'flexible',
             ])->default('flexible');
 
-            // ── Status workflow ───────────────────────────────
             // new         → just submitted
             // contacted   → sales has reached out
             // scheduled   → demo date is confirmed
@@ -60,7 +55,6 @@ return new class extends Migration {
                 'lost',
             ])->default('new');
 
-            // ── Admin tracking ────────────────────────────────
             $table->foreignId('assigned_to')
                 ->nullable()
                 ->constrained('admins')
@@ -70,13 +64,11 @@ return new class extends Migration {
             $table->time('demo_time')->nullable();              // Confirmed demo time
             $table->string('meeting_link')->nullable();         // Zoom / Meet / Teams URL
 
-            // ── Source tracking ───────────────────────────────
             $table->string('source')->nullable();               // e.g. "website", "referral", "direct"
             $table->string('ip_address', 45)->nullable();
 
             $table->timestamps();
 
-            // ── Indexes ───────────────────────────────────────
             $table->index('status');
             $table->index('created_at');
             $table->index('assigned_to');

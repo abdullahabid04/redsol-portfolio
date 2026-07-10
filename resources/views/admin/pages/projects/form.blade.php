@@ -25,11 +25,7 @@ $valJson = fn(string $field) =>
         <span class="text-gray-600">{{ $isEdit ? $project->title : 'New Project' }}</span>
     </div>
 @endsection
-@section('content')
-{{-- ══════════════════════════════════════════════
-MAIN FORM — closes BEFORE Danger Zone
-══════════════════════════════════════════════ --}}
-<form method="POST"
+@section('content')<form method="POST"
       action="{{ $action }}"
       enctype="multipart/form-data"
       id="projectForm"
@@ -37,16 +33,11 @@ MAIN FORM — closes BEFORE Danger Zone
     @csrf
     @if($isEdit) @method('PUT') @endif
 
-    {{-- Hidden active/featured state fields — driven by JS toggle --}}
+    
     <input type="hidden" name="is_active" id="isActiveInput"
            value="{{ old('is_active', $isEdit ? ($project->is_active ? '1' : '0') : '1') }}">
     <input type="hidden" name="is_featured" id="isFeaturedInput"
-           value="{{ old('is_featured', $isEdit ? ($project->is_featured ? '1' : '0') : '0') }}">
-
-    {{-- ══════════════════════════════════════════════
-    TOP BAR
-    ══════════════════════════════════════════════ --}}
-    <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+           value="{{ old('is_featured', $isEdit ? ($project->is_featured ? '1' : '0') : '0') }}"><div class="flex flex-wrap items-center justify-between gap-3 mb-6">
 
         <a href="{{ route('admin.projects.index') }}"
            class="flex items-center gap-2 text-sm font-body text-gray-500 hover:text-gray-900 transition-colors">
@@ -58,7 +49,7 @@ MAIN FORM — closes BEFORE Danger Zone
 
         <div class="flex items-center gap-2">
 
-            {{-- Active/inactive quick toggle --}}
+            
             <button type="button" id="topToggleBtn" onclick="toggleActive()"
                     class="flex items-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-display font-600 transition-all">
             </button>
@@ -88,13 +79,7 @@ MAIN FORM — closes BEFORE Danger Zone
                 {{ $isEdit ? 'Save Changes' : 'Create Project' }}
             </button>
         </div>
-    </div>
-
-
-    {{-- ══════════════════════════════════════════════
-    VALIDATION ERRORS
-    ══════════════════════════════════════════════ --}}
-    @if($errors->any())
+    </div>@if($errors->any())
         <div class="flex items-start gap-3 px-5 py-4 rounded-2xl bg-crimson-500/5
                     border border-crimson-500/20 mb-5">
             <svg class="w-5 h-5 text-crimson-500 shrink-0 mt-0.5" fill="none"
@@ -116,22 +101,10 @@ MAIN FORM — closes BEFORE Danger Zone
                 </ul>
             </div>
         </div>
-    @endif
+    @endif<div class="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-5"><div class="space-y-5">
 
 
-    {{-- ══════════════════════════════════════════════
-    MAIN GRID
-    ══════════════════════════════════════════════ --}}
-    <div class="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-5">
-
-
-        {{-- ════════════════════════════════
-        LEFT — main content
-        ════════════════════════════════ --}}
-        <div class="space-y-5">
-
-
-            {{-- ── BASIC INFO ──────────────────── --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-6 py-4 border-b border-gray-100">
                     <div class="w-1 h-5 bg-crimson-500 rounded-full shrink-0"></div>
@@ -140,7 +113,7 @@ MAIN FORM — closes BEFORE Danger Zone
 
                 <div class="p-6 space-y-5">
 
-                    {{-- Title --}}
+                    
                     <div>
                         <label for="title"
                                class="block font-body text-xs font-600 text-gray-700 mb-1.5">
@@ -164,7 +137,7 @@ MAIN FORM — closes BEFORE Danger Zone
                         @enderror
                     </div>
 
-                    {{-- Slug --}}
+                    
                     <div>
                         <label for="slug"
                                class="block font-body text-xs font-600 text-gray-700 mb-1.5">
@@ -190,7 +163,7 @@ MAIN FORM — closes BEFORE Danger Zone
                         @enderror
                     </div>
 
-                    {{-- Summary --}}
+                    
                     <div>
                         <div class="flex items-center justify-between mb-1.5">
                             <label for="summary"
@@ -214,7 +187,7 @@ MAIN FORM — closes BEFORE Danger Zone
                         @enderror
                     </div>
 
-                    {{-- Full description --}}
+                    
                     <div>
                         <label for="description"
                                class="block font-body text-xs font-600 text-gray-700 mb-1.5">
@@ -233,7 +206,7 @@ MAIN FORM — closes BEFORE Danger Zone
             </div>
 
 
-            {{-- ── CLIENT INFO ─────────────────── --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-6 py-4 border-b border-gray-100">
                     <div class="w-1 h-5 bg-crimson-500 rounded-full shrink-0"></div>
@@ -242,7 +215,7 @@ MAIN FORM — closes BEFORE Danger Zone
 
                 <div class="p-6 grid grid-cols-1 sm:grid-cols-2 gap-5">
 
-                    {{-- Client name --}}
+                    
                     <div class="sm:col-span-2">
                         <label for="client_name"
                                class="block font-body text-xs font-600 text-gray-700 mb-1.5">
@@ -261,7 +234,7 @@ MAIN FORM — closes BEFORE Danger Zone
                         @enderror
                     </div>
 
-                    {{-- City --}}
+                    
                     <div>
                         <label for="client_city"
                                class="block font-body text-xs font-600 text-gray-700 mb-1.5">City</label>
@@ -274,7 +247,7 @@ MAIN FORM — closes BEFORE Danger Zone
                                       focus:ring-crimson-500 transition-all">
                     </div>
 
-                    {{-- Province --}}
+                    
                     <div>
                         <label for="client_province"
                                class="block font-body text-xs font-600 text-gray-700 mb-1.5">Province</label>
@@ -287,7 +260,7 @@ MAIN FORM — closes BEFORE Danger Zone
                                       focus:ring-crimson-500 transition-all">
                     </div>
 
-                    {{-- Client type --}}
+                    
                     <div>
                         <label for="client_type"
                                class="block font-body text-xs font-600 text-gray-700 mb-1.5">
@@ -311,7 +284,7 @@ MAIN FORM — closes BEFORE Danger Zone
                         @enderror
                     </div>
 
-                    {{-- Testimonial link --}}
+                    
                     <div>
                         <label for="testimonial_id"
                                class="block font-body text-xs font-600 text-gray-700 mb-1.5">
@@ -339,7 +312,7 @@ MAIN FORM — closes BEFORE Danger Zone
             </div>
 
 
-            {{-- ── TIMELINE ─────────────────────── --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-6 py-4 border-b border-gray-100">
                     <div class="w-1 h-5 bg-crimson-500 rounded-full shrink-0"></div>
@@ -395,7 +368,7 @@ MAIN FORM — closes BEFORE Danger Zone
             </div>
 
 
-            {{-- ── SCOPE — Modules deployed ─────── --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
                     <div class="flex items-center gap-3">
@@ -422,7 +395,7 @@ MAIN FORM — closes BEFORE Danger Zone
                     <div class="space-y-5">
                         @foreach($allProducts as $catKey => $catProducts)
                             <div>
-                                {{-- Category label --}}
+                                
                                 <p class="font-body text-[10px] font-700 text-gray-400 tracking-widest
                                           uppercase mb-2">
                                     {{ \App\Models\Product::CATEGORIES[$catKey] ?? $catKey }}
@@ -456,7 +429,7 @@ MAIN FORM — closes BEFORE Danger Zone
             </div>
 
 
-            {{-- ── SERVICES PROVIDED ────────────── --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-6 py-4 border-b border-gray-100">
                     <div class="w-1 h-5 bg-gray-400 rounded-full shrink-0"></div>
@@ -492,7 +465,7 @@ MAIN FORM — closes BEFORE Danger Zone
             </div>
 
 
-            {{-- ── OUTCOMES ─────────────────────── --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-6 py-4 border-b border-gray-100">
                     <div class="w-1 h-5 bg-crimson-500 rounded-full shrink-0"></div>
@@ -553,7 +526,7 @@ MAIN FORM — closes BEFORE Danger Zone
             </div>
 
 
-            {{-- ── PROJECT STATS ─────────────────── --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-6 py-4 border-b border-gray-100">
                     <div class="w-1 h-5 bg-gray-400 rounded-full shrink-0"></div>
@@ -638,7 +611,7 @@ MAIN FORM — closes BEFORE Danger Zone
             </div>
 
 
-            {{-- ── SEO ─────────────────────────── --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-6 py-4 border-b border-gray-100">
                     <div class="w-1 h-5 bg-gray-300 rounded-full shrink-0"></div>
@@ -674,16 +647,10 @@ MAIN FORM — closes BEFORE Danger Zone
             </div>
 
 
-        </div>{{-- /left --}}
+        </div><div class="space-y-5">
 
 
-        {{-- ════════════════════════════════
-        RIGHT SIDEBAR
-        ════════════════════════════════ --}}
-        <div class="space-y-5">
-
-
-            {{-- ── STATUS ──────────────────────── --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-5 py-4 border-b border-gray-100">
                     <div class="w-1 h-5 bg-crimson-500 rounded-full shrink-0"></div>
@@ -691,7 +658,7 @@ MAIN FORM — closes BEFORE Danger Zone
                 </div>
                 <div class="p-5 space-y-3">
 
-                    {{-- Active toggle --}}
+                    
                     <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 border border-gray-200">
                         <div>
                             <div class="font-body text-sm font-600 text-gray-800">Active</div>
@@ -709,7 +676,7 @@ MAIN FORM — closes BEFORE Danger Zone
                         </button>
                     </div>
 
-                    {{-- Featured toggle --}}
+                    
                     <div class="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 border border-gray-200">
                         <div>
                             <div class="font-body text-sm font-600 text-gray-800">Featured</div>
@@ -727,7 +694,7 @@ MAIN FORM — closes BEFORE Danger Zone
                         </button>
                     </div>
 
-                    {{-- Status label --}}
+                    
                     <div class="flex items-center gap-2 px-1">
                         <span id="statusDot" class="w-2 h-2 rounded-full shrink-0"></span>
                         <span id="statusLabel" class="font-body text-xs text-gray-500"></span>
@@ -737,7 +704,7 @@ MAIN FORM — closes BEFORE Danger Zone
             </div>
 
 
-            {{-- ── DISPLAY SETTINGS ─────────────── --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-5 py-4 border-b border-gray-100">
                     <div class="w-1 h-5 bg-gray-400 rounded-full shrink-0"></div>
@@ -757,7 +724,7 @@ MAIN FORM — closes BEFORE Danger Zone
             </div>
 
 
-            {{-- ── FEATURED IMAGE ───────────────── --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-5 py-4 border-b border-gray-100">
                     <div class="w-1 h-5 bg-crimson-500 rounded-full shrink-0"></div>
@@ -765,7 +732,7 @@ MAIN FORM — closes BEFORE Danger Zone
                 </div>
                 <div class="p-5">
 
-                    {{-- Current image preview (edit only) --}}
+                    
                     @if($isEdit && $project->featured_image)
                         <div class="mb-4 rounded-xl overflow-hidden border border-gray-200">
                             <img src="{{ asset('storage/' . $project->featured_image) }}"
@@ -774,7 +741,7 @@ MAIN FORM — closes BEFORE Danger Zone
                         </div>
                     @endif
 
-                    {{-- Drop zone --}}
+                    
                     <div id="imageDropzone"
                          class="relative border-2 border-dashed border-gray-200 rounded-xl
                                 p-6 text-center cursor-pointer transition-all
@@ -818,7 +785,7 @@ MAIN FORM — closes BEFORE Danger Zone
             </div>
 
 
-            {{-- ── LIVE PREVIEW ─────────────────── --}}
+            
             <div class="bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden">
                 <div class="flex items-center gap-3 px-5 py-4 border-b border-gray-100">
                     <div class="w-1 h-5 bg-gray-300 rounded-full shrink-0"></div>
@@ -827,7 +794,7 @@ MAIN FORM — closes BEFORE Danger Zone
                 </div>
                 <div class="p-4">
                     <div class="rounded-xl border border-gray-200 bg-white overflow-hidden shadow-sm">
-                        {{-- Image placeholder --}}
+                        
                         <div id="previewImageBg"
                              class="h-24 bg-gray-100 flex items-center justify-center border-b border-gray-100">
                             <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -861,15 +828,10 @@ MAIN FORM — closes BEFORE Danger Zone
                 </div>
             </div>
 
-        </div>{{-- /right --}}
+        </div>
 
-    </div>{{-- /grid --}}
-</form> {{-- ✅ MAIN FORM CLOSES HERE --}}
-
-{{-- ══════════════════════════════════════════════
-DANGER ZONE — SEPARATE FORM, outside main form
-══════════════════════════════════════════════ --}}
-@if($isEdit && Auth::guard('admin')->user()->can('delete_any'))
+    </div>
+</form>@if($isEdit && Auth::guard('admin')->user()->can('delete_any'))
 <div class="mt-6 bg-white border border-crimson-500/15 rounded-2xl overflow-hidden">
     <div class="flex items-center gap-3 px-5 py-4 border-b border-crimson-500/10">
         <div class="w-1 h-5 bg-crimson-500 rounded-full shrink-0"></div>

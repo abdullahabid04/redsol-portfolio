@@ -9,13 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AdminRole
 {
-    /**
-     * Currently a no-op: all admins have full access.
-     * Keep this middleware for future permission granularity.
-     *
-     * Usage (future):
-     *   ->middleware('admin.role:manage_content')
-     */
     public function handle(Request $request, Closure $next, string ...$permissions): Response
     {
         // All admins have all permissions — bypass check

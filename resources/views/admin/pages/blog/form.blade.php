@@ -16,12 +16,7 @@
 @php
     $isEdit = isset($post) && $post->exists;
     $admin = Auth::guard('admin')->user();
-@endphp
-
-{{-- ══════════════════════════════════════════════
-MAIN FORM — closes BEFORE Danger Zone
-══════════════════════════════════════════════ --}}
-<form method="POST"
+@endphp<form method="POST"
       action="{{ $isEdit ? route('admin.blog.update', $post) : route('admin.blog.store') }}"
       enctype="multipart/form-data"
       id="blogForm"
@@ -30,10 +25,10 @@ MAIN FORM — closes BEFORE Danger Zone
     @if($isEdit) @method('PUT') @endif
 
     <div class="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-5">
-        {{-- ── LEFT: Main content ────────────────────── --}}
+        
         <div class="space-y-5">
 
-            {{-- Title --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl p-5">
                 <label class="block font-body text-xs font-600 text-gray-500 tracking-widest uppercase mb-2">
                     Post Title <span class="text-crimson-500">*</span>
@@ -52,7 +47,7 @@ MAIN FORM — closes BEFORE Danger Zone
                 @enderror
             </div>
 
-            {{-- Slug --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl p-5">
                 <label class="block font-body text-xs font-600 text-gray-500 tracking-widest uppercase mb-2">URL Slug</label>
                 <div class="flex items-center gap-0 border border-gray-200 rounded-xl overflow-hidden focus-within:border-crimson-500 focus-within:ring-2 focus-within:ring-crimson-500/10 transition-all {{ $errors->has('slug') ? 'border-crimson-500' : '' }}">
@@ -67,7 +62,7 @@ MAIN FORM — closes BEFORE Danger Zone
                 @error('slug') <p class="mt-1.5 text-xs text-crimson-600 font-body">{{ $message }}</p> @enderror
             </div>
 
-            {{-- Excerpt --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl p-5">
                 <label class="block font-body text-xs font-600 text-gray-500 tracking-widest uppercase mb-2">
                     Excerpt <span class="text-gray-400 font-400 normal-case tracking-normal">(shown on blog listing)</span>
@@ -80,13 +75,13 @@ MAIN FORM — closes BEFORE Danger Zone
                 @error('excerpt') <p class="mt-1.5 text-xs text-crimson-600 font-body">{{ $message }}</p> @enderror
             </div>
 
-            {{-- Body (rich text) --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl p-5">
                 <label class="block font-body text-xs font-600 text-gray-500 tracking-widest uppercase mb-3">
                     Content <span class="text-crimson-500">*</span>
                 </label>
 
-                {{-- Toolbar --}}
+                
                 <div class="flex flex-wrap gap-1 mb-3 pb-3 border-b border-gray-100">
                     @foreach([
                         ['cmd'=>'bold',           'icon'=>'<strong>B</strong>',          'title'=>'Bold'],
@@ -118,24 +113,24 @@ MAIN FORM — closes BEFORE Danger Zone
                     @endforeach
                 </div>
 
-                {{-- Editable area --}}
+                
                 <div id="editor"
                      contenteditable="true"
                      class="min-h-[360px] px-4 py-4 rounded-xl border border-gray-200 focus:border-crimson-500 focus:ring-2 focus:ring-crimson-500/10 focus:outline-none font-body text-sm text-gray-700 leading-relaxed prose-editor"
                      style="line-height:1.8;">
                     {!! old('body', $isEdit ? $post->body : '') !!}
                 </div>
-                {{-- Hidden textarea synced with editor --}}
+                
                 <textarea name="body" id="body" class="hidden">{{ old('body', $isEdit ? $post->body : '') }}</textarea>
                 @error('body') <p class="mt-1.5 text-xs text-crimson-600 font-body">{{ $message }}</p> @enderror
             </div>
 
         </div>
 
-        {{-- ── RIGHT: Sidebar options ─────────────────── --}}
+        
         <div class="space-y-5">
 
-            {{-- Publish --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl p-5">
                 <div class="flex items-center gap-3 mb-4">
                     <div class="h-4 w-0.5 bg-crimson-500 rounded-full"></div>
@@ -143,7 +138,7 @@ MAIN FORM — closes BEFORE Danger Zone
                 </div>
 
                 <div class="space-y-3 mb-5">
-                    {{-- Status --}}
+                    
                     <div>
                         <label class="font-body text-xs text-gray-500 mb-1 block">Status</label>
                         <select name="is_published"
@@ -153,7 +148,7 @@ MAIN FORM — closes BEFORE Danger Zone
                         </select>
                     </div>
 
-                    {{-- Publish date --}}
+                    
                     <div>
                         <label class="font-body text-xs text-gray-500 mb-1 block">Publish Date</label>
                         <input type="datetime-local"
@@ -162,7 +157,7 @@ MAIN FORM — closes BEFORE Danger Zone
                                class="w-full px-3 py-2.5 rounded-xl border border-gray-200 font-body text-sm text-gray-700 bg-white focus:outline-none focus:border-crimson-500 focus:ring-2 focus:ring-crimson-500/10 transition-all">
                     </div>
 
-                    {{-- Read time --}}
+                    
                     <div>
                         <label class="font-body text-xs text-gray-500 mb-1 block">Est. Read Time (mins)</label>
                         <input type="number"
@@ -173,7 +168,7 @@ MAIN FORM — closes BEFORE Danger Zone
                     </div>
                 </div>
 
-                {{-- Action buttons --}}
+                
                 <div class="flex gap-2">
                     <button type="submit"
                             class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-crimson-500 text-white font-display font-600 text-sm
@@ -188,7 +183,7 @@ MAIN FORM — closes BEFORE Danger Zone
                 </div>
             </div>
 
-            {{-- Category --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl p-5">
                 <div class="flex items-center gap-3 mb-4">
                     <div class="h-4 w-0.5 bg-crimson-500 rounded-full"></div>
@@ -204,14 +199,14 @@ MAIN FORM — closes BEFORE Danger Zone
                 @error('category') <p class="mt-1.5 text-xs text-crimson-600 font-body">{{ $message }}</p> @enderror
             </div>
 
-            {{-- Cover Image --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl p-5">
                 <div class="flex items-center gap-3 mb-4">
                     <div class="h-4 w-0.5 bg-crimson-500 rounded-full"></div>
                     <h3 class="font-display font-700 text-gray-900 text-sm">Cover Image</h3>
                 </div>
 
-                {{-- Current image preview --}}
+                
                 @if($isEdit && $post->featured_image)
                 <div class="mb-3 relative rounded-xl overflow-hidden aspect-video bg-gray-100">
                     <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->featured_image_alt ?? $post->title }}" class="w-full h-full object-cover">
@@ -238,7 +233,7 @@ MAIN FORM — closes BEFORE Danger Zone
                 </div>
             </div>
 
-            {{-- SEO --}}
+            
             <div class="bg-white border border-gray-200 rounded-2xl p-5">
                 <div class="flex items-center gap-3 mb-4">
                     <div class="h-4 w-0.5 bg-crimson-500 rounded-full"></div>
@@ -262,12 +257,7 @@ MAIN FORM — closes BEFORE Danger Zone
             </div>
         </div>
     </div>
-</form> {{-- ✅ MAIN FORM CLOSES HERE --}}
-
-{{-- ══════════════════════════════════════════════
-DANGER ZONE — SEPARATE FORM, outside main form
-══════════════════════════════════════════════ --}}
-@if($isEdit)
+</form>@if($isEdit)
 <div class="mt-6 bg-white border border-red-100 rounded-2xl overflow-hidden">
     <div class="flex items-center gap-3 px-5 py-4 border-b border-red-100">
         <div class="h-4 w-0.5 bg-red-400 rounded-full"></div>
@@ -312,7 +302,6 @@ DANGER ZONE — SEPARATE FORM, outside main form
 (function () {
 'use strict';
 
-// ── Auto-generate slug from title ────────────────────────
 const titleInput = document.getElementById('title');
 const slugInput = document.getElementById('slug');
 let slugManuallyEdited = slugInput.value.length > 0;
@@ -332,7 +321,6 @@ titleInput.addEventListener('input', () => {
     slugInput.value = toSlug(titleInput.value);
 });
 
-// ── Rich text editor commands ───────────────────────────
 function execCmd(cmd) {
     const editor = document.getElementById('editor');
     editor.focus();
@@ -354,7 +342,6 @@ function execCmd(cmd) {
     syncBody();
 }
 
-// ── Sync contenteditable → hidden textarea ───────────────
 const editor = document.getElementById('editor');
 const body = document.getElementById('body');
 
@@ -398,7 +385,6 @@ document.getElementById('blogForm').addEventListener('submit', (e) => {
     }
 });
 
-// ── Image preview ────────────────────────────────────────
 function previewImage(input) {
     const file = input.files[0];
     if (!file) return;
@@ -413,7 +399,6 @@ function previewImage(input) {
     reader.readAsDataURL(file);
 }
 
-// ── Expose functions to global scope for inline handlers ─
 window.execCmd = execCmd;
 window.previewImage = previewImage;
 

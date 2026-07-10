@@ -14,7 +14,7 @@
         </div>
 
         <div class="relative">
-            {{-- Vertical connector line --}}
+            
             <div
                 class="absolute left-6 top-8 bottom-8 w-px bg-gradient-to-b from-crimson-200 via-crimson-400 to-crimson-200 hidden lg:block"></div>
 
@@ -22,7 +22,7 @@
                 @foreach($section->settings['steps'] as $step)
                     <div class="flex gap-6 group">
 
-                        {{-- Step number --}}
+                        
                         <div class="relative shrink-0">
                             <div class="w-12 h-12 rounded-full bg-crimson-500 text-white font-display font-900
                                         text-lg flex items-center justify-center shadow-lg shadow-crimson-500/25
@@ -31,7 +31,7 @@
                             </div>
                         </div>
 
-                        {{-- Step content --}}
+                        
                         <div class="flex-1 bg-gray-50 rounded-2xl p-6 border border-gray-100
                                     group-hover:border-crimson-100 group-hover:bg-crimson-50/30
                                     transition-all duration-300 pb-6">

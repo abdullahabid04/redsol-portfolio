@@ -12,13 +12,8 @@
     <span class="text-xs font-body text-gray-500">Testimonials</span>
 @endsection
 
-@section('content')
-
-    {{-- ══════════════════════════════════════════════
-    OVERVIEW CARDS
-    ══════════════════════════════════════════════ --}}
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
-        {{-- Total --}}
+@section('content')<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+        
         <div
             class="col-span-2 sm:col-span-1 bg-gray-900 rounded-2xl px-5 py-4 flex items-center gap-4 relative overflow-hidden">
             <div class="absolute inset-0 opacity-25"
@@ -30,7 +25,7 @@
             </div>
         </div>
 
-        {{-- Active --}}
+        
         <div class="bg-white border border-gray-200 rounded-2xl px-4 py-4">
             <div class="font-display font-800 text-2xl text-gray-900 leading-none">{{ $stats['active'] }}</div>
             <div class="font-body text-xs text-gray-400 mt-0.5 flex items-center gap-1.5">
@@ -38,7 +33,7 @@
             </div>
         </div>
 
-        {{-- Featured --}}
+        
         <div class="bg-white border border-gray-200 rounded-2xl px-4 py-4">
             <div class="font-display font-800 text-2xl text-gray-900 leading-none">{{ $stats['featured'] }}</div>
             <div class="font-body text-xs text-gray-400 mt-0.5 flex items-center gap-1.5">
@@ -46,7 +41,7 @@
             </div>
         </div>
 
-        {{-- Placeholder cards for grid consistency --}}
+        
         <div class="bg-white border border-gray-200 rounded-2xl px-4 py-4">
             <div class="font-display font-800 text-2xl text-gray-900 leading-none">—</div>
             <div class="font-body text-[10px] text-gray-400 mt-0.5 leading-tight">—</div>
@@ -61,9 +56,9 @@
         </div>
     </div>
 
-    {{-- Toolbar --}}
+    
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
-        {{-- Filters --}}
+        
         <div class="flex items-center gap-2 flex-wrap">
             @foreach(['all' => 'All', 'active' => 'Active', 'inactive' => 'Inactive'] as $val => $label)
                 <a href="{{ request()->fullUrlWithQuery(['status' => $val === 'all' ? null : $val]) }}" class="px-3 py-1.5 rounded-lg text-xs font-display font-600 tracking-wide transition-all
@@ -74,7 +69,7 @@
                 </a>
             @endforeach
 
-            {{-- Search --}}
+            
             <form action="{{ route('admin.testimonials.index') }}" method="GET" class="flex items-center gap-2 ml-1">
                 <div class="relative">
                     <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none"
@@ -88,7 +83,7 @@
             </form>
         </div>
 
-        {{-- New testimonial button --}}
+        
         <a href="{{ route('admin.testimonials.create') }}" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-crimson-500 text-white font-display font-600 text-sm
                   hover:bg-crimson-600 transition-all hover:shadow-lg hover:shadow-crimson-500/25 shrink-0">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -98,17 +93,17 @@
         </a>
     </div>
 
-    {{-- Testimonial cards grid --}}
+    
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mb-6">
         @forelse($testimonials as $testimonial)
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden group hover:border-crimson-500/20 hover:shadow-lg hover:shadow-crimson-500/5 transition-all duration-300"
                 id="testimonial-{{ $testimonial->id }}">
 
-                {{-- Status bar top --}}
+                
                 <div class="h-1 {{ $testimonial->is_active ? 'bg-green-400' : 'bg-gray-200' }}"></div>
 
                 <div class="p-6">
-                    {{-- Stars --}}
+                    
                     <div class="flex items-center gap-1 mb-4">
                         @foreach($testimonial->starsArray() as $filled)
                             <svg class="w-4 h-4 {{ $filled ? 'text-amber-400' : 'text-gray-200' }}" fill="currentColor"
@@ -120,13 +115,13 @@
                         <span class="ml-1 font-body text-xs text-gray-400">{{ $testimonial->rating }}/5</span>
                     </div>
 
-                    {{-- Quote --}}
+                    
                     <div class="font-display text-5xl text-crimson-500/10 leading-none mb-1 select-none">"</div>
                     <blockquote class="font-body text-sm text-gray-600 leading-relaxed italic mb-5 line-clamp-3">
                         "{{ $testimonial->quote }}"
                     </blockquote>
 
-                    {{-- Author --}}
+                    
                     <div class="flex items-center gap-3 pt-4 border-t border-gray-100">
                         <div class="w-9 h-9 rounded-full bg-gray-900 flex items-center justify-center shrink-0">
                             @if($testimonial->photo)
@@ -145,9 +140,9 @@
                         </div>
                     </div>
 
-                    {{-- Actions --}}
+                    
                     <div class="flex items-center gap-2 mt-4 pt-4 border-t border-gray-100">
-                        {{-- Edit --}}
+                        
                         <a href="{{ route('admin.testimonials.edit', $testimonial->id) }}" title="Edit testimonial"
                             class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-gray-400 hover:text-crimson-600 hover:border-crimson-500/30 hover:bg-crimson-500/5 transition-all">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -156,7 +151,7 @@
                             </svg>
                         </a>
 
-                        {{-- Delete --}}
+                        
                         <form method="POST" action="{{ route('admin.testimonials.destroy', $testimonial->id) }}"
                             onsubmit="return confirm('Delete this testimonial?')">
                             @csrf @method('DELETE')
@@ -185,7 +180,7 @@
         @endforelse
     </div>
 
-    {{-- Pagination --}}
+    
     @if($testimonials->hasPages())
         <div class="px-5 py-3 border-t border-gray-100 bg-gray-50/50">
             {{ $testimonials->links() }}

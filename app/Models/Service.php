@@ -26,16 +26,15 @@ class Service extends Model
     ];
 
     protected $casts = [
-        'features'    => 'array',
-        'is_active'   => 'boolean',
+        'features' => 'array',
+        'is_active' => 'boolean',
         'is_featured' => 'boolean',
-        'sort_order'  => 'integer',
+        'sort_order' => 'integer',
     ];
 
-    // ── Tag constants ────────────────────────────────────────
-    const TAG_HIS      = 'HIS-Related';
-    const TAG_CUSTOM   = 'Custom Dev';
-    const TAG_SUPPORT  = 'Support';
+    const TAG_HIS = 'HIS-Related';
+    const TAG_CUSTOM = 'Custom Dev';
+    const TAG_SUPPORT = 'Support';
     const TAG_ADVISORY = 'Advisory';
 
     const TAGS = [
@@ -44,8 +43,6 @@ class Service extends Model
         self::TAG_SUPPORT,
         self::TAG_ADVISORY,
     ];
-
-    // ── Scopes ───────────────────────────────────────────────
 
     public function scopeActive($query)
     {
@@ -62,28 +59,20 @@ class Service extends Model
         return $query->orderBy('sort_order');
     }
 
-    // ── Accessors ────────────────────────────────────────────
-
     public function getMetaTitleAttribute($value): string
     {
         return $value ?: $this->name;
     }
-
-    /**
-     * Returns Tailwind badge classes matching the red/white/black theme.
-     */
     public function tagBadgeClass(): string
     {
-        return match($this->tag) {
-            self::TAG_HIS      => 'bg-crimson-500/10 text-crimson-600 border-crimson-500/25',
-            self::TAG_CUSTOM   => 'bg-gray-100 text-gray-600 border-gray-200',
-            self::TAG_SUPPORT  => 'bg-gray-100 text-gray-600 border-gray-200',
+        return match ($this->tag) {
+            self::TAG_HIS => 'bg-crimson-500/10 text-crimson-600 border-crimson-500/25',
+            self::TAG_CUSTOM => 'bg-gray-100 text-gray-600 border-gray-200',
+            self::TAG_SUPPORT => 'bg-gray-100 text-gray-600 border-gray-200',
             self::TAG_ADVISORY => 'bg-gray-100 text-gray-600 border-gray-200',
-            default            => 'bg-gray-100 text-gray-600 border-gray-200',
+            default => 'bg-gray-100 text-gray-600 border-gray-200',
         };
     }
-
-    // ── Boot ─────────────────────────────────────────────────
 
     protected static function boot(): void
     {
@@ -99,10 +88,8 @@ class Service extends Model
         });
     }
 
-    // ── Helpers ──────────────────────────────────────────────
-
     public function toggle(): void
     {
-        $this->update(['is_active' => ! $this->is_active]);
+        $this->update(['is_active' => !$this->is_active]);
     }
 }

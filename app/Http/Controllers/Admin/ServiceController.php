@@ -10,14 +10,10 @@ use Illuminate\Validation\Rule;
 
 class ServiceController extends Controller
 {
-    /**
-     * Display a listing of services.
-     */
     public function index(Request $request)
     {
         $query = Service::query();
 
-        // ── Filters ──────────────────────────────────────────
         if ($search = $request->get('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
@@ -34,13 +30,11 @@ class ServiceController extends Controller
             $query->where('is_active', $status === 'active');
         }
 
-        // ── Pagination ───────────────────────────────────────
         $services = $query
             ->ordered()
             ->paginate(15)
             ->withQueryString();
 
-        // ── Summary counts ───────────────────────────────────
         $stats = [
             'total' => Service::count(),
             'active' => Service::active()->count(),
@@ -55,10 +49,6 @@ class ServiceController extends Controller
 
         return view('admin.pages.services.index', compact('services', 'stats', 'tagCounts'));
     }
-
-    /**
-     * Show the form for creating a new service.
-     */
     public function create()
     {
         return view('admin.pages.services.form', [
@@ -66,10 +56,6 @@ class ServiceController extends Controller
             'isEdit' => false,
         ]);
     }
-
-    /**
-     * Store a newly created service in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -111,27 +97,22 @@ class ServiceController extends Controller
         ]);
 
         try {
-            // ── Auto-generate slug if empty ─────────────────
             if (empty($validated['slug'])) {
                 $validated['slug'] = Str::slug($validated['name']);
             }
 
-            // ── Auto-generate href if empty ─────────────────
             if (empty($validated['href'])) {
                 $validated['href'] = '/services/' . $validated['slug'];
             }
 
-            // ── Default values ─────────────────────────────
             $validated['is_active'] = $validated['is_active'] ?? true;
             $validated['is_featured'] = $validated['is_featured'] ?? false;
             $validated['sort_order'] = $validated['sort_order'] ?? (Service::max('sort_order') ?? 0) + 1;
 
-            // ── Handle empty features array ─────────────────
             if (isset($validated['features']) && is_array($validated['features'])) {
                 $validated['features'] = array_filter(array_map('trim', $validated['features']));
             }
 
-            // ── Create ─────────────────────────────────────
             Service::create($validated);
 
             return redirect()
@@ -157,10 +138,6 @@ class ServiceController extends Controller
                 ->with('error', 'Failed to create service. Please try again.');
         }
     }
-
-    /**
-     * Show the form for editing the specified service.
-     */
     public function edit(string $id)
     {
         $service = Service::findOrFail($id);
@@ -170,10 +147,6 @@ class ServiceController extends Controller
             'isEdit' => true,
         ]);
     }
-
-    /**
-     * Update the specified service in storage.
-     */
     public function update(Request $request, string $id)
     {
         $service = Service::findOrFail($id);
@@ -213,22 +186,18 @@ class ServiceController extends Controller
         ]);
 
         try {
-            // ── Auto-generate slug if empty ─────────────────
             if (empty($validated['slug'])) {
                 $validated['slug'] = Str::slug($validated['name']);
             }
 
-            // ── Auto-generate href if empty ─────────────────
             if (empty($validated['href'])) {
                 $validated['href'] = '/services/' . $validated['slug'];
             }
 
-            // ── Handle empty features array ─────────────────
             if (isset($validated['features']) && is_array($validated['features'])) {
                 $validated['features'] = array_filter(array_map('trim', $validated['features']));
             }
 
-            // ── Update ─────────────────────────────────────
             $service->update($validated);
 
             return redirect()
@@ -253,10 +222,6 @@ class ServiceController extends Controller
                 ->with('error', 'Failed to update service. Please try again.');
         }
     }
-
-    /**
-     * Toggle active status for a service.
-     */
     public function toggle(string $id)
     {
         try {
@@ -275,10 +240,6 @@ class ServiceController extends Controller
                 ->with('error', 'Failed to update service status.');
         }
     }
-
-    /**
-     * Toggle featured status for a service.
-     */
     public function toggleFeatured(string $id)
     {
         try {
@@ -297,10 +258,6 @@ class ServiceController extends Controller
                 ->with('error', 'Failed to update featured status.');
         }
     }
-
-    /**
-     * Remove the specified service from storage.
-     */
     public function destroy(string $id)
     {
         try {

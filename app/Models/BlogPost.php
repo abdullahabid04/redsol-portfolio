@@ -29,31 +29,26 @@ class BlogPost extends Model
     ];
 
     protected $casts = [
-        'tags'              => 'array',
-        'published_at'      => 'datetime',
+        'tags' => 'array',
+        'published_at' => 'datetime',
         'read_time_minutes' => 'integer',
-        'view_count'        => 'integer',
+        'view_count' => 'integer',
     ];
 
-    // ── Status constants ─────────────────────────────────────
-    const STATUS_DRAFT     = 'draft';
+    const STATUS_DRAFT = 'draft';
     const STATUS_PUBLISHED = 'published';
-    const STATUS_ARCHIVED  = 'archived';
-
-    // ── Relationships ────────────────────────────────────────
+    const STATUS_ARCHIVED = 'archived';
 
     public function author(): BelongsTo
     {
         return $this->belongsTo(Admin::class, 'author_id');
     }
 
-    // ── Scopes ───────────────────────────────────────────────
-
     public function scopePublished($query)
     {
         return $query->where('status', self::STATUS_PUBLISHED)
-                     ->whereNotNull('published_at')
-                     ->where('published_at', '<=', now());
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now());
     }
 
     public function scopeDraft($query)
@@ -65,27 +60,17 @@ class BlogPost extends Model
     {
         return $query->where('category', $category);
     }
-
-    // ── Accessors ────────────────────────────────────────────
-
-    /**
-     * Fallback to title if meta_title is not set.
-     */
     public function getMetaTitleAttribute($value): string
     {
         return $value ?: $this->title;
     }
-
-    /**
-     * Returns a status badge Tailwind class string.
-     */
     public function statusBadgeClass(): string
     {
-        return match($this->status) {
+        return match ($this->status) {
             self::STATUS_PUBLISHED => 'bg-green-100 text-green-700 border-green-200',
-            self::STATUS_DRAFT     => 'bg-yellow-100 text-yellow-700 border-yellow-200',
-            self::STATUS_ARCHIVED  => 'bg-gray-100 text-gray-500 border-gray-200',
-            default                => 'bg-gray-100 text-gray-500 border-gray-200',
+            self::STATUS_DRAFT => 'bg-yellow-100 text-yellow-700 border-yellow-200',
+            self::STATUS_ARCHIVED => 'bg-gray-100 text-gray-500 border-gray-200',
+            default => 'bg-gray-100 text-gray-500 border-gray-200',
         };
     }
 
@@ -93,8 +78,6 @@ class BlogPost extends Model
     {
         return ucfirst($this->status);
     }
-
-    // ── Mutators / Boot ──────────────────────────────────────
 
     protected static function boot(): void
     {
@@ -116,8 +99,6 @@ class BlogPost extends Model
         });
     }
 
-    // ── Helpers ──────────────────────────────────────────────
-
     public function isPublished(): bool
     {
         return $this->status === self::STATUS_PUBLISHED;
@@ -127,10 +108,6 @@ class BlogPost extends Model
     {
         return $this->status === self::STATUS_DRAFT;
     }
-
-    /**
-     * Increment view count without triggering model events.
-     */
     public function incrementViews(): void
     {
         $this->increment('view_count');

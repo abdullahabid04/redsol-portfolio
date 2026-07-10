@@ -12,13 +12,8 @@
     <span class="text-xs font-body text-gray-500">Team Members</span>
 @endsection
 
-@section('content')
-
-    {{-- ══════════════════════════════════════════════
-    SUMMARY BAR
-    ══════════════════════════════════════════════ --}}
-    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 mb-6">
-        {{-- Total --}}
+@section('content')<div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 mb-6">
+        
         <div class="col-span-2 sm:col-span-1 bg-gray-900 rounded-2xl px-5 py-4 flex items-center gap-4 relative overflow-hidden">
             <div class="absolute inset-0 opacity-25"
                 style="background-image:linear-gradient(rgba(225,29,72,0.1) 1px,transparent 1px),linear-gradient(90deg,rgba(225,29,72,0.1) 1px,transparent 1px);background-size:20px 20px;">
@@ -29,7 +24,7 @@
             </div>
         </div>
 
-        {{-- Visible --}}
+        
         <div class="bg-white border border-gray-200 rounded-2xl px-4 py-4">
             <div class="font-display font-800 text-2xl text-gray-900 leading-none">{{ $stats['visible'] }}</div>
             <div class="font-body text-xs text-gray-400 mt-0.5 flex items-center gap-1.5">
@@ -37,7 +32,7 @@
             </div>
         </div>
 
-        {{-- Hidden --}}
+        
         <div class="bg-white border border-gray-200 rounded-2xl px-4 py-4">
             <div class="font-display font-800 text-2xl text-gray-900 leading-none">{{ $stats['hidden'] }}</div>
             <div class="font-body text-xs text-gray-400 mt-0.5 flex items-center gap-1.5">
@@ -45,7 +40,7 @@
             </div>
         </div>
 
-        {{-- Leadership --}}
+        
         <div class="bg-white border border-gray-200 rounded-2xl px-4 py-4">
             <div class="font-display font-800 text-2xl text-gray-900 leading-none">{{ $stats['leadership'] }}</div>
             <div class="font-body text-xs text-gray-400 mt-0.5 flex items-center gap-1.5">
@@ -53,7 +48,7 @@
             </div>
         </div>
 
-        {{-- Placeholder cards for grid consistency --}}
+        
         <div class="bg-white border border-gray-200 rounded-2xl px-4 py-4">
             <div class="font-display font-800 text-2xl text-gray-900 leading-none">—</div>
             <div class="font-body text-[10px] text-gray-400 mt-0.5 leading-tight">—</div>
@@ -62,16 +57,11 @@
             <div class="font-display font-800 text-2xl text-gray-900 leading-none">—</div>
             <div class="font-body text-[10px] text-gray-400 mt-0.5 leading-tight">—</div>
         </div>
-    </div>
-
-    {{-- ══════════════════════════════════════════════
-    TOOLBAR — Search · Filter · Add button
-    ══════════════════════════════════════════════ --}}
-    <div class="bg-white border border-gray-200 rounded-2xl p-4 mb-4">
+    </div><div class="bg-white border border-gray-200 rounded-2xl p-4 mb-4">
         <form method="GET" action="{{ route('admin.team.index') }}"
             class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
 
-            {{-- Search --}}
+            
             <div class="relative flex-1">
                 <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none"
                     stroke="currentColor" viewBox="0 0 24 24">
@@ -85,7 +75,7 @@
                               placeholder-gray-400 transition-all">
             </div>
 
-            {{-- Status filter --}}
+            
             <select name="status" class="px-3 py-2.5 text-sm font-body text-gray-700 bg-gray-50 border border-gray-200
                            rounded-xl focus:outline-none focus:border-crimson-500 focus:ring-1 focus:ring-crimson-500
                            transition-all cursor-pointer">
@@ -94,7 +84,7 @@
                 <option value="hidden" @selected(request('status') === 'hidden')>Hidden</option>
             </select>
 
-            {{-- Leadership filter --}}
+            
             <select name="leadership" class="px-3 py-2.5 text-sm font-body text-gray-700 bg-gray-50 border border-gray-200
                            rounded-xl focus:outline-none focus:border-crimson-500 focus:ring-1 focus:ring-crimson-500
                            transition-all cursor-pointer">
@@ -102,13 +92,13 @@
                 <option value="yes" @selected(request('leadership') === 'yes')>Leadership only</option>
             </select>
 
-            {{-- Apply --}}
+            
             <button type="submit" class="px-4 py-2.5 rounded-xl bg-gray-900 text-white text-sm font-display font-600
                            hover:bg-gray-800 transition-colors shrink-0">
                 Filter
             </button>
 
-            {{-- Clear (only shown when filters active) --}}
+            
             @if(request('search') || request('status') || request('leadership'))
                 <a href="{{ route('admin.team.index') }}" class="px-4 py-2.5 rounded-xl border border-gray-200 text-gray-500 text-sm font-display font-600
                               hover:border-crimson-500/30 hover:text-crimson-600 transition-colors shrink-0">
@@ -116,7 +106,7 @@
                 </a>
             @endif
 
-            {{-- Spacer --}}
+            
             <div class="flex-1 hidden sm:block"></div>
 
             <a href="{{ route('admin.team.create') }}" class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-crimson-500 text-white
@@ -128,12 +118,7 @@
                 Add Member
             </a>
         </form>
-    </div>
-
-    {{-- ══════════════════════════════════════════════
-    FLASH MESSAGES
-    ══════════════════════════════════════════════ --}}
-    @if(session('success'))
+    </div>@if(session('success'))
         <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-green-50 border border-green-200 text-green-700
                         font-body text-sm mb-4">
             <svg class="w-4 h-4 shrink-0 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -151,12 +136,7 @@
             </svg>
             {{ session('error') }}
         </div>
-    @endif
-
-    {{-- ══════════════════════════════════════════════
-    RESULTS COUNT
-    ══════════════════════════════════════════════ --}}
-    <div class="flex items-center justify-between mb-3 px-1">
+    @endif<div class="flex items-center justify-between mb-3 px-1">
         <span class="font-body text-xs text-gray-400">
             Showing {{ $members->firstItem() ?? 0 }}–{{ $members->lastItem() ?? 0 }}
             of {{ $members->total() }} member{{ $members->total() !== 1 ? 's' : '' }}
@@ -168,14 +148,9 @@
         <span class="font-body text-xs text-gray-400 hidden sm:block">
             Ordered by sort_order · drag to reorder
         </span>
-    </div>
-
-    {{-- ══════════════════════════════════════════════
-    TEAM MEMBERS TABLE
-    ══════════════════════════════════════════════ --}}
-    <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden mb-4">
+    </div><div class="bg-white border border-gray-200 rounded-2xl overflow-hidden mb-4">
         @if($members->isEmpty())
-            {{-- Empty state --}}
+            
             <div class="flex flex-col items-center justify-center py-20 px-6 text-center">
                 <div class="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mb-4">
                     <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -235,12 +210,12 @@
                     <tbody class="divide-y divide-gray-50" id="memberTableBody">
                         @foreach($members as $member)
                                         <tr class="group hover:bg-gray-50/60 transition-colors duration-150" data-id="{{ $member->id }}">
-                                            {{-- Sort order --}}
+                                            
                                             <td class="px-5 py-4">
                                                 <span class="font-body text-xs text-gray-400 w-4 text-center">{{ $member->sort_order ?: '—' }}</span>
                                             </td>
 
-                                            {{-- Member name + photo --}}
+                                            
                                             <td class="px-4 py-4">
                                                 <div class="flex items-center gap-3">
                                                     <div class="w-9 h-9 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-center shrink-0 overflow-hidden">
@@ -264,17 +239,17 @@
                                                 </div>
                                             </td>
 
-                                            {{-- Department --}}
+                                            
                                             <td class="px-4 py-4 hidden md:table-cell">
                                                 <span class="font-body text-xs text-gray-500">{{ $member->department ?: '—' }}</span>
                                             </td>
 
-                                            {{-- Bio Preview --}}
+                                            
                                             <td class="px-4 py-4 hidden lg:table-cell max-w-[220px]">
                                                 <span class="font-body text-xs text-gray-500 line-clamp-2">{{ Str::limit($member->bio, 100) }}</span>
                                             </td>
 
-                                            {{-- Visibility toggle --}}
+                                            
                                             <td class="px-4 py-4 text-center">
                                                 <form method="POST" action="{{ route('admin.team.toggle', $member->id) }}" class="inline">
                                                     @csrf
@@ -293,10 +268,10 @@
                                                 </form>
                                             </td>
 
-                                            {{-- Actions --}}
+                                            
                                             <td class="px-5 py-4">
                                                 <div class="flex items-center justify-end gap-1.5">
-                                                    {{-- Edit --}}
+                                                    
                                                     <a href="{{ route('admin.team.edit', $member->id) }}" title="Edit member"
                                                         class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-gray-400 hover:text-crimson-600 hover:border-crimson-500/30 hover:bg-crimson-500/5 transition-all">
                                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -305,7 +280,7 @@
                                                         </svg>
                                                     </a>
 
-                                                    {{-- Delete --}}
+                                                    
                                                     <form method="POST" action="{{ route('admin.team.destroy', $member->id) }}"
                                                           onsubmit="return confirm('Remove {{ addslashes($member->name) }} from the team?')">
                                                         @csrf @method('DELETE')
@@ -325,18 +300,13 @@
                 </table>
             </div>
         @endif
-    </div>
-
-    {{-- ══════════════════════════════════════════════
-    PAGINATION
-    ══════════════════════════════════════════════ --}}
-    @if($members->hasPages())
+    </div>@if($members->hasPages())
         <div class="flex items-center justify-between px-1">
             <span class="font-body text-xs text-gray-400">
                 Page {{ $members->currentPage() }} of {{ $members->lastPage() }}
             </span>
             <div class="flex items-center gap-1">
-                {{-- Previous --}}
+                
                 @if($members->onFirstPage())
                     <span class="w-8 h-8 rounded-lg border border-gray-100 flex items-center justify-center
                                          text-gray-300 cursor-not-allowed">
@@ -353,7 +323,7 @@
                     </a>
                 @endif
 
-                {{-- Page numbers --}}
+                
                 @foreach($members->getUrlRange(max(1, $members->currentPage() - 2), min($members->lastPage(), $members->currentPage() + 2)) as $page => $url)
                         <a href="{{ $url }}" class="w-8 h-8 rounded-lg border flex items-center justify-center
                                           text-xs font-display font-700 transition-all
@@ -364,7 +334,7 @@
                         </a>
                 @endforeach
 
-                {{-- Next --}}
+                
                 @if($members->hasMorePages())
                     <a href="{{ $members->nextPageUrl() }}" class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center
                                       text-gray-500 hover:border-crimson-500/30 hover:text-crimson-600 transition-all">
@@ -388,8 +358,7 @@
 
 @push('scripts')
     <script>
-        // ── Auto-dismiss flash messages after 4s ─────────────────
-        document.querySelectorAll('[data-flash]').forEach(el => {
+                document.querySelectorAll('[data-flash]').forEach(el => {
             setTimeout(() => {
                 el.style.transition = 'opacity 0.4s ease';
                 el.style.opacity = '0';

@@ -9,12 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AdminAuth
 {
-    /**
-     * Handle an incoming request.
-     *
-     * Checks the 'admin' guard. If not authenticated, redirect to admin login.
-     * Also verifies is_active status — deactivated admins are logged out immediately.
-     */
     public function handle(Request $request, Closure $next): Response
     {
         // Not logged in → redirect to login

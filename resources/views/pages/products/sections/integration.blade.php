@@ -8,7 +8,7 @@
         </p>
         <div class="flex flex-wrap gap-3">
             @php
-                $allModules = \App\Models\HisModule::published()
+                $allModules = \App\Models\Product::published()
                     ->where('slug', '!=', $module->slug)
                     ->orderBy('sort_order')
                     ->pluck('name', 'slug');

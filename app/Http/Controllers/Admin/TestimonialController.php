@@ -11,14 +11,10 @@ use Illuminate\Validation\Rule;
 
 class TestimonialController extends Controller
 {
-    /**
-     * Display a listing of testimonials.
-     */
     public function index(Request $request)
     {
         $query = Testimonial::query();
 
-        // ── Filters ──────────────────────────────────────────
         if ($search = $request->get('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('author_name', 'like', "%{$search}%")
@@ -38,13 +34,11 @@ class TestimonialController extends Controller
             $query->where('is_featured', true);
         }
 
-        // ── Pagination ───────────────────────────────────────
         $testimonials = $query
             ->ordered()
             ->paginate(15)
             ->withQueryString();
 
-        // ── Summary counts ───────────────────────────────────
         $stats = [
             'total' => Testimonial::count(),
             'active' => Testimonial::active()->count(),
@@ -53,10 +47,6 @@ class TestimonialController extends Controller
 
         return view('admin.pages.testimonials.index', compact('testimonials', 'stats'));
     }
-
-    /**
-     * Show the form for creating a new testimonial.
-     */
     public function create()
     {
         return view('admin.pages.testimonials.form', [
@@ -64,10 +54,6 @@ class TestimonialController extends Controller
             'isEdit' => false,
         ]);
     }
-
-    /**
-     * Store a newly created testimonial in storage.
-     */
     public function store(Request $request)
     {
 
@@ -94,23 +80,19 @@ class TestimonialController extends Controller
         ]);
 
         try {
-            // ── Handle photo upload ─────────────────────────
             if ($request->hasFile('photo')) {
                 $path = $request->file('photo')->store('testimonials', 'public');
                 $validated['photo'] = $path;
             }
 
-            // ── Auto-generate initials if not provided ─────
             if (empty($validated['author_initials']) && !empty($validated['author_name'])) {
                 $validated['author_initials'] = $this->generateInitials($validated['author_name']);
             }
 
-            // ── Default values ─────────────────────────────
             $validated['is_active'] = $validated['is_active'] ?? true;
             $validated['is_featured'] = $validated['is_featured'] ?? false;
             $validated['sort_order'] = $validated['sort_order'] ?? Testimonial::max('sort_order') + 1;
 
-            // ── Create ─────────────────────────────────────
             Testimonial::create($validated);
 
             return redirect()
@@ -118,7 +100,6 @@ class TestimonialController extends Controller
                 ->with('success', 'Testimonial created successfully.');
 
         } catch (\Exception $e) {
-            // ── Rollback photo if DB insert fails ─────────
             if (isset($validated['photo']) && Storage::disk('public')->exists($validated['photo'])) {
                 Storage::disk('public')->delete($validated['photo']);
             }
@@ -133,10 +114,6 @@ class TestimonialController extends Controller
                 ->with('error', 'Failed to create testimonial. Please try again.');
         }
     }
-
-    /**
-     * Show the form for editing the specified testimonial.
-     */
     public function edit(string $id)
     {
 
@@ -148,10 +125,6 @@ class TestimonialController extends Controller
             'isEdit' => true,
         ]);
     }
-
-    /**
-     * Update the specified testimonial in storage.
-     */
     public function update(Request $request, string $id)
     {
 
@@ -180,7 +153,6 @@ class TestimonialController extends Controller
         ]);
 
         try {
-            // ── Handle photo replacement ───────────────────
             if ($request->hasFile('photo')) {
                 // Delete old photo if exists
                 if ($testimonial->photo && Storage::disk('public')->exists($testimonial->photo)) {
@@ -193,12 +165,10 @@ class TestimonialController extends Controller
                 unset($validated['photo']);
             }
 
-            // ── Auto-generate initials if cleared ──────────
             if (empty($validated['author_initials']) && !empty($validated['author_name'])) {
                 $validated['author_initials'] = $this->generateInitials($validated['author_name']);
             }
 
-            // ── Update ─────────────────────────────────────
             $testimonial->update($validated);
 
             return redirect()
@@ -206,7 +176,6 @@ class TestimonialController extends Controller
                 ->with('success', 'Testimonial updated successfully.');
 
         } catch (\Exception $e) {
-            // ── Rollback new photo if update fails ─────────
             if (isset($validated['photo']) && Storage::disk('public')->exists($validated['photo'])) {
                 Storage::disk('public')->delete($validated['photo']);
             }
@@ -221,10 +190,6 @@ class TestimonialController extends Controller
                 ->with('error', 'Failed to update testimonial. Please try again.');
         }
     }
-
-    /**
-     * Toggle active status for a testimonial.
-     */
     public function toggle(string $id)
     {
 
@@ -245,10 +210,6 @@ class TestimonialController extends Controller
                 ->with('error', 'Failed to update testimonial status.');
         }
     }
-
-    /**
-     * Toggle featured status for a testimonial.
-     */
     public function toggleFeatured(string $id)
     {
 
@@ -269,17 +230,12 @@ class TestimonialController extends Controller
                 ->with('error', 'Failed to update featured status.');
         }
     }
-
-    /**
-     * Remove the specified testimonial from storage.
-     */
     public function destroy(string $id)
     {
 
         try {
             $testimonial = Testimonial::findOrFail($id);
 
-            // ── Delete associated photo ────────────────────
             if ($testimonial->photo && Storage::disk('public')->exists($testimonial->photo)) {
                 Storage::disk('public')->delete($testimonial->photo);
             }
@@ -302,10 +258,6 @@ class TestimonialController extends Controller
                 ->with('error', 'Failed to delete testimonial. Please try again.');
         }
     }
-
-    /**
-     * Bulk action handler (activate, deactivate, delete, feature).
-     */
     public function bulkAction(Request $request)
     {
 
@@ -350,10 +302,6 @@ class TestimonialController extends Controller
             ->with('success', $message)
             ->with('errors', $errors);
     }
-
-    /**
-     * Helper: Generate initials from author name.
-     */
     private function generateInitials(string $name): string
     {
         $clean = preg_replace('/^(Dr\.|Mr\.|Ms\.|Mrs\.)\s*/i', '', trim($name));
@@ -368,10 +316,6 @@ class TestimonialController extends Controller
 
         return $initials ?: Str::upper(Str::substr($name, 0, 2));
     }
-
-    /**
-     * Helper: Delete testimonial and its photo safely.
-     */
     private function deleteTestimonialWithPhoto(Testimonial $testimonial): void
     {
         if ($testimonial->photo && Storage::disk('public')->exists($testimonial->photo)) {

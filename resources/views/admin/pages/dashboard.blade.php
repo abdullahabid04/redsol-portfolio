@@ -12,8 +12,7 @@
     @php
         $admin = Auth::guard('admin')->user();
 
-        // ── Live counts from actual models ────────────────────────────────
-        $blogTotal    = \App\Models\BlogPost::count();
+                $blogTotal    = \App\Models\BlogPost::count();
         $blogDrafts   = \App\Models\BlogPost::where('status', 'draft')->count();
         $blogPublished= \App\Models\BlogPost::where('status', 'published')->count();
 
@@ -37,8 +36,7 @@
         $teamTotal   = \App\Models\TeamMember::count();
         $teamVisible = \App\Models\TeamMember::visible()->count();
 
-        // ── Stat cards ────────────────────────────────────────────────────
-        $stats = [
+                $stats = [
             [
                 'label'  => 'Blog Posts',
                 'value'  => $blogTotal,
@@ -59,16 +57,16 @@
                 'href'   => route('admin.contacts.index'),
                 'color'  => 'black',
             ],
-            [
-                'label'  => 'Demo Requests',
-                'value'  => $demoTotal,
-                'sub'    => $demoNew . ' awaiting response',
-                'change' => $demoNew . ' new',
-                'up'     => $demoNew > 0,
-                'icon'   => 'M15 10l4.553-2.069A1 1 0 0121 8.845v6.309a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z',
-                'href'   => route('admin.demo-requests.index'),
-                'color'  => 'black',
-            ],
+            // [
+            //     'label'  => 'Demo Requests',
+            //     'value'  => $demoTotal,
+            //     'sub'    => $demoNew . ' awaiting response',
+            //     'change' => $demoNew . ' new',
+            //     'up'     => $demoNew > 0,
+            //     'icon'   => 'M15 10l4.553-2.069A1 1 0 0121 8.845v6.309a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z',
+            //     'href'   => route('admin.demo-requests.index'),
+            //     'color'  => 'black',
+            // ],
             [
                 'label'  => 'Clients',
                 'value'  => $clientTotal,
@@ -83,13 +81,7 @@
 
         $recentPosts = \App\Models\BlogPost::with('author')->latest()->take(5)->get();
         $recentContacts = \App\Models\ContactSubmission::notSpam()->latest()->take(6)->get();
-    @endphp
-
-
-    {{-- ══════════════════════════════════════════════
-    WELCOME BANNER
-    ══════════════════════════════════════════════ --}}
-    <div class="mb-6 rounded-2xl bg-gray-900 px-7 py-6 flex items-center justify-between gap-6 relative overflow-hidden">
+    @endphp<div class="mb-6 rounded-2xl bg-gray-900 px-7 py-6 flex items-center justify-between gap-6 relative overflow-hidden">
         <div class="absolute inset-0 opacity-40"
             style="background-image:linear-gradient(rgba(225,29,72,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(225,29,72,0.07) 1px,transparent 1px);background-size:32px 32px;">
         </div>
@@ -122,7 +114,7 @@
                 </svg>
                 New Blog Post
             </a>
-            {{-- <a href="{{ route('admin.contacts.index') }}"
+            <a href="{{ route('admin.contacts.index') }}"
                class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/8 border border-white/10 text-white font-display font-600 text-sm
                       hover:bg-white/12 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -130,15 +122,9 @@
                           d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                 </svg>
                 View Enquiries
-            </a> --}}
+            </a>
         </div>
-    </div>
-
-
-    {{-- ══════════════════════════════════════════════
-    STAT CARDS
-    ══════════════════════════════════════════════ --}}
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+    </div><div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
         @foreach($stats as $stat)
             @php
                 $isRed   = $stat['color'] === 'crimson';
@@ -183,15 +169,9 @@
                 </div>
             </a>
         @endforeach
-    </div>
+    </div><div class="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-6 mb-6">
 
-
-    {{-- ══════════════════════════════════════════════
-    MAIN GRID — Recent Posts + Recent Contacts
-    ══════════════════════════════════════════════ --}}
-    <div class="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-6 mb-6">
-
-        {{-- ── Recent Blog Posts ─────────────────── --}}
+        
         <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
 
             <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
@@ -222,7 +202,7 @@
                     <tbody class="divide-y divide-gray-50">
                         @forelse($recentPosts as $post)
                             <tr class="hover:bg-gray-50/70 transition-colors group">
-                                {{-- Title --}}
+                                
                                 <td class="px-5 py-3.5 max-w-[220px]">
                                     <span class="font-body text-sm font-500 text-gray-800
                                                  group-hover:text-crimson-600 transition-colors line-clamp-1">
@@ -233,14 +213,14 @@
                                     @endif
                                 </td>
 
-                                {{-- Author --}}
+                                
                                 <td class="px-4 py-3.5">
                                     <span class="font-body text-xs text-gray-500">
                                         {{ $post->author?->name ?? '—' }}
                                     </span>
                                 </td>
 
-                                {{-- Status --}}
+                                
                                 <td class="px-4 py-3.5">
                                     <span class="inline-flex items-center gap-1.5 text-[10px] font-700 font-display px-2 py-1 rounded-lg border
                                                  {{ $post->statusBadgeClass() }}">
@@ -251,7 +231,7 @@
                                     </span>
                                 </td>
 
-                                {{-- Date --}}
+                                
                                 <td class="px-4 py-3.5 hidden sm:table-cell">
                                     <span class="font-body text-xs text-gray-400">
                                         {{ $post->published_at
@@ -260,7 +240,7 @@
                                     </span>
                                 </td>
 
-                                {{-- Edit link --}}
+                                
                                 <td class="px-4 py-3.5">
                                     <a href="{{ route('admin.blog.edit', $post->id) }}"
                                        class="opacity-0 group-hover:opacity-100 transition-opacity
@@ -298,7 +278,7 @@
         </div>
 
 
-        {{-- ── Recent Enquiries ──────────────────── --}}
+        
         <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
 
             <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
@@ -309,7 +289,7 @@
                         <span class="font-display font-700 text-[10px] text-white bg-crimson-500 px-1.5 py-0.5 rounded-md">
                             {{ $contactUnread }}
                         </span>
-                    @endif  {{-- ✅ FIXED: Added missing @endif --}}
+                    @endif  
                 </div>
                 <a href="{{ route('admin.contacts.index') }}"
                    class="font-body text-xs text-gray-400 hover:text-crimson-500 transition-colors flex items-center gap-1">
@@ -331,7 +311,7 @@
                     <div class="flex items-start gap-3 px-5 py-3.5 hover:bg-gray-50/70 transition-colors group
                                 {{ $isUnread ? 'bg-crimson-500/2' : '' }}">
 
-                        {{-- Avatar initial --}}
+                        
                         <div class="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center font-display font-700 text-sm
                                     {{ $isUnread ? 'bg-crimson-500 text-white' : 'bg-gray-100 text-gray-600' }}">
                             {{ strtoupper(substr($contact->name, 0, 1)) }}
@@ -344,7 +324,7 @@
                                 </span>
                                 @if($isUnread)
                                     <span class="w-1.5 h-1.5 rounded-full bg-crimson-500 shrink-0"></span>
-                                @endif  {{-- ✅ FIXED: Added missing @endif --}}
+                                @endif  
                             </div>
 
                             <div class="font-body text-xs text-gray-500 truncate mb-0.5">
@@ -353,8 +333,8 @@
 
                             <div class="flex items-center gap-2">
                                 <span class="inline-flex text-[10px] font-display font-600 px-1.5 py-0.5 rounded border
-                                             {{ $contact->statusBadgeClass() }}">
-                                    {{ $contact->statusLabel() }}
+                                             {{ $contact->getStatusBadgeClassAttribute() }}">
+                                    {{ $contact->getStatusLabelAttribute() }}
                                 </span>
                                 <span class="font-body text-[10px] text-gray-400">
                                     {{ $contact->created_at->diffForHumans() }}
@@ -379,15 +359,9 @@
             </div>
         </div>
 
-    </div>
+    </div><div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
 
-
-    {{-- ══════════════════════════════════════════════
-    BOTTOM ROW — Quick Actions + Content Overview + System Info
-    ══════════════════════════════════════════════ --}}
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-
-        {{-- Quick Actions --}}
+        
         <div class="bg-white border border-gray-200 rounded-2xl p-5">
             <div class="flex items-center gap-3 mb-4">
                 <div class="h-4 w-0.5 bg-crimson-500 rounded-full"></div>
@@ -462,7 +436,7 @@
         </div>
 
 
-        {{-- Content Overview --}}
+        
         <div class="bg-white border border-gray-200 rounded-2xl p-5">
             <div class="flex items-center gap-3 mb-4">
                 <div class="h-4 w-0.5 bg-crimson-500 rounded-full"></div>
@@ -506,7 +480,7 @@
         </div>
 
 
-        {{-- System Info --}}
+        
         <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 relative overflow-hidden">
             <div class="absolute inset-0 opacity-30"
                  style="background-image:linear-gradient(rgba(225,29,72,0.08) 1px,transparent 1px),linear-gradient(90deg,rgba(225,29,72,0.08) 1px,transparent 1px);background-size:28px 28px;">

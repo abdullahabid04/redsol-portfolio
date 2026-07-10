@@ -1,18 +1,3 @@
-{{--
-ADMIN LAYOUT — admin/layouts/app.blade.php
-─────────────────────────────────────────────────────────────────
-Completely separate from the public layouts/app.blade.php.
-All admin views extend this layout.
-
-Usage in any admin blade:
-@extends('admin.layouts.app')
-@section('title', 'Dashboard')
-@section('content') ... @endsection
-
-Sidebar nav visibility is driven by Admin::PERMISSIONS.
-Role badges use Admin::roleBadgeClass() from the model.
-─────────────────────────────────────────────────────────────────
---}}
 <!DOCTYPE html>
 <html lang="en" class="h-full">
 
@@ -21,6 +6,7 @@ Role badges use Admin::roleBadgeClass() from the model.
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Dashboard') — REDSOL Admin</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/logo.png') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -257,15 +243,10 @@ Role badges use Admin::roleBadgeClass() from the model.
 
     <div class="admin-shell">
 
-        {{-- Mobile overlay --}}
-        <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+        
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div><aside class="admin-sidebar sidebar-grid" id="adminSidebar">
 
-        {{-- ══════════════════════════════════════════
-        SIDEBAR
-        ══════════════════════════════════════════ --}}
-        <aside class="admin-sidebar sidebar-grid" id="adminSidebar">
-
-            {{-- Logo --}}
+            
             <div class="px-5 py-5 border-b border-white/5 shrink-0">
                 <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3">
                     <img src="{{ asset('images/logo.png') }}" alt="REDSOL" class="h-7 w-auto">
@@ -278,10 +259,10 @@ Role badges use Admin::roleBadgeClass() from the model.
                 </a>
             </div>
 
-            {{-- Nav --}}
+            
             <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-0.5">
             
-                {{-- Main --}}
+                
                 <div class="nav-section-label">Main</div>
             
                 <a href="{{ route('admin.dashboard') }}"
@@ -363,23 +344,23 @@ Role badges use Admin::roleBadgeClass() from the model.
                         Testimonials
                     </a>
             
-                    {{-- <div class="nav-section-label">Leads</div> --}}
+                    <div class="nav-section-label">Leads</div>
 
-                    {{-- <a href="{{ route('admin.contacts.index') }}"
+                    <a href="{{ route('admin.contacts.index') }}"
                         class="nav-item {{ request()->routeIs('admin.contacts.*') ? 'active' : '' }}">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
                                 d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
                         Contact Enquiries
-                        @php $unread = \App\Models\ContactInquiry::where('is_read', false)->count() ?? 0; @endphp
+                        @php $unread = \App\Models\ContactSubmission::where('status', \App\Models\ContactSubmission::STATUS_NEW)->count() ?? 0; @endphp
                         @if($unread > 0)
                             <span
                                 class="ml-auto text-[10px] font-display font-700 bg-crimson-500 text-white px-1.5 py-0.5 rounded-md animate-pulse">
                                 {{ $unread }}
                             </span>
                         @endif
-                    </a> --}}
+                    </a>
 
                     {{-- <a href="{{ route('admin.demos.index') }}"
                         class="nav-item {{ request()->routeIs('admin.demos.*') ? 'active' : '' }}">
@@ -389,9 +370,9 @@ Role badges use Admin::roleBadgeClass() from the model.
                         </svg>
                         Demo Requests
                     </a> --}}                
-                {{-- <div class="nav-section-label">System</div> --}}
                 
-                {{-- <a href="{{ route('admin.admins.index') }}" class="nav-item {{ request()->routeIs('admin.admins.*') ? 'active' : '' }}"> --}}
+                
+                
                 {{-- <a href="{{ route('admin.users.index') }}" class="nav-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
 
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -401,7 +382,7 @@ Role badges use Admin::roleBadgeClass() from the model.
                     Admin Users
                 </a> --}}
                 
-                {{-- <a href="{{ route('admin.settings') }}" class="nav-item {{ request()->routeIs('admin.settings') ? 'active' : '' }}"> --}}
+                
                 {{-- <a href="" class="nav-item {{ request()->routeIs('admin.settings') ? 'active' : '' }}">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
@@ -420,7 +401,7 @@ Role badges use Admin::roleBadgeClass() from the model.
                 </a>
             </nav>
 
-            {{-- Logged-in admin info --}}
+            
             <div class="shrink-0 border-t border-white/5 p-4">
                 <div class="flex items-center gap-3">
                     <div class="w-8 h-8 rounded-lg bg-crimson-500 flex items-center justify-center shrink-0">
@@ -435,7 +416,7 @@ Role badges use Admin::roleBadgeClass() from the model.
                             {{ $admin->roleLabel() }}
                         </span>
                     </div>
-                    {{-- Logout --}}
+                    
                     <form method="POST" action="{{ route('admin.logout') }}">
                         @csrf
                         <button type="submit" title="Logout"
@@ -449,22 +430,17 @@ Role badges use Admin::roleBadgeClass() from the model.
                 </div>
             </div>
 
-        </aside>
+        </aside><div class="admin-main" id="adminMain">
 
-        {{-- ══════════════════════════════════════════
-        MAIN AREA
-        ══════════════════════════════════════════ --}}
-        <div class="admin-main" id="adminMain">
-
-            {{-- Topbar --}}
+            
             <header class="admin-topbar sticky top-0 z-40 h-[60px] bg-white border-b border-gray-200 px-6 flex items-center justify-between">
 
-                {{-- LEFT SECTION --}}
+                
                 <div class="flex items-center gap-4 min-w-0">
 
-                    {{-- Sidebar Toggle (Mobile + Desktop) --}}
+                    
                     <div class="flex items-center gap-2">
-                        {{-- Mobile toggle --}}
+                        
                         <button onclick="toggleSidebar()"
                             class="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-100 transition">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -473,7 +449,7 @@ Role badges use Admin::roleBadgeClass() from the model.
                             </svg>
                         </button>
 
-                        {{-- Desktop collapse toggle --}}
+                        
                         <button onclick="toggleSidebarDesktop()"
                             class="hidden lg:flex w-10 h-10 items-center justify-center rounded-lg border border-gray-200 text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -483,14 +459,14 @@ Role badges use Admin::roleBadgeClass() from the model.
                         </button>
                     </div>
 
-                    {{-- Title Block --}}
+                    
                     <div class="flex flex-col justify-center min-w-0">
-                        {{-- Main Title --}}
+                        
                         <h1 class="font-display font-800 text-lg text-gray-900 leading-tight tracking-tight truncate">
                             @yield('page-title', 'Dashboard')
                         </h1>
 
-                        {{-- Breadcrumb --}}
+                        
                         @hasSection('breadcrumb')
                             <div class="flex items-center gap-1 mt-0.5 text-[11px] font-body text-gray-400">
                                 @yield('breadcrumb')
@@ -498,10 +474,10 @@ Role badges use Admin::roleBadgeClass() from the model.
                         @endif
                     </div>
 
-                    {{-- Divider --}}
+                    
                     <div class="hidden md:block h-8 w-px bg-gray-200 mx-4"></div>
 
-                    {{-- Description --}}
+                    
                     <div class="hidden md:flex flex-col min-w-0">
                         <span class="text-sm text-gray-600 truncate">
                             @yield('page-description', 'Overview of your platform')
@@ -512,14 +488,14 @@ Role badges use Admin::roleBadgeClass() from the model.
                     </div>
                 </div>
 
-                {{-- RIGHT SECTION --}}
+                
                 <div class="flex items-center gap-4">
-                    {{-- User Dropdown (Alpine.js) --}}
+                    
                     <div class="relative" x-data="{ open: false }">
                         <button @click="open = !open"
                             class="flex items-center gap-3 px-1 py-1 rounded-lg hover:bg-gray-100 transition-colors">
 
-                            {{-- Avatar with Status --}}
+                            
                             <div class="relative">
                                 <div class="w-10 h-10 rounded-lg bg-gray-900 text-white flex items-center justify-center text-sm font-semibold font-display">
                                     {{ strtoupper(substr($admin->name, 0, 2)) }}
@@ -527,7 +503,7 @@ Role badges use Admin::roleBadgeClass() from the model.
                                 <span class="absolute top-0 right-0 w-2.5 h-2.5 bg-crimson-500 border-2 border-white rounded-full"></span>
                             </div>
 
-                            {{-- User Info --}}
+                            
                             <div class="hidden sm:flex flex-col leading-tight text-left">
                                 <span class="text-sm font-medium text-gray-800 truncate max-w-[120px]">{{ $admin->name }}</span>
                                 <span class="text-[10px] font-600 px-1.5 py-0.5 rounded border {{ $admin->roleBadgeClass() }} inline-block mt-0.5">
@@ -535,13 +511,13 @@ Role badges use Admin::roleBadgeClass() from the model.
                                 </span>
                             </div>
 
-                            {{-- Dropdown Arrow --}}
+                            
                             <svg class="w-4 h-4 text-gray-400 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
 
-                        {{-- Dropdown Menu --}}
+                        
                         <div x-show="open" 
                             x-transition:enter="transition ease-out duration-150"
                             x-transition:enter-start="opacity-0 scale-95 -translate-y-1"
@@ -576,7 +552,7 @@ Role badges use Admin::roleBadgeClass() from the model.
                 </div>
             </header>
 
-            {{-- Flash messages --}}
+            
             @if(session('success'))
                 <div class="mx-6 mt-4 flex items-center gap-3 px-4 py-3 rounded-xl bg-green-50 border border-green-200 text-sm font-body text-green-700"
                     x-data x-init="setTimeout(()=>$el.remove(),5000)">
@@ -599,12 +575,12 @@ Role badges use Admin::roleBadgeClass() from the model.
                 </div>
             @endif
 
-            {{-- Page content --}}
+            
             <main class="flex-1 p-6">
                 @yield('content')
             </main>
 
-            {{-- Admin footer --}}
+            
             <footer class="border-t border-gray-200 px-6 py-3 bg-white">
                 <div class="flex items-center justify-between">
                     <p class="font-body text-xs text-gray-400">

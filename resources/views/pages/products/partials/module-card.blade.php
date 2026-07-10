@@ -5,7 +5,7 @@
     <div class="{{ $module->card_bg }} p-8 lg:p-10">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-            {{-- Identity --}}
+            
             <div class="lg:col-span-1">
                 <div class="flex items-start gap-4 mb-6">
                     <div class="text-4xl leading-none">{{ $module->icon }}</div>
@@ -39,7 +39,7 @@
                 </a>
             </div>
 
-            {{-- Description --}}
+            
             <div class="lg:col-span-1">
                 <p class="{{ in_array($module->category, ['administration','diagnostics']) ? 'text-gray-400' : 'text-gray-600' }}
                            font-body text-sm leading-[1.85]">
@@ -47,7 +47,7 @@
                 </p>
             </div>
 
-            {{-- Features --}}
+            
             <div class="lg:col-span-1">
                 <div class="flex items-center gap-2 mb-4">
                     <div class="w-4 h-px {{ $module->accent_bg }}"></div>

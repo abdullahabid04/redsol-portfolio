@@ -24,7 +24,7 @@
                         ['label' => 'About',    'href' => '/about'],
                         ['label' => 'Services', 'href' => '/services'],
                         ['label' => 'Products', 'href' => '/products'],
-                        ['label' => 'Projects', 'href' => '/projects'],
+                        // ['label' => 'Projects', 'href' => '/projects'],
                         ['label' => 'Clients',  'href' => '/clients'],
                         ['label' => 'Blog',     'href' => '/blog'],
                     ];
@@ -48,7 +48,7 @@
                     </svg>
                 </a>
 
-                {{-- Mobile hamburger --}}
+                
                 <button id="mobileMenuBtn" class="nav-mobile-btn lg:hidden p-2 transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path id="hamburgerIcon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -60,7 +60,7 @@
         </div>
     </div>
 
-    {{-- Mobile Menu --}}
+    
     <div id="mobileMenu" class="hidden lg:hidden nav-glass border-t border-crimson-500/10 px-6 py-4">
         @foreach($navItems as $item)
             <a href="{{ $item['href'] }}" class="block py-3 text-gray-600 hover:text-crimson-500 font-body transition-colors border-b border-gray-100">

@@ -11,25 +11,12 @@
 
 @section('content')
 
-@php
-    $contacts = $contacts ?? collect([
-        (object)['id'=>1,'name'=>'Dr. Fahad Khan',    'email'=>'fahad@hospitalx.pk',         'phone'=>'0300-1234567','company'=>'Hospital X Lahore',       'subject'=>'HIS Implementation Quote',  'message'=>'We are looking to implement a full HIS across our 200-bed private hospital in Lahore. Please send us a detailed proposal including all modules and pricing.','is_read'=>false,'created_at'=>now()->subHours(2)],
-        (object)['id'=>2,'name'=>'Mr. Bilal Raza',    'email'=>'bilal@medclinic.com',         'phone'=>'0333-9876543','company'=>'MedClinic Faisalabad',     'subject'=>'LIMS Integration Query',    'message'=>'We have an existing HIS from another vendor and want to integrate your LIMS module. Is this possible? What standards do you support?','is_read'=>false,'created_at'=>now()->subHours(5)],
-        (object)['id'=>3,'name'=>'Admin DHQ RYK',     'email'=>'admin@dhqryk.gov.pk',         'phone'=>'0301-1112233','company'=>'DHQ Hospital RYK',         'subject'=>'AMC Renewal 2025',          'message'=>'Our Annual Maintenance Contract is expiring next month. Please share the renewal terms and pricing for the upcoming year.','is_read'=>true,'created_at'=>now()->subDay()],
-        (object)['id'=>4,'name'=>'Saba Malik',        'email'=>'saba@privatehospital.pk',     'phone'=>'0321-5556677','company'=>'Crescent Private Hospital', 'subject'=>'Patient Portal Demo',       'message'=>'We are interested in the patient-facing portal. Could you arrange a live demo for our management team this week?','is_read'=>false,'created_at'=>now()->subDays(2)],
-        (object)['id'=>5,'name'=>'Dr. Nadia Yousaf',  'email'=>'nadia@teachinghospital.edu.pk','phone'=>'0345-8889900','company'=>'Punjab Teaching Hospital', 'subject'=>'PACS Upgrade',              'message'=>'Our current PACS is outdated and we want to upgrade. Do you support migration from other PACS vendors? What modalities are supported?','is_read'=>true,'created_at'=>now()->subDays(3)],
-        (object)['id'=>6,'name'=>'IT Manager CMH',    'email'=>'it@cmhrawalpindi.pk',         'phone'=>'051-9271001', 'company'=>'CMH Rawalpindi',           'subject'=>'Custom Software RFP',       'message'=>'We have received your earlier proposal. The board has approved the budget. Please proceed with the formal RFP process for the custom HIS modules.','is_read'=>true,'created_at'=>now()->subDays(4)],
-    ]);
 
-    $unreadCount = $contacts->where('is_read', false)->count();
-@endphp
-
-{{-- Summary row --}}
 <div class="grid grid-cols-3 gap-4 mb-5">
     @foreach([
-        ['label'=>'Total','value'=>$contacts->count(),'color'=>'gray'],
+        ['label'=>'Total','value'=>$totalContacts,'color'=>'gray'],
         ['label'=>'Unread','value'=>$unreadCount,'color'=>'crimson'],
-        ['label'=>'Read','value'=>$contacts->where('is_read',true)->count(),'color'=>'green'],
+        ['label'=>'Read','value'=>$readCount,'color'=>'green'],
     ] as $s)
     <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 flex items-center gap-4">
         <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0
@@ -47,7 +34,7 @@
     @endforeach
 </div>
 
-{{-- Filter + search bar --}}
+
 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
     <div class="flex items-center gap-2 flex-wrap">
         @foreach(['all'=>'All Enquiries','unread'=>'Unread','read'=>'Read'] as $val => $label)
@@ -62,19 +49,18 @@
     </div>
 
     <div class="flex items-center gap-2">
-        {{-- Search --}}
-        <form action="{{ route('admin.contacts.index') }}" method="GET">
-            <div class="relative">
-                <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none"
+        <form action="{{ route('admin.contacts.index') }}" method="GET" class="flex items-center gap-2">
+            <input type="hidden" name="filter" value="{{ request('filter', 'all') }}">
+            <div class="flex items-center border border-gray-200 rounded-lg bg-white focus-within:border-crimson-500/40 focus-within:ring-2 focus-within:ring-crimson-500/10 transition-all overflow-hidden">
+                <svg class="w-3.5 h-3.5 text-gray-400 ml-3 shrink-0 pointer-events-none"
                      fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                 </svg>
                 <input type="text" name="q" value="{{ request('q') }}" placeholder="Search by name or subject..."
-                       class="pl-9 pr-4 py-1.5 text-xs font-body border border-gray-200 rounded-lg bg-white text-gray-700 placeholder-gray-400 focus:outline-none focus:border-crimson-500/40 focus:ring-2 focus:ring-crimson-500/10 w-52 transition-all">
+                       class="flex-1 pl-2 pr-4 py-2 text-xs font-body bg-transparent text-gray-700 placeholder-gray-400 focus:outline-none border-none w-44 transition-all">
             </div>
         </form>
 
-        {{-- Mark all read --}}
         @if($unreadCount > 0)
         <form method="POST" action="{{ route('admin.contacts.markAllRead') }}">
             @csrf
@@ -88,10 +74,8 @@
     </div>
 </div>
 
-{{-- Enquiries list + message panel --}}
-<div class="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-5" x-data="{ selected: null, contacts: {{ $contacts->map(fn($c) => ['id'=>$c->id,'name'=>$c->name,'email'=>$c->email,'phone'=>$c->phone ?? '','company'=>$c->company ?? '','subject'=>$c->subject,'message'=>$c->message,'is_read'=>$c->is_read,'created_at'=>$c->created_at->format('M j, Y · g:i A')]) }} }}">
 
-    {{-- List --}}
+<div class="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-5" x-data="{ selected: null }">
     <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
         <div class="flex items-center justify-between px-5 py-3.5 border-b border-gray-100 bg-gray-50/50">
             <span class="font-display font-700 text-gray-900 text-sm">
@@ -106,12 +90,22 @@
 
         <div class="divide-y divide-gray-50">
             @forelse($contacts as $contact)
-            <div @click="selected = {{ json_encode(['id'=>$contact->id,'name'=>$contact->name,'email'=>$contact->email,'phone'=>$contact->phone ?? '','company'=>$contact->company ?? '','subject'=>$contact->subject,'message'=>$contact->message,'is_read'=>$contact->is_read,'created_at'=>$contact->created_at->format('M j, Y · g:i A')]) }}"
-                 class="flex items-start gap-3.5 px-5 py-4 cursor-pointer transition-all group
-                        {{ !$contact->is_read ? 'bg-crimson-500/2' : '' }}
-                        hover:bg-gray-50">
+            <div 
+                @click.prevent="selected = @js([
+                    'id' => $contact->id,
+                    'name' => $contact->name,
+                    'email' => $contact->email,
+                    'phone' => $contact->phone ?? '',
+                    'company' => $contact->company ?? '',
+                    'subject' => $contact->subject,
+                    'message' => $contact->message,
+                    'is_read' => (bool) $contact->is_read,
+                    'created_at' => $contact->created_at->format('M j, Y · g:i A')
+                ])"
+                class="flex items-start gap-3.5 px-5 py-4 cursor-pointer transition-all group
+                       {{ !$contact->is_read ? 'bg-crimson-500/2' : '' }}
+                       hover:bg-gray-50">
 
-                {{-- Avatar --}}
                 <div class="w-9 h-9 rounded-xl shrink-0 flex items-center justify-center font-display font-700 text-sm
                             {{ !$contact->is_read ? 'bg-crimson-500 text-white' : 'bg-gray-100 text-gray-600' }}">
                     {{ strtoupper(substr($contact->name, 0, 1)) }}
@@ -125,7 +119,7 @@
                             <span class="w-1.5 h-1.5 rounded-full bg-crimson-500 shrink-0"></span>
                             @endif
                         </div>
-                        <span class="font-body text-[10px] text-gray-400 shrink-0">{{ $contact->created_at->diffForHumans() }}</span>
+                        <span class="font-body text-[10px] text-gray-400 shrink-0">{{ $contact->created_at->format('M j, Y · g:i A') }}</span>
                     </div>
                     <div class="font-body text-xs font-500 text-gray-700 truncate mb-0.5">{{ $contact->subject }}</div>
                     <div class="font-body text-xs text-gray-400 truncate">{{ Str::limit($contact->message, 60) }}</div>
@@ -143,10 +137,10 @@
         </div>
     </div>
 
-    {{-- Message panel --}}
+    
     <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden self-start sticky top-24">
 
-        {{-- Empty state --}}
+        
         <template x-if="!selected">
             <div class="flex flex-col items-center justify-center py-20 px-8 text-center">
                 <div class="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center mb-4">
@@ -157,10 +151,10 @@
             </div>
         </template>
 
-        {{-- Message detail --}}
+        
         <template x-if="selected">
             <div>
-                {{-- Header --}}
+                
                 <div class="px-5 py-4 border-b border-gray-100 bg-gray-50/50">
                     <div class="flex items-start gap-3">
                         <div class="w-10 h-10 rounded-xl bg-crimson-500 flex items-center justify-center font-display font-700 text-white shrink-0"
@@ -173,7 +167,7 @@
                     </div>
                 </div>
 
-                {{-- Body --}}
+                
                 <div class="px-5 py-5">
                     <div class="mb-4">
                         <div class="font-body text-[10px] font-600 text-gray-400 tracking-widest uppercase mb-1">Subject</div>
@@ -196,12 +190,12 @@
 
                     <div class="mb-5">
                         <div class="font-body text-[10px] font-600 text-gray-400 tracking-widest uppercase mb-2">Message</div>
-                        <div class="bg-gray-50 border border-gray-100 rounded-xl px-4 py-4 font-body text-sm text-gray-700 leading-relaxed" x-text="selected.message"></div>
+                        <div class="bg-gray-50 border border-gray-100 rounded-xl px-4 py-4 font-body text-sm text-gray-700 leading-relaxed whitespace-pre-wrap" x-text="selected.message"></div>
                     </div>
 
-                    {{-- Reply + actions --}}
+                    
                     <div class="flex gap-2">
-                        <a :href="'mailto:' + selected.email + '?subject=Re: ' + selected.subject"
+                        <a :href="'mailto:' + selected.email + '?subject=Re: ' + encodeURIComponent(selected.subject)"
                            class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-crimson-500 text-white font-display font-600 text-sm
                                   hover:bg-crimson-600 transition-all hover:shadow-lg hover:shadow-crimson-500/25">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/></svg>
@@ -216,7 +210,7 @@
                         </form>
                     </div>
 
-                    {{-- Delete --}}
+                    
                     <form :action="'/admin/contacts/' + selected.id" method="POST" class="mt-2"
                           onsubmit="return confirm('Delete this enquiry? This cannot be undone.')">
                         @csrf @method('DELETE')
@@ -233,5 +227,4 @@
     </div>
 
 </div>
-
 @endsection

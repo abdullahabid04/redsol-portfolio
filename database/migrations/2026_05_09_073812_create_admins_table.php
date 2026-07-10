@@ -3,8 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
 
 return new class extends Migration {
     public function up(): void
@@ -29,17 +27,6 @@ return new class extends Migration {
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
-        // Seed the first super admin.
-        // Change email + password immediately after first login.
-        DB::table('admins')->insert([
-            'name' => 'Super Admin',
-            'email' => 'admin@redsol.com',
-            'password' => Hash::make('changeme123'),
-            'role' => 'super_admin',
-            'is_active' => true,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
     }
 
     public function down(): void
