@@ -21,6 +21,7 @@ class ContactFormMail extends Mailable
     {
         return new Envelope(
             subject: $this->mailSubject,
+            replyTo: [$this->email],
         );
     }
     public function content(): Content

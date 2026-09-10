@@ -7,7 +7,7 @@
     <meta name="description"
         content="{{ $metaDescription ?? 'REDSOL — Healthcare Software Solutions. We Think In New Dimensions.' }}">
     <title>{{ $title ?? 'REDSOL' }} | Healthcare Software Solutions</title>
-    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.svg') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -127,22 +127,22 @@
         const navbar = document.getElementById('navbar');
         const hasHero = document.querySelector('.hero-slide') !== null;
 
-        function updateNav() {
-            if (hasHero && window.scrollY < 80) {
-                // Hero page, at top → transparent with white text
-                navbar.classList.remove('nav-glass');
-                navbar.classList.add('nav-transparent');
-            } else {
-                // Scrolled down, OR non-hero page → frosted glass with dark text
-                navbar.classList.remove('nav-transparent');
-                navbar.classList.add('nav-glass');
-            }
-        }
+        // function updateNav() {
+        //     if (hasHero && window.scrollY < 80) {
+        //         // Hero page, at top → transparent with white text
+        //         navbar.classList.remove('nav-glass');
+        //         navbar.classList.add('nav-transparent');
+        //     } else {
+        //         // Scrolled down, OR non-hero page → frosted glass with dark text
+        //         navbar.classList.remove('nav-transparent');
+        //         navbar.classList.add('nav-glass');
+        //     }
+        // }
 
-        updateNav(); // run immediately on page load
-        window.addEventListener('scroll', updateNav, {
-            passive: true
-        });
+        // updateNav(); // run immediately on page load
+        // window.addEventListener('scroll', updateNav, {
+        //     passive: true
+        // });
 
 
         // Mobile menu

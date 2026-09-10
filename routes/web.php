@@ -33,3 +33,5 @@ Route::prefix('projects')->name('projects.')->group(function () {
 
 Route::get('/contact', [PageController::class, 'contactCreate'])->name('contact.create');
 Route::post('/contact', [PageController::class, 'contactStore'])->name('contact.store');
+
+Route::get('/testimonials', [PageController::class, 'testimonialShow'])->name('testimonials');

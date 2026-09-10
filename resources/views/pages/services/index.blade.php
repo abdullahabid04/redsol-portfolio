@@ -106,7 +106,7 @@
                                                 </div>
                                             @endif
 
-                                            <a href="{{ $svc->href ?? '/contact' }}"
+                                            <a href="/services/{{ $svc->slug }}"
                                                 class="inline-flex items-center gap-2 text-sm font-display font-600 {{ $linkColor }} transition-colors">
                                                 {{ $svc->cta_text ?? 'Learn More' }}
                                                 <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor"
@@ -125,9 +125,8 @@
                                 <a href="/services/{{ $svc->slug }}"
                                        class="group rounded-2xl p-7 bg-white border border-gray-200 hover:border-crimson-500/25 hover:shadow-xl hover:shadow-crimson-500/6 transition-all duration-400 reveal reveal-delay-{{ $i + 1 }}">
                                         <div class="w-11 h-11 rounded-xl bg-crimson-500/8 border border-crimson-500/15 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
-                                            <svg class="w-5 h-5 text-crimson-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="{{ $svc->icon }}"/>
-                                            </svg>
+                                            
+                                            <div class="text-2xl">{{ $svc->icon ?? '' }}</div>
                                         </div>
                                         <div class="flex items-center justify-between mb-3">
                                             <h3 class="font-display font-700 text-gray-900 text-base group-hover:text-crimson-500 transition-colors">{{ $svc->name }}</h3>
@@ -203,60 +202,60 @@
                                         $catLabel = $firstMod->cat_label ?? ucfirst(str_replace('-', ' ', $catKey));
                                                                     @endphp
 
-                                                                    <div
-                                                                        class="rounded-2xl bg-white border border-gray-200 overflow-hidden reveal reveal-delay-{{ ($ci % 3) + 1 }}">
-                                                                        
-                                                                        <div class="flex items-center gap-4 px-8 py-5 border-b border-gray-100 bg-white">
-                                                                            <div class="w-1 h-8 rounded-full {{ $accent }}"></div>
-                                                                            <h3 class="font-display font-700 text-gray-900 text-lg">{{ $catLabel }}</h3>
-                                                                            <span class="ml-auto text-xs font-body text-gray-400">{{ $modsInCat->count() }} modules</span>
-                                                                        </div>
+                                        <div
+                                            class="rounded-2xl bg-white border border-gray-200 overflow-hidden reveal reveal-delay-{{ ($ci % 3) + 1 }}">
+                                            
+                                            <div class="flex items-center gap-4 px-8 py-5 border-b border-gray-100 bg-white">
+                                                <div class="w-1 h-8 rounded-full {{ $accent }}"></div>
+                                                <h3 class="font-display font-700 text-gray-900 text-lg">{{ $catLabel }}</h3>
+                                                <span class="ml-auto text-xs font-body text-gray-400">{{ $modsInCat->count() }} modules</span>
+                                            </div>
 
-                                                                        
-                                                                        <div class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                                                                            @foreach($modsInCat as $module)
-                                                                                                                    @php
-                                                                                // Per-module overrides (if stored in DB)
-                                                                                $mBadgeBg = $module->badge_bg ?? $badgeBg;
-                                                                                $mBadgeText = $module->badge_text ?? $badgeText;
-                                                                                $mIconBg = $module->icon_bg ?? $iconBg;
-                                                                                $mIconBorder = $module->icon_border ?? $iconBorder;
-                                                                                $mIconText = $module->icon_text ?? $iconText;
-                                                                                $mCardHover = $module->card_hover ?? $cardHover;
-                                                                                                                    @endphp
-                                                                                                                    <div
-                                                                                                                        class="group flex items-start gap-3 p-4 rounded-xl bg-gray-50 border border-gray-100 {{ $mCardHover }} transition-all duration-200 cursor-default">
-                                                                                                                    <div
-                                                                                                                        class="w-8 h-8 rounded-lg {{ $mIconBg }} border {{ $mIconBorder }} flex items-center justify-center shrink-0 mt-0.5 text-lg leading-none">
-                                                                                                                        <span class="{{ $mIconText }}">{{ $module->icon ?? '🧩' }}</span>
-                                                                                                                    </div>
-                                                                                                                        <div>
-                                                                                                                            <div
-                                                                                                                                class="font-display font-600 text-gray-900 text-sm mb-1 group-hover:text-crimson-600 transition-colors">
-                                                                                                                                {{ $module->name }}
-                                                                                                                            </div>
-                                                                                                                            <div class="font-body text-gray-500 text-xs leading-relaxed">
-                                                                                                                                {{ $module->tagline }}
-                                                                                                                            </div>
+                                            
+                                            <div class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                                                @foreach($modsInCat as $module)
+                                                                                        @php
+                                                    // Per-module overrides (if stored in DB)
+                                                    $mBadgeBg = $module->badge_bg ?? $badgeBg;
+                                                    $mBadgeText = $module->badge_text ?? $badgeText;
+                                                    $mIconBg = $module->icon_bg ?? $iconBg;
+                                                    $mIconBorder = $module->icon_border ?? $iconBorder;
+                                                    $mIconText = $module->icon_text ?? $iconText;
+                                                    $mCardHover = $module->card_hover ?? $cardHover;
+                                                                                        @endphp
+                                                    <div
+                                                        class="group flex items-start gap-3 p-4 rounded-xl bg-gray-50 border border-gray-100 {{ $mCardHover }} transition-all duration-200 cursor-default">
+                                                    <div
+                                                        class="w-8 h-8 rounded-lg {{ $mIconBg }} border {{ $mIconBorder }} flex items-center justify-center shrink-0 mt-0.5 text-lg leading-none">
+                                                        <span class="{{ $mIconText }}">{{ $module->icon ?? '🧩' }}</span>
+                                                    </div>
+                                                        <div>
+                                                            <div
+                                                                class="font-display font-600 text-gray-900 text-sm mb-1 group-hover:text-crimson-600 transition-colors">
+                                                                {{ $module->name }}
+                                                            </div>
+                                                            <div class="font-body text-gray-500 text-xs leading-relaxed">
+                                                                {{ $module->tagline }}
+                                                            </div>
 
-                                                                                                                            
-                                                                                                                            @if($module->relationLoaded('features') && $module->features->isNotEmpty())
-                                                                                                                                <div class="mt-2 flex flex-wrap gap-1">
-                                                                                                                                    @foreach($module->features->take(2) as $feat)
-                                                                                                                                        <span
-                                                                                                                                            class="text-[10px] px-1.5 py-0.5 rounded bg-gray-200 text-gray-600">{{ $feat->name }}</span>
-                                                                                                                                    @endforeach
-                                                                                                                                    @if($module->features->count() > 2)
-                                                                                                                                        <span class="text-[10px] text-gray-400">+{{ $module->features->count() - 2 }}
-                                                                                                                                            more</span>
-                                                                                                                                    @endif
-                                                                                                                                </div>
-                                                                                                                            @endif
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                            @endforeach
-                                                                        </div>
-                                                                    </div>
+                                                            
+                                                            @if($module->relationLoaded('features') && $module->features->isNotEmpty())
+                                                                <div class="mt-2 flex flex-wrap gap-1">
+                                                                    @foreach($module->features->take(2) as $feat)
+                                                                        <span
+                                                                            class="text-[10px] px-1.5 py-0.5 rounded bg-gray-200 text-gray-600">{{ $feat->name }}</span>
+                                                                    @endforeach
+                                                                    @if($module->features->count() > 2)
+                                                                        <span class="text-[10px] text-gray-400">+{{ $module->features->count() - 2 }}
+                                                                            more</span>
+                                                                    @endif
+                                                                </div>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
                                     @endif
                                 @endforeach
                             </div>

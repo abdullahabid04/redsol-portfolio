@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Dashboard') — REDSOL Admin</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('images/logo.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/logo.svg') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -249,11 +249,8 @@
             
             <div class="px-5 py-5 border-b border-white/5 shrink-0">
                 <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3">
-                    <img src="{{ asset('images/logo.png') }}" alt="REDSOL" class="h-7 w-auto">
+                    <img src="{{ asset('images/logo.svg') }}" alt="REDSOL" class="h-7 w-auto">
                     <div>
-                        <div class="font-display font-800 text-base text-white tracking-tight">
-                            RED<span class="text-crimson-500">SOL</span>
-                        </div>
                         <div class="text-[8px] text-gray-600 tracking-widest uppercase -mt-0.5">Admin Panel</div>
                     </div>
                 </a>

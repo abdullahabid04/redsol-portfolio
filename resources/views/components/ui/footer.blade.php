@@ -7,14 +7,12 @@
             <div class="lg:col-span-1">
                 <div class="flex items-center gap-3 mb-4">
 
-                    <div class="w-9 h-9">
-                        <div class="w-full h-full bg-white flex items-center justify-center">
-                            <img src="{{ asset('images/logo.png') }}" alt="REDSOL Logo"
+                    <div class="w-45 h-full">
+                        <div class="w-full h-full flex items-center justify-center">
+                            <img src="{{ asset('images/logo.svg') }}" alt="REDSOL Logo"
                                 class="w-full h-full object-contain">
                         </div>
                     </div>
-                    <span class="font-display font-800 text-xl text-white">RED<span
-                            class="red-gradient-text">SOL</span></span>
                 </div>
                 <p class="text-gray-400 text-sm leading-relaxed mb-6">
                     Transforming healthcare through intelligent software. Building the digital infrastructure hospitals

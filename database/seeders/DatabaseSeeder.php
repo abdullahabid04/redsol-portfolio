@@ -19,13 +19,13 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         Admin::create([
-            'name' => 'REDSOL Admin',
-            'email' => 'admin@redsol.com',
-            'password' => bcrypt('changeme123'),
+            'name' => 'Shazil',
+            'email' => 'shazil@redsoltechnologies.com',
+            'password' => bcrypt('Allah@123'),
         ]);
 
         // $this->call(ProjectSeeder::class);
-        $this->call(WebsiteInformationSeeder::class);
+        // $this->call(WebsiteInformationSeeder::class);
         // $this->call(BlogPostSeeder::class);
     }
 }

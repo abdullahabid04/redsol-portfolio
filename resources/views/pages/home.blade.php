@@ -355,15 +355,11 @@
 
                     @forelse($featuredServices as $service)
                         @php $c = $colorMap[$service->tag] ?? $colorMap['Custom Dev']; @endphp
-                        <a href="{{ $service->href }}" class="flex-none w-80 card-hover group rounded-2xl p-7 bg-white">
+                        <a href="/services/{{ $service->slug }}" class="flex-none w-80 card-hover group rounded-2xl p-7 bg-white">
                             <div class="flex items-start justify-between mb-5">
                                 <div
                                     class="w-12 h-12 rounded-xl {{ $c['bg'] }} border {{ $c['border'] }} flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                    <svg class="w-5 h-5 {{ $c['icon'] }}" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                            d="{{ $service->icon }}" />
-                                    </svg>
+                                    <div class="text-2xl">{{ $service->icon ?? '' }}</div>
                                 </div>
                                 <span
                                     class="text-[10px] font-display font-600 tracking-wider uppercase px-2.5 py-1 rounded-full border {{ $c['tag'] }}">
@@ -529,12 +525,6 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
-
-
-                <div class="hidden lg:block absolute top-[52px] left-[calc(12.5%+24px)] right-[calc(12.5%+24px)] h-px">
-                    <div class="h-full bg-gradient-to-r from-crimson-500/50 via-crimson-500/20 to-crimson-500/50"></div>
-                </div>
-
                 @php
                     $steps = [
                         [
@@ -684,8 +674,7 @@
             <div class="text-center mb-16 reveal">
                 <div class="flex items-center justify-center gap-3 mb-4">
                     <div class="h-px w-12 bg-crimson-500"></div>
-                    <span
-                        class="text-crimson-500 text-xs font-display tracking-widest uppercase font-600">Testimonials</span>
+                    <span class="text-crimson-500 text-xs font-display tracking-widest uppercase font-600">Testimonials</span>
                     <div class="h-px w-12 bg-crimson-500"></div>
                 </div>
                 <h2 class="font-display text-4xl lg:text-5xl font-800 text-gray-900 leading-tight">
@@ -694,83 +683,45 @@
                 </h2>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6" x-data="{ active: 0 }">
+            @if($testimonials->isNotEmpty())
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6" x-data="{ active: 0 }">
+                    @foreach ($testimonials as $i => $t)
+                        <div class="testimonial-card rounded-2xl p-7 reveal reveal-delay-{{ $i + 1 }}">
 
-                @php
-                    $testimonials = [
-                        [
-                            'quote' =>
-                                'REDSOL\'s HIS transformed our entire patient flow. What used to take hours at registration now takes minutes. The LIMS integration alone saved our lab team immeasurable time every single day.',
-                            'name' => 'Dr. Muhammad Arif',
-                            'role' => 'Medical Superintendent',
-                            'hospital' => 'DHQ Hospital',
-                            'rating' => 5,
-                            'initials' => 'MA',
-                            'color' => 'from-crimson-500 to-crimson-700',
-                        ],
-                        [
-                            'quote' =>
-                                'The PACS system they integrated is world-class. Our radiologists can access patient imaging from any workstation in the hospital. The voice recognition reporting feature is a game changer for our department.',
-                            'name' => 'Dr. Sarah Hassan',
-                            'role' => 'Head of Radiology',
-                            'hospital' => 'Civil Hospital',
-                            'rating' => 5,
-                            'initials' => 'SH',
-                            'color' => 'from-gray-700 to-gray-900',
-                        ],
-                        [
-                            'quote' =>
-                                'We deployed REDSOL across 4 hospital branches. Their team configured each location perfectly and the training was thorough. The AMC support is prompt and professional — exactly what a hospital needs.',
-                            'name' => 'Mr. Khalid Mehmood',
-                            'role' => 'Hospital Administrator',
-                            'hospital' => 'Allied Medical Center',
-                            'rating' => 5,
-                            'initials' => 'KM',
-                            'color' => 'from-crimson-600 to-gray-800',
-                        ],
-                    ];
-                @endphp
-
-                @foreach ($testimonials as $i => $t)
-                    <div class="testimonial-card rounded-2xl p-7 reveal reveal-delay-{{ $i + 1 }}">
-
-                        <div class="flex gap-1 mb-5">
-                            @for ($s = 0; $s < $t['rating']; $s++)
-                                <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                                </svg>
-                            @endfor
-                        </div>
-
-
-                        <blockquote class="font-body text-gray-600 text-sm leading-relaxed mb-6 italic">
-                            "{{ $t['quote'] }}"
-                        </blockquote>
-
-
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="w-10 h-10 rounded-full bg-gradient-to-br {{ $t['color'] }} flex items-center justify-center font-display font-700 text-white text-sm">
-                                {{ $t['initials'] }}
+                            <div class="flex gap-1 mb-5">
+                                @for ($s = 0; $s < $t->rating; $s++)
+                                    <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                                    </svg>
+                                @endfor
                             </div>
-                            <div>
-                                <div class="font-display font-600 text-gray-900 text-sm">{{ $t['name'] }}</div>
-                                <div class="font-body text-gray-500 text-xs">{{ $t['role'] }}, {{ $t['hospital'] }}
+
+                            <blockquote class="font-body text-gray-600 text-sm leading-relaxed mb-6 italic">
+                                "{{ $t->quote }}"
+                            </blockquote>
+
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-br {{ $t->avatar_gradient }} flex items-center justify-center font-display font-700 text-white text-sm">
+                                    {{ $t->author_initials }}
+                                </div>
+                                <div>
+                                    <div class="font-display font-600 text-gray-900 text-sm">{{ $t->author_name }}</div>
+                                    <div class="font-body text-gray-500 text-xs">{{ $t->author_role }}, {{ $t->hospital }}</div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
-            </div>
+                    @endforeach
+                </div>
+            @else
+                <p class="text-center text-gray-500">No testimonials available at the moment.</p>
+            @endif
 
             <div class="text-center mt-10 reveal">
-                <a href="/testimonials"
+                <a href="{{ route('testimonials') }}"
                     class="inline-flex items-center gap-2 text-sm font-display font-600 text-gray-500 hover:text-crimson-500 transition-colors">
                     Read More Testimonials
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                 </a>
             </div>
@@ -851,14 +802,14 @@
                                                 class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 hover:bg-crimson-500 text-gray-600 hover:text-white transition-all duration-300">
                                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                                     <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239
-                                                    5-5v-14c0-2.761-2.238-5-5-5zm-11
-                                                    19h-3v-11h3v11zm-1.5-12.268c-.966
-                                                    0-1.75-.79-1.75-1.764s.784-1.764
-                                                    1.75-1.764 1.75.79 1.75
-                                                    1.764-.783 1.764-1.75
-                                                    1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4
-                                                    0v5.604h-3v-11h3v1.765c1.396-2.586
-                                                    7-2.777 7 2.476v6.759z" />
+                                                            5-5v-14c0-2.761-2.238-5-5-5zm-11
+                                                            19h-3v-11h3v11zm-1.5-12.268c-.966
+                                                            0-1.75-.79-1.75-1.764s.784-1.764
+                                                            1.75-1.764 1.75.79 1.75
+                                                            1.764-.783 1.764-1.75
+                                                            1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4
+                                                            0v5.604h-3v-11h3v1.765c1.396-2.586
+                                                            7-2.777 7 2.476v6.759z" />
                                                 </svg>
                                             </a>
                                         @endif
@@ -868,12 +819,12 @@
                                                 class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 hover:bg-crimson-500 text-gray-600 hover:text-white transition-all duration-300">
                                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                                     <path d="M23 3a10.9 10.9 0 01-3.14
-                                                    1.53 4.48 4.48 0 00-7.86
-                                                    3v1A10.66 10.66 0 013
-                                                    4s-4 9 5 13a11.64 11.64
-                                                    0 01-7 2s9 5 20
-                                                    5a9.5 9.5 0 00-9-5.5c4.75
-                                                    2.25 7-7 7-7" />
+                                                            1.53 4.48 4.48 0 00-7.86
+                                                            3v1A10.66 10.66 0 013
+                                                            4s-4 9 5 13a11.64 11.64
+                                                            0 01-7 2s9 5 20
+                                                            5a9.5 9.5 0 00-9-5.5c4.75
+                                                            2.25 7-7 7-7" />
                                                 </svg>
                                             </a>
                                         @endif
@@ -885,9 +836,9 @@
                                                     viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M3 8l7.89 5.26a2 2 0 002.22
-                                                          0L21 8M5 19h14a2 2 0 002-2V7a2
-                                                          2 0 00-2-2H5a2 2 0 00-2
-                                                          2v10a2 2 0 002 2z" />
+                                                                  0L21 8M5 19h14a2 2 0 002-2V7a2
+                                                                  2 0 00-2-2H5a2 2 0 00-2
+                                                                  2v10a2 2 0 002 2z" />
                                                 </svg>
                                             </a>
                                         @endif

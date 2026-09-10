@@ -1,19 +1,12 @@
 
-<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-gray-900 nav-transparent">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
         <div class="flex items-center justify-between h-20">
             <a href="/" class="flex items-center gap-3 group">
-                <div class="w-9 h-9">
+                <div class="w-25 h-12">
                     <div class="w-full h-full flex items-center justify-center">
-                        <img src="{{ asset('images/logo.png') }}" alt="Site Logo">
+                        <img src="{{ asset('images/logo.svg') }}" alt="Site Logo">
                     </div>
-                </div>
-
-                <span class="nav-logo-text font-display font-800 text-xl tracking-tight">
-                    RED<span class="red-gradient-text">SOL</span>
-                </span>
-                <div class="nav-tagline text-[9px] tracking-widest uppercase -mt-0.5">
-                    We Think In New Dimensions
                 </div>
             </a>
 

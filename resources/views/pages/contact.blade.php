@@ -20,17 +20,19 @@
             </div>
 
             <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 w-full">
+                <div class="max-w-3xl mx-auto text-center mb-16 reveal reveal-delay-1">
+                    <h1 class="font-display font-800 text-5xl sm:text-6xl text-gray-900 leading-tight mb-4">
+                        Let's Talk <span class="red-gradient-text">Digital Health</span>
+                    </h1>
+                    <p class="font-body text-gray-600 text-lg leading-relaxed mb-10 max-w-2xl">
+                        Ready to digitize your hospital or campus? Send us a message and our implementation specialists will
+                        get back to you within 24 hours.
+                    </p>    
+                </div>
                 <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-8 items-start">
 
                     <!-- Left: Form Section -->
                     <div class="lg:col-span-3 reveal reveal-delay-1">
-                        <h1 class="font-display font-800 text-5xl sm:text-6xl text-gray-900 leading-tight mb-4">
-                            Let's Talk <span class="red-gradient-text">Digital Health</span>
-                        </h1>
-                        <p class="font-body text-gray-600 text-lg leading-relaxed mb-10 max-w-2xl">
-                            Ready to digitize your hospital or campus? Send us a message and our implementation specialists will
-                            get back to you within 24 hours.
-                        </p>
                         <div class="bg-white border border-gray-200 shadow-lg rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden">
                             <!-- Decorative glow inside card -->
                             <div class="absolute top-0 right-0 w-64 h-64 bg-crimson-500/10 rounded-full blur-[100px] pointer-events-none"></div>
@@ -171,7 +173,7 @@
                     </div>
 
                     <!-- Right: Contact Info Card -->
-                    <div class="lg:col-span-2 lg:pt-16 reveal reveal-delay-2">
+                    <div class="lg:col-span-2 reveal reveal-delay-2">
                         <div
                             class="rounded-3xl bg-white border border-gray-200 p-8 shadow-lg hover:shadow-xl hover:border-crimson-500/20 transition-all duration-400">
 
@@ -193,9 +195,16 @@
                                     <div>
                                         <h4 class="font-display font-600 text-gray-900 mb-1">Global Headquarters</h4>
                                         <p class="font-body text-gray-500 text-sm leading-relaxed">
-                                            123 Innovation Drive<br />
-                                            Tech Park, Suite 400<br />
-                                            Metropolis, NY 10001
+                                            Head Office — Pakistan<br />
+                                            F-Block, Punjab Society<br />
+                                            Near Good Luck Travel & Tours<br />
+                                            Lahore, Pakistan<br />
+                                        </p>
+                                        <div class="my-4 border-t border-gray-200"></div>
+                                        <p class="font-body text-gray-500 text-sm leading-relaxed">
+                                            US Office<br />
+                                            30 N Gould St Ste R,<br />
+                                            Sheridan, WY 82801, USA<br />
                                         </p>
                                     </div>
                                 </div>
@@ -212,12 +221,8 @@
                                     </div>
                                     <div>
                                         <h4 class="font-display font-600 text-gray-900 mb-1">Call Us</h4>
-                                        <p class="font-body text-gray-500 text-sm mb-1">Sales: <a href="tel:+18001234567"
-                                                class="text-crimson-500 hover:text-crimson-600 transition-colors">+1 (800)
-                                                123-4567</a></p>
-                                        <p class="font-body text-gray-500 text-sm">Support: <a href="tel:+18009876543"
-                                                class="text-crimson-500 hover:text-crimson-600 transition-colors">+1 (800)
-                                                987-6543</a></p>
+                                        <p class="font-body text-gray-500 text-sm mb-1"><a href="tel:+923021408287"
+                                                class="text-crimson-500 hover:text-crimson-600 transition-colors">+92 302 1408287</a></p>
                                     </div>
                                 </div>
 
@@ -234,26 +239,11 @@
                                     <div>
                                         <h4 class="font-display font-600 text-gray-900 mb-1">Email Us</h4>
                                         <p class="font-body text-gray-500 text-sm mb-1">
-                                            <a href="mailto:sales@redsol.com"
-                                                class="text-crimson-500 hover:text-crimson-600 transition-colors">sales@redsol.com</a>
-                                        </p>
-                                        <p class="font-body text-gray-600 text-sm leading-relaxed">
-                                            <a href="mailto:support@redsol.com"
-                                                class="text-crimson-500 hover:text-crimson-600 transition-colors">support@redsol.com</a>
+                                            <a href="mailto:info@redsoltechnologies.com"
+                                                class="text-crimson-500 hover:text-crimson-600 transition-colors">info@redsoltechnologies.com</a>
                                         </p>
                                     </div>
                                 </div>
-                            </div>
-
-                            <!-- Map Placeholder (styled to match theme) -->
-                            <div class="mt-8 rounded-xl overflow-hidden h-48 relative bg-gray-50 border border-gray-200 group">
-                                <div class="absolute inset-0 flex items-center justify-center">
-                                    <span class="font-body text-gray-400 text-sm tracking-wider">Interactive Map</span>
-                                </div>
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-t from-white to-transparent opacity-80 group-hover:opacity-60 transition-opacity">
-                                </div>
-                                <!-- Optional: Add real map iframe here later -->
                             </div>
 
                             <!-- Trust badges -->

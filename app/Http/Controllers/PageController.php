@@ -55,6 +55,12 @@ class PageController extends Controller
             ->ordered()
             ->get();
 
+
+        $testimonials = Testimonial::active()
+            ->ordered()
+            ->take(3)
+            ->get();
+
         return view('pages.home', compact(
             'featuredServices',
             'featuredProjects',
@@ -63,7 +69,8 @@ class PageController extends Controller
             'hospitalCount',
             'recentBlogPosts',
             'featuredClients',
-            'teamMembers'
+            'teamMembers',
+            'testimonials'
         ));
     }
 
@@ -310,5 +317,15 @@ class PageController extends Controller
         });
 
         return view('pages.blog.show', compact('blog'));
+    }
+
+    public function testimonialShow()
+    {
+        // Fetch all active testimonials for the full page
+        $testimonials = Testimonial::active()
+            ->ordered()
+            ->get();
+
+        return view('pages.testimonials.index', compact('testimonials'));
     }
 }

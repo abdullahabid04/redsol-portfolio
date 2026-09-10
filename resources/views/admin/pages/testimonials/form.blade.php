@@ -376,7 +376,10 @@ nameInput.addEventListener('input', () => {
     const initials = words.slice(0, 2).map(w => w[0]?.toUpperCase()).join('') || name.slice(0, 2).toUpperCase();
     initialsInput.value = initials;
     document.getElementById('previewAvatar').textContent = initials;
-    document.getElementById('previewInitials')?.textContent = initials;
+
+    const previewInitialsEl = document.getElementById('previewInitials');
+    if (previewInitialsEl) previewInitialsEl.textContent = initials;
+
     updatePreview();
 });
 

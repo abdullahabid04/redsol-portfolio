@@ -56,8 +56,6 @@ class TestimonialController extends Controller
     }
     public function store(Request $request)
     {
-
-
         $validated = $request->validate([
             'quote' => ['required', 'string', 'min:20', 'max:500'],
             'author_name' => ['required', 'string', 'min:2', 'max:100'],
@@ -116,8 +114,6 @@ class TestimonialController extends Controller
     }
     public function edit(string $id)
     {
-
-
         $testimonial = Testimonial::findOrFail($id);
 
         return view('admin.pages.testimonials.form', [
@@ -127,8 +123,6 @@ class TestimonialController extends Controller
     }
     public function update(Request $request, string $id)
     {
-
-
         $testimonial = Testimonial::findOrFail($id);
 
         $validated = $request->validate([
@@ -192,8 +186,6 @@ class TestimonialController extends Controller
     }
     public function toggle(string $id)
     {
-
-
         try {
             $testimonial = Testimonial::findOrFail($id);
             $testimonial->toggle();
@@ -212,8 +204,6 @@ class TestimonialController extends Controller
     }
     public function toggleFeatured(string $id)
     {
-
-
         try {
             $testimonial = Testimonial::findOrFail($id);
             $testimonial->update(['is_featured' => !$testimonial->is_featured]);
